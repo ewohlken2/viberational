@@ -1,0 +1,105 @@
+.header {
+    display: flex;
+    position: sticky;
+    top: 0;
+    background-color: var(--secondary-dark);
+    color: var(--background);
+    z-index: var(--zindex-header);
+}
+
+.header-link {
+    display: block;
+    text-transform: uppercase;
+    position: relative;
+    overflow: hidden;
+}
+
+.directional-btn {
+    position: relative;
+    overflow: hidden;
+}
+
+.directional-btn .bg {
+    position: absolute;
+    background: var(--secondary-light);
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+    transition: transform 220ms cubic-bezier(.2, .8, .2, 1);
+    pointer-events: none;
+    transform: translateX(0) translateY(0);
+}
+
+.directional-btn:not(.hovered) .bg {
+    transform: translateX(101%) translateY(0);
+}
+
+
+/* while setting the initial off-screen position, disable transitions */
+.directional-btn.preparing .bg {
+    transition: none;
+    will-change: transform;
+}
+
+/* Entry positions */
+.directional-btn.enter-top .bg {
+    transform: translateY(-101%);
+}
+
+.directional-btn.enter-bottom .bg {
+    transform: translateY(101%);
+}
+
+.directional-btn.enter-left .bg {
+    transform: translateX(-101%);
+}
+
+.directional-btn.enter-right .bg {
+    transform: translateX(101%);
+}
+
+/* slide in on hover */
+.directional-btn.hovered .bg {
+    opacity: 1;
+    transform: translateX(0) translateY(0);
+}
+
+/* Exit directions (slide OUT) */
+.directional-btn.exit-top .bg {
+    transform: translateY(-101%);
+}
+
+.directional-btn.exit-bottom .bg {
+    transform: translateY(101%);
+}
+
+.directional-btn.exit-left .bg {
+    transform: translateX(-101%);
+}
+
+.directional-btn.exit-right .bg {
+    transform: translateX(101%);
+}
+
+
+
+
+.link-text {
+    position: relative;
+    padding: 1rem;
+}
+
+
+
+.header-link.enter .hover-bg,
+.header-link .hover-bg {
+    opacity: 1;
+
+}
+
+
+.header-logo {
+    margin-right: auto;
+
+}
