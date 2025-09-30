@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import Header from "./header";
+import HeroBanner from "./herojs";
 
 export default function Home() {
 
@@ -11,26 +12,8 @@ export default function Home() {
 
   return (
     <div id="home">
-      <Header></ Header>
-
       {/* main banner start */}
-      <div className="main-banner">
-        <div className="main-banner-content">
-          <span className="intro-header">Welcome to elviswoah.dev</span>
-          <h1 className="main-header">Let's build something beautiful together.</h1>
-          <button onClick={onMainBtnClick} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-            More Information
-          </button>
-        </div>
-        <picture className="main-banner-image"><Image
-          className="image"
-          src="/600x400.svg"
-          alt="Main Banner"
-          width={600}
-          height={400}
-          priority
-        /></picture>
-      </div>
+      <HeroBanner />
       {/* main banner end */}
 
       {/* About Section Start */}

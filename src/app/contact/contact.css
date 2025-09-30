@@ -1,0 +1,31 @@
+.contact-form {
+    margin: 20px auto;
+    max-width: 600px;
+}
+
+.input-container {
+    margin-bottom: 1rem;
+    display: flex;
+    flex-direction: column;
+}
+
+.input {
+    padding: 1rem;
+    outline: 0;
+    border: 1px solid var(--foreground);
+}
+
+.label {
+    display: none;
+}
+
+h1 {
+    text-transform: uppercase;
+    margin-bottom: 2rem;
+    font-size: 2rem;
+}
+
+.message {
+    margin-top: 1rem;
+    font-weight: bold;
+}

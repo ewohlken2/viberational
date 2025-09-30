@@ -4,6 +4,8 @@
 
 
 :root {
+  --bg: #fdf0d5;
+  --bg-darken: #fbe0a8;
   --background: #fdf0d5;
   --foreground: #171717;
   --primary-dark: #003049;
@@ -11,7 +13,11 @@
   --secondary-dark: #780000;
   --secondary-light: #c1121f;
 
+  --yellow: #F8CD77;
+  --pink: #F8B4B9;
   --zindex-header: 5;
+
+  --transition: 230ms all cubic-bezier(.2, .8, .2, 1);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -35,6 +41,11 @@ body {
 h1 {
   font-size: 20px;
   font-weight: bold;
+}
+
+.main-banner-container {
+  background: var(--secondary-dark);
+  color: var(--bg)
 }
 
 .main-banner-content {
@@ -72,6 +83,15 @@ h1 {
   object-position: center center;
 }
 
+.main-banner .title {
+  margin-bottom: 2rem;
+}
+
+.main-header {
+  margin: 0;
+  font-size: 3rem;
+}
+
 .section {
   margin-bottom: 10rem;
   min-height: 50vh;
@@ -88,7 +108,70 @@ h1 {
 
 
 .section-about {
-  background: var(--secondary-light);
+  background: var(--bg);
 }
 
 .section-portfolio {}
+
+.button {
+  padding: 1rem;
+  min-width: 200px;
+  text-align: center;
+  background: var(--secondary-dark);
+  color: var(--background);
+  transition: all 0.2s;
+  position: relative;
+  overflow: hidden;
+
+
+  &:hover&:not(:disabled) {
+    background: var(--secondary-light);
+    cursor: pointer;
+  }
+
+  &:disabled {
+    opacity: 0.75;
+    cursor: not-allowed;
+  }
+}
+
+.button:hover,
+.header-link:hover {
+  cursor: pointer;
+}
+
+.button:active {
+  transform: scale(0.92)
+}
+
+.button::after,
+.header-link::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 150%;
+  aspect-ratio: 1 / 1;
+  transform: translate(-50%, -50%) scale(0);
+  pointer-events: none;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, .5);
+}
+
+.button:focus::after,
+.header-link:focus::after {
+  animation: scale_up 300ms forwards;
+}
+
+@keyframes scale_up {
+  0% {
+    transform: translate(-50%, -50%) scale(0);
+    opacity: 1;
+  }
+
+  100% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 0;
+  }
+
+}

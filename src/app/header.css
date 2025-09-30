@@ -3,8 +3,26 @@
     position: sticky;
     top: 0;
     background-color: var(--secondary-dark);
-    color: var(--background);
     z-index: var(--zindex-header);
+    color: var(--bg);
+    transition: var(--transition);
+
+
+    &.header-scrolled {
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        /* backdrop-filter: blur(10px); */
+        background-color: var(--bg);
+
+
+        .header-link {
+            color: var(--foreground);
+
+            &:hover {
+                color: var(--bg);
+            }
+        }
+    }
+
 }
 
 .header-link {
@@ -12,6 +30,13 @@
     text-transform: uppercase;
     position: relative;
     overflow: hidden;
+    color: var(--bg);
+    transition: var(--transition);
+}
+
+.header-link:hover {
+    color: var(--bg-darken);
+
 }
 
 .directional-btn {
@@ -88,6 +113,7 @@
 .link-text {
     position: relative;
     padding: 1rem;
+    transition: transform 220ms cubic-bezier(.2, .8, .2, 1);
 }
 
 

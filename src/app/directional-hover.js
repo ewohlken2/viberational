@@ -1,5 +1,6 @@
 'use client';
 
+import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 
 const DIRECTIONS = {
@@ -92,7 +93,7 @@ export default function DirectionalHoverLink({ children, className, href }) {
 
 
     return (
-        <a ref={containerRef}
+        <Link ref={containerRef}
             href={href}
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
@@ -100,7 +101,7 @@ export default function DirectionalHoverLink({ children, className, href }) {
         >
             <div className="bg"></div>
             {children}
-        </a >
+        </Link >
 
     );
 }
