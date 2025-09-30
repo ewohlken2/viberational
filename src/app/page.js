@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Header from "./header";
-import HeroBanner from "./herojs";
+import HeroBanner from "./hero";
 
 export default function Home() {
 

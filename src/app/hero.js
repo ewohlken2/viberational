@@ -22,12 +22,13 @@ export default function HeroBanner() {
                         Contact Me
                     </Link>
                 </div>
+
                 <picture className="main-banner-image"><Image
                     className="image"
-                    src="/600x400.svg"
+                    src="/hero.jpg"
                     alt="Main Banner"
-                    width={600}
-                    height={400}
+                    width={360}
+                    height={480}
                     priority
                 /></picture>
             </div >
