@@ -79,7 +79,7 @@ function ContactForm() {
 
 
 
-            {successMessage && <div className="message" style={{ color: 'green' }}>{successMessage}</div>}
+            {successMessage && <div className="success-message" style={{ color: 'green' }}>{successMessage}</div>}
             {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
         </form>
     );

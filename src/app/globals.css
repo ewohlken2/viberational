@@ -15,6 +15,7 @@
 
   --yellow: #F8CD77;
   --pink: #F8B4B9;
+  --pink--dark: #f4858d;
   --zindex-header: 5;
 
   --transition: 230ms all cubic-bezier(.2, .8, .2, 1);
@@ -29,110 +30,40 @@
 
 html {
   scroll-behavior: smooth;
-
+  text-size-adjust: 100%;
+  font-size: 62.5%;
 }
 
 body {
   color: var(--foreground);
   font-family: var(--font-roboto-mono);
   background: var(--background);
+  font-size: 1.6em;
 }
 
 h1 {
-  font-size: 20px;
+  font-size: 5rem;
   font-weight: bold;
-}
-
-.main-banner-container {
-  background: var(--secondary-dark);
-  color: var(--bg)
-}
-
-.main-banner-content {
-  position: relative;
-  z-index: 2;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: center;
-  width: 50%;
-  flex-shrink: 0;
-}
-
-
-.main-banner-image-container {}
-
-.main-banner-image {
-  position: absolute;
-  height: 95%;
-  right: 0;
-  bottom: 0;
-  max-width: 700px;
-
-  &:after {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: #780000;
-    background: radial-gradient(circle, #78000000 0%, var(--secondary-dark) 55% 100%);
-    pointer-events: none;
-  }
-}
-
-.main-banner {
-  margin: 0 auto;
-  padding: 0 60px;
-  height: calc(100vh - 76px);
-  max-height: 800px;
-  max-width: 1200px;
-
-  display: flex;
-  position: relative;
-  justify-content: space-between;
-}
-
-.main-banner .image {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center center;
-}
-
-.main-banner .title {
   margin-bottom: 2rem;
+
+  text-transform: uppercase;
+
 }
 
-.main-header {
-  margin: 0;
+h2 {
   font-size: 3rem;
+  margin-bottom: 1rem;
 }
 
-.section {
-  margin-bottom: 10rem;
-  min-height: 50vh;
-  background: var(--primary-dark);
+p {
+  margin-bottom: 1rem;
+  line-height: 1.6;
+  font-size: 1.6rem;
 }
-
-.section-contact {
-  background: var(--primary-light);
-}
-
-.section-experience {
-  background: var(--secondary-dark);
-}
-
-
-.section-about {
-  background: var(--bg);
-}
-
-.section-portfolio {}
 
 .button {
-  padding: 1rem;
+  padding: 2rem;
+  text-transform: uppercase;
   min-width: 200px;
   text-align: center;
   background: var(--secondary-dark);
@@ -140,6 +71,7 @@ h1 {
   transition: all 0.2s;
   position: relative;
   overflow: hidden;
+  font-weight: 600;
 
 
   &:hover&:not(:disabled) {
@@ -151,6 +83,18 @@ h1 {
     opacity: 0.75;
     cursor: not-allowed;
   }
+}
+
+.button--light {
+  border: 2px solid var(--pink);
+  background: transparent;
+  color: var(--pink);
+
+  &:hover&:not(:disabled) {
+    background: var(--pink);
+    color: var(--secondary-dark);
+  }
+
 }
 
 .button:hover,

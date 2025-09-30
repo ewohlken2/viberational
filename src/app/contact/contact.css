@@ -19,12 +19,6 @@
     display: none;
 }
 
-h1 {
-    text-transform: uppercase;
-    margin-bottom: 2rem;
-    font-size: 2rem;
-}
-
 .message {
     margin-top: 1rem;
     font-weight: bold;
