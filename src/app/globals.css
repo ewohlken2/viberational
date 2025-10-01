@@ -52,11 +52,14 @@ h1 {
 
 h2 {
   font-size: 3rem;
-  margin-bottom: 1rem;
+  margin-bottom: 2rem;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: var(--secondary-light)
 }
 
 p {
-  margin-bottom: 1rem;
+  margin-bottom: 2rem;
   line-height: 1.6;
   font-size: 1.6rem;
 }

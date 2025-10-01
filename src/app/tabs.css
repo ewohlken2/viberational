@@ -1,0 +1,104 @@
+.tabs-container {
+    margin-top: 4rem;
+    display: flex;
+
+    .date {
+        font-size: 1.2rem;
+        font-style: italic;
+        margin-bottom: 1rem;
+    }
+
+    .content {
+        margin-bottom: 1rem;
+    }
+
+    .list {
+        padding-left: 1rem;
+    }
+
+    .list-item {
+        position: relative;
+        padding-left: 1.5rem;
+        margin-bottom: 0.5rem;
+
+        &::marker {
+            content: "+";
+            position: absolute;
+            left: 0;
+            color: var(--secondary-dark);
+        }
+
+    }
+}
+
+
+.tabs {
+    width: 20rem;
+    flex: 0 0 auto;
+    display: flex;
+    flex-direction: column;
+
+
+}
+
+.tab-title {
+    padding: 1.5rem 2rem;
+    border-left: 3px solid var(--secondary-dark);
+    transition: all 0.2s;
+    font-size: 1.6rem;
+    text-transform: uppercase;
+    color: var(--secondary-light);
+    cursor: pointer;
+
+    &.active {
+        background: var(--pink);
+        border-left: 3px solid var(--secondary-dark);
+        /* color: var(--bg); */
+    }
+
+    &:hover {
+        background: var(--pink);
+
+        /* background: var(--secondary-light); */
+        border-left: 3px solid var(--secondary-dark);
+    }
+}
+
+.tab-content-container {
+    flex: 1 1 auto;
+    position: relative;
+    overflow: hidden;
+    background: var(--pink);
+    padding: 2rem;
+    border-radius: 0 1rem 0rem 1rem;
+
+}
+
+.tab-content {
+    display: none;
+    flex: 1 1 auto;
+    position: relative;
+    transition: opacity 0.2s;
+
+
+    &.active {
+        display: block;
+        animation: tabFadeIn 300ms ease-in-out;
+    }
+
+}
+
+
+
+@keyframes tabFadeIn {
+
+    0% {
+        opacity: 0;
+        top: 5rem;
+    }
+
+    100% {
+        opacity: 1;
+        top: 0px;
+    }
+}
