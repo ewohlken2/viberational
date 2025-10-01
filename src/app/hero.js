@@ -16,7 +16,7 @@ export default function HeroBanner() {
                     <div className="title">
                         <span className="intro-header">Hello, my name is </span>
                         <h1 className="main-header">Elvis Wohlken</h1>
-                        <div className="intro-header-2">I'm a Full Stack Web Developer in LA and</div>
+                        <div className="intro-header-2">I`&lsquo;m a Full Stack Web Developer in LA and</div>
                     </div>
                     <Link className="button button--light" href="/contact">
                         I want to work with you
