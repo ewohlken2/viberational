@@ -1,5 +1,6 @@
 'use client';
 
+import Link from "next/link";
 import "./logo.css";
 import Image from "next/image";
 
