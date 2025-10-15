@@ -10,10 +10,19 @@ export async function POST(request) {
 
     const data = await request.json();
 
-    const { name, email, subject, message } = data;
+    const { name, email, subject, message, captcha } = data;
 
-    if (!name || !email || !message || !subject) {
+    if (!name || !email || !message || !subject || !captcha) {
         return NextResponse.json({ status: 400, message: "Missing required fields" });
+    }
+
+    // validate captcha with Google
+    const secretKey = process.env.NEXT_SECRET_RECAPTCHA_SITE_KEY;
+    const verifyUrl = `https://www.google.com/recaptcha/api/siteverify?secret=${secretKey}&response=${captcha}`;
+
+    const result = await fetch(verifyUrl, { method: 'POST' }).then(res => res.json());
+    if (!result.success) {
+        return NextResponse.json({ status: 400, message: "Captcha verification failed" });
     }
 
     try {

@@ -27,10 +27,10 @@ export default function HeroBanner() {
 
                 <picture className="main-banner-image"><Image
                     className="image"
-                    src="/hero.jpg"
-                    alt="Main Banner"
-                    width={360}
-                    height={480}
+                    src="/portrait-cutout-1000-redder.png"
+                    alt="Hero Portrait of Elvis Wohlken"
+                    width={1000}
+                    height={979}
                     priority
                 /></picture>
             </div >

@@ -19,6 +19,8 @@
   --zindex-header: 5;
 
   --transition: 230ms all cubic-bezier(.2, .8, .2, 1);
+
+  --container-xl: 1400px;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -50,8 +52,24 @@ h1 {
 
 }
 
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+textarea:-webkit-autofill,
+textarea:-webkit-autofill:hover,
+textarea:-webkit-autofill:focus,
+select:-webkit-autofill,
+select:-webkit-autofill:hover,
+select:-webkit-autofill:focus {
+  -webkit-box-shadow: 0 0 0px 1000px var(--bg) inset !important;
+  /* Sets a white background */
+  -webkit-text-fill-color: var(--secondary-dark) !important;
+  /* Sets black text color */
+  /* Add any other styles you want to override here, using !important */
+}
+
 h2 {
-  font-size: 3rem;
+  font-size: 3.5rem;
   margin-bottom: 2rem;
   text-transform: uppercase;
   font-weight: 700;
@@ -60,30 +78,38 @@ h2 {
 
 p {
   margin-bottom: 2rem;
-  line-height: 1.6;
+  line-height: 2;
   font-size: 1.6rem;
 }
 
 .button {
   padding: 2rem;
+  display: inline-block;
   text-transform: uppercase;
   min-width: 200px;
   text-align: center;
-  background: var(--secondary-dark);
-  color: var(--background);
   transition: all 0.2s;
   position: relative;
   overflow: hidden;
   font-weight: 600;
 
+  border: 2px solid var(--secondary-dark);
+  background: var(--transparent);
+  color: var(--secondary-dark);
+
+
+
+
 
   &:hover&:not(:disabled) {
-    background: var(--secondary-light);
+    background: var(--secondary-dark);
+    color: var(--bg);
+
     cursor: pointer;
   }
 
   &:disabled {
-    opacity: 0.75;
+    opacity: 0.5;
     cursor: not-allowed;
   }
 }
@@ -100,12 +126,12 @@ p {
 
 }
 
-.button:hover,
+.button:hover:not(:disabled),
 .header-link:hover {
   cursor: pointer;
 }
 
-.button:active {
+.button:active:not(:disabled) {
   transform: scale(0.92)
 }
 
@@ -123,9 +149,34 @@ p {
   background: rgba(255, 255, 255, .5);
 }
 
-.button:focus::after,
+.button:focus:not(:disabled)::after,
 .header-link:focus::after {
-  animation: scale_up 300ms forwards;
+  /* animation: scale_up 300ms forwards; */
+}
+
+.link {
+  display: inline-block;
+  position: relative;
+  text-decoration: none;
+}
+
+.link::after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  transform: scaleX(0);
+  border-radius: 0.5rem;
+  height: 0.2rem;
+  bottom: -0.4rem;
+  left: 0;
+  background: currentcolor;
+  transform-origin: bottom right;
+  transition: transform 0.25s ease-out;
+}
+
+.link:hover::after {
+  transform-origin: bottom left;
+  transform: scaleX(1);
 }
 
 @keyframes scale_up {

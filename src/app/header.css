@@ -1,11 +1,17 @@
 .header {
-    display: flex;
+
     position: sticky;
     top: 0;
     background-color: var(--secondary-dark);
     z-index: var(--zindex-header);
     color: var(--bg);
     transition: var(--transition);
+
+    .header-container {
+        display: flex;
+        max-width: var(--container-xl);
+        margin: 0 auto;
+    }
 
 
     &.header-scrolled,
@@ -40,7 +46,7 @@
 }
 
 .header-link:hover {
-    color: var(--bg-darken);
+    color: var(--secondary-dark);
 
 }
 
@@ -51,7 +57,7 @@
 
 .directional-btn .bg {
     position: absolute;
-    background: var(--secondary-light);
+    background: var(--pink);
     width: 100%;
     height: 100%;
     left: 0;

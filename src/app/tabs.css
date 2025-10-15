@@ -41,26 +41,43 @@
 
 }
 
+.tab-title-text {
+    position: relative;
+    z-index: 2;
+}
+
 .tab-title {
     padding: 1.5rem 2rem;
-    border-left: 3px solid var(--secondary-dark);
-    transition: all 0.2s;
+    border-left: 0.2rem solid transparent;
+    transition: var(--transition);
     font-size: 1.6rem;
     text-transform: uppercase;
     color: var(--secondary-light);
     cursor: pointer;
+    position: relative;
 
-    &.active {
-        background: var(--pink);
-        border-left: 3px solid var(--secondary-dark);
-        /* color: var(--bg); */
+    &::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, var(--bg), var(--pink) 70%);
+        opacity: 0;
+        transition: var(--transition);
+        pointer-events: none;
     }
 
-    &:hover {
-        background: var(--pink);
 
-        /* background: var(--secondary-light); */
-        border-left: 3px solid var(--secondary-dark);
+    &:hover,
+    &.active {
+
+        border-left: 0.2rem solid var(--secondary-light);
+
+        &::before {
+            opacity: 1;
+        }
     }
 }
 
@@ -69,7 +86,7 @@
     position: relative;
     overflow: hidden;
     background: var(--pink);
-    padding: 2rem;
+    padding: 2.5rem;
     border-radius: 0 1rem 0rem 1rem;
 
 }

@@ -1,0 +1,34 @@
+.header-logo {
+    color: var(--pink);
+
+    margin-right: auto;
+
+    display: flex;
+
+    .link-text {
+        display: none;
+    }
+
+    .logo-letter {
+        width: 5rem;
+        height: 5rem;
+        position: relative;
+        margin-right: 0.5rem;
+
+        filter: invert(78%) sepia(16%) saturate(820%) hue-rotate(308deg) brightness(99%) contrast(96%);
+        transition: var(--transition);
+
+        &:last-child {
+            right: 20px;
+        }
+    }
+
+    &:hover {
+        cursor: pointer;
+
+
+        .logo-letter:last-child {
+            transform: rotate(-90deg);
+        }
+    }
+}

@@ -9,7 +9,9 @@ export default function Tabs({ tabs }) {
     const [activeTab, setActiveTab] = useState(0);
 
     const titles = tabs.map((tab, index) => (
-        <div onClick={() => setActiveTab(index)} key={index} className={index == activeTab ? "tab-title active" : "tab-title"}>{tab.title}</div>
+        <div onClick={() => setActiveTab(index)} key={index} className={index == activeTab ? "tab-title active" : "tab-title"}>
+            <div className="tab-title-text">{tab.title}</div>
+        </div>
     ));
 
     const tabContent = tabs.map((tab, index) => (
@@ -17,7 +19,7 @@ export default function Tabs({ tabs }) {
 
 
             <div className="date">{tab.date}</div>
-            <div className="content">{tab.content}</div>
+            <p className="content">{tab.content}</p>
             <div className="list">
                 {tab.list.map((item, index) => <div key={index} className="list-item">{item}</div>)}
             </div>
