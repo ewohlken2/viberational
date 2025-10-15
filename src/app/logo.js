@@ -9,7 +9,7 @@ export default function HeaderLogo() {
 
 
     return (
-        <a className="header-logo" href="/#home">
+        <Link className="header-logo" href="/#home">
             <div className="link-text">Home</div>
 
             <picture className="logo-letter"><Image
@@ -28,7 +28,7 @@ export default function HeaderLogo() {
                 height={100}
                 priority
             /></picture>
-        </a>
+        </Link>
 
     );
 }

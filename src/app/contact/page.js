@@ -104,7 +104,7 @@ function ContactForm() {
                     </>
                 }
 
-                {successMessage && <div className="success-message" > I'll get back to you as soon as possible.</div>}
+                {successMessage && <div className="success-message" > I&apos;ll get back to you as soon as possible.</div>}
                 {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
 
 
