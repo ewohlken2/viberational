@@ -21,6 +21,13 @@
   --transition: 230ms all cubic-bezier(.2, .8, .2, 1);
 
   --container-xl: 1400px;
+
+  --animation-delay: 430ms;
+
+  --animation-delay-line2: 510ms;
+
+  --animation-delay-line3: 630ms;
+  --animation-delay-button: 800ms;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -28,6 +35,25 @@
     --background: #0a0a0a;
     --foreground: #ededed;
   }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+.fade-in {
+  opacity: 0;
+  animation-name: fadeIn;
+  animation-duration: 230ms;
+  animation-delay: var(--animation-delay);
+  animation-fill-mode: forwards;
+  animation-timing-function: ease-in;
 }
 
 html {

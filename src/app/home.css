@@ -128,49 +128,6 @@
     object-position: center center;
 }
 
-.main-banner .main-header {
-    margin: 0 0 0.4rem 0;
-    position: relative;
-
-    /* line-down */
-    &:before {
-        height: 13rem;
-        width: 0.2rem;
-        position: absolute;
-        content: "";
-        background: var(--pink);
-        left: -5rem;
-        top: 4rem;
-    }
-
-    /* line left */
-    &:after {
-        height: 0.2rem;
-        width: 3.5rem;
-        position: absolute;
-        content: "";
-        background: var(--pink);
-        left: -5rem;
-        top: 4rem;
-    }
-
-
-}
-
-.main-banner .button-container {
-    position: relative;
-    margin-left: auto;
-
-    &:before {
-        height: 0.2rem;
-        width: 25rem;
-        position: absolute;
-        content: "";
-        background: var(--pink);
-        left: -27rem;
-        top: 3.6rem;
-    }
-}
 
 .intro-header {
     font-size: 1.8rem;
