@@ -22,7 +22,8 @@
     right: 0;
     bottom: 0;
     max-width: 1000px;
-    width: 60%
+    width: 60%;
+    animation-delay: var(--animation-delay-hero-image);
 }
 
 .main-banner {

@@ -4,7 +4,7 @@
     top: 0;
     background-color: var(--secondary-dark);
     z-index: var(--zindex-header);
-    color: var(--bg);
+
     transition: var(--transition);
 
     .header-container {
@@ -18,16 +18,9 @@
     .contact-page & {
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         /* backdrop-filter: blur(10px); */
-        background-color: var(--bg);
 
 
-        .header-link {
-            color: var(--secondary-dark);
 
-            &:hover {
-                color: var(--bg);
-            }
-        }
     }
 
 }
@@ -139,4 +132,43 @@
 .header-logo {
     margin-right: auto;
 
+}
+
+/* theming for color swaps on scroll*/
+
+.header {
+
+
+    &.home {
+        background-color: var(--secondary-dark);
+
+
+
+    }
+
+    &.about {
+        background-color: var(--bg);
+
+
+        .header-link {
+            color: var(--secondary-dark);
+
+            &:hover {
+                color: var(--bg);
+            }
+        }
+
+        .header-logo {
+            color: var(--secondary-dark);
+        }
+
+        .directional-btn .bg {
+            background: var(--secondary-light);
+        }
+
+        .logo-letter:before,
+        .logo-letter:after {
+            background: var(--bg);
+        }
+    }
 }

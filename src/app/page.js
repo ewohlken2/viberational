@@ -4,11 +4,16 @@ import "./home.css";
 
 
 import Image from "next/image";
-import Header from "./header";
 import HeroBanner from "./hero";
 import Tabs from "./tabs";
-import { list } from "postcss";
 import Link from "next/link";
+import HeaderContext from './context/headerContext';
+import { useContext, useEffect, useRef } from "react";
+import Wrapper from "./wrapper";
+
+import { useInView } from "react-intersection-observer";
+
+
 
 const TABS_CONTENT = [{
   title: 'tab 1',
@@ -29,18 +34,25 @@ const TABS_CONTENT = [{
 
 export default function Home() {
 
-  function onMainBtnClick() {
-    console.log('clicked');
-  }
+
+
+
+  const homeRef = useRef(null);
+  const aboutRef = useRef(null);
+
+  const headerRefs = [homeRef, aboutRef];
 
   return (
-    <div id="home">
-      {/* main banner start */}
-      <HeroBanner />
-      {/* main banner end */}
+
+    <Wrapper headerRefs={headerRefs}>
+      <div id="home" ref={homeRef}>
+        {/* main banner start */}
+        <HeroBanner />
+        {/* main banner end */}
+      </div>
 
       {/* About Section Start */}
-      <div id="about" className="section section-about">
+      <div ref={aboutRef} id="about" className="section section-about">
         <div className="section-content">
           <h2 className="h2">
             About
@@ -112,7 +124,7 @@ export default function Home() {
       {/* Contact Section End */}
 
 
-    </div >
 
+    </Wrapper>
   );
 }

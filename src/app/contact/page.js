@@ -8,6 +8,7 @@ import ReCAPTCHA from "react-google-recaptcha";
 
 import React, { useState } from 'react';
 import Button from '../button';
+import Wrapper from "../wrapper";
 
 function ContactForm() {
     const [name, setName] = useState('');
@@ -64,54 +65,56 @@ function ContactForm() {
     }
 
     return (
-        <div className="contact-form-wrapper" >
-            <form className="contact-form" onSubmit={onSubmit}>
-                <h1 className="h1">    {!successMessage ? "Contact Me" : "Thank you!"}</h1>
+        <Wrapper intialSection={"home"}>
+            <div className="contact-form-wrapper" >
+                <form className="contact-form" onSubmit={onSubmit}>
+                    <h1 className="h1">    {!successMessage ? "Contact Me" : "Thank you!"}</h1>
 
-                {!successMessage &&
+                    {!successMessage &&
 
-                    <>
-                        <div className="form-inputs">
-                            <div className='input-container'>
-                                <label className='label' htmlFor="name">Name:</label>
-                                <input className='input' placeholder='NAME *' type="text" id="name" value={name} onChange={(e) => setName(e.target.value)} required />
+                        <>
+                            <div className="form-inputs">
+                                <div className='input-container'>
+                                    <label className='label' htmlFor="name">Name:</label>
+                                    <input className='input' placeholder='NAME *' type="text" id="name" value={name} onChange={(e) => setName(e.target.value)} required />
+                                </div>
+                                <div className='input-container'>
+                                    <label className='label' htmlFor="email">Email:</label>
+                                    <input className='input' placeholder='EMAIL *' type="email" id="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
+                                </div>
+                                <div className='input-container'>
+                                    <label className='label' htmlFor="subject">Subject:</label>
+                                    <input className='input' placeholder='SUBJECT *' type="subject" id="subject" value={subject} onChange={(e) => setSubject(e.target.value)} required />
+                                </div>
+                                <div className='input-container'>
+                                    <label className='label' htmlFor="message">Message:</label>
+                                    <textarea className='input' placeholder="MESSAGE *" id="message" value={message} onChange={(e) => setMessage(e.target.value)} required />
+                                </div>
+                                <div className='input-container'>
+                                    <label className='label' htmlFor="captcha">Captcha:</label>
+                                    <ReCAPTCHA
+                                        id="captcha"
+                                        sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY}
+                                        onChange={onChange}
+                                    />
+                                </div>
                             </div>
-                            <div className='input-container'>
-                                <label className='label' htmlFor="email">Email:</label>
-                                <input className='input' placeholder='EMAIL *' type="email" id="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
-                            </div>
-                            <div className='input-container'>
-                                <label className='label' htmlFor="subject">Subject:</label>
-                                <input className='input' placeholder='SUBJECT *' type="subject" id="subject" value={subject} onChange={(e) => setSubject(e.target.value)} required />
-                            </div>
-                            <div className='input-container'>
-                                <label className='label' htmlFor="message">Message:</label>
-                                <textarea className='input' placeholder="MESSAGE *" id="message" value={message} onChange={(e) => setMessage(e.target.value)} required />
-                            </div>
-                            <div className='input-container'>
-                                <label className='label' htmlFor="captcha">Captcha:</label>
-                                <ReCAPTCHA
-                                    id="captcha"
-                                    sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY}
-                                    onChange={onChange}
-                                />
-                            </div>
-                        </div>
 
-                        <Button type="submit" disabled={!isValid() || loading}>
-                            {loading ? 'Sending...' : 'Send Message'}
-                        </Button>
-                    </>
-                }
+                            <Button type="submit" disabled={!isValid() || loading}>
+                                {loading ? 'Sending...' : 'Send Message'}
+                            </Button>
+                        </>
+                    }
 
-                {successMessage && <div className="success-message" > I&apos;ll get back to you as soon as possible.</div>}
-                {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
+                    {successMessage && <div className="success-message" > I&apos;ll get back to you as soon as possible.</div>}
+                    {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
 
 
-            </form>
+                </form>
 
 
-        </div>
+            </div>
+        </Wrapper>
     );
 }
 

@@ -28,6 +28,12 @@
 
   --animation-delay-line3: 630ms;
   --animation-delay-button: 800ms;
+  --animation-delay-hero-image: 300ms;
+
+  --logo-secondary-light: invert(16%) sepia(42%) saturate(5556%) hue-rotate(342deg) brightness(100%) contrast(106%);
+  --logo-secondary-dark: invert(9%) sepia(47%) saturate(7215%) hue-rotate(8deg) brightness(103%) contrast(128%);
+
+
 }
 
 @media (prefers-color-scheme: dark) {

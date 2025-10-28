@@ -1,14 +1,17 @@
 'use client';
 
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import DirectionalHoverLink from "./directional-hover";
 import "./header.css";
 import Image from "next/image";
 import HeaderLogo from "./logo";
 
+import { HeaderContext } from './context/headerContext';
 
 
-export default function Header() {
+
+
+export default function Header({ topSection }) {
     const [scrolled, setScrolled] = useState(false);
 
     useEffect(() => {
@@ -29,7 +32,7 @@ export default function Header() {
 
 
     return (
-        <div className={scrolled ? 'header header-scrolled' : 'header'}>
+        <div className={scrolled ? 'header header-scrolled ' + topSection : 'header ' + topSection}>
             <div className="header-container">
                 <HeaderLogo />
 
