@@ -21,7 +21,7 @@ export default function Tabs({ tabs }) {
             <div className="date">{tab.date}</div>
             <p className="content">{tab.content}</p>
             <div className="list">
-                {tab.list.map((item, index) => <div key={index} className="list-item">{item}</div>)}
+                {tab.list && tab.list.map((item, index) => <div key={index} className="list-item">{item}</div>)}
             </div>
         </div>
     ));

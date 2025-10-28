@@ -10,7 +10,10 @@
   --foreground: #171717;
   --primary-dark: #003049;
   --primary-light: #669bbc;
-  --secondary-dark: #780000;
+  /* --secondary-dark: #780000; */
+
+  --secondary-dark: #6d2323;
+  /* --secondary-dark: #541a1a; */
   --secondary-light: #c1121f;
 
   --yellow: #F8CD77;
