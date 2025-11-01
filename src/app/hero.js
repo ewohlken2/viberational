@@ -27,10 +27,10 @@ export default function HeroBanner() {
 
                 <picture className="main-banner-image fade-in"><Image
                     className="image"
-                    src="/portrait-real.png"
+                    src="/confident-1-cutout.png"
                     alt="Hero Portrait of Elvis Wohlken"
                     width={1000}
-                    height={979}
+                    height={1000}
                     priority
                 /></picture>
             </div >

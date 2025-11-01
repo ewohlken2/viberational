@@ -17,7 +17,7 @@ import { useInView } from "react-intersection-observer";
 
 const TABS_CONTENT = [{
   title: 'Goldencomm',
-  content: 'I started my career at a local digital marketing agency as a customer service intern but was quickly promoted to an entry-level developer position. While on the team I worked on developing dynamic, responsive front-end interfaces using JavaScript, HTML, and CSS for a wide range of client projects. Over time I contributed to more than 40 different sites, meeting with clients to demo new features and share progress updates. Much of the work involved tackling legacy codebases with little to no documentation, where I learned to quickly interpret existing systems and build custom APIs to deliver results efficiently. I also handled browser optimization for older platforms like IE6 and above, ensuring consistent performance across the board. Alongside front-end development, I created custom WordPress and Magento themes, plugins, and extensions in PHP, integrating WordPress into over 20 existing codebases to expand functionality and streamline content management for small businesses. This role gave me a strong foundation in full-stack web development and client communication, skills that have been invaluable as I advanced my career.',
+  content: 'I started my career at a local digital marketing agency as a customer service intern but was quickly promoted to an entry-level developer position. While on the team I worked on developing dynamic, responsive front-end interfaces using JavaScript, HTML, and CSS for a wide range of client projects. Over time I contributed to more than 40 different sites, meeting with clients and project managers to demo new features and share progress updates. Alongside front-end development, I created custom WordPress and Magento themes, plugins, and extensions in PHP, integrating WordPress into over 20 existing codebases to expand functionality and streamline content management for small businesses. This role gave me a strong foundation in full-stack web development and client communication, skills that have been invaluable as I advanced my career.',
   // list: ['item 1', 'item 2', 'item 3'],
   date: '2013 - 2017',
 }, {
@@ -66,7 +66,7 @@ export default function Home() {
 
 
           <p>
-            I&apos;m a software engineer and freelance web developer based in Los Angeles, with a background in digital marketing and SEO. My path into development started at a hometown web agency, where I taught myself to build Wordpress and Magento websites for local businesses. That mix of creativity, problem-solving, and instant feedback from seeing a site come to life hooked me right away.
+            I&apos;m a software engineer and freelance web developer based in Los Angeles. My path into development started at a hometown web agency, where I taught myself to build Wordpress and Magento websites for local businesses. That mix of creativity, problem-solving, and instant feedback from seeing a site come to life hooked me right away.
           </p>
           <p>
             In 2016, I began diving deeper into the Node.js ecosystem, exploring the backend side of development and modern JavaScript tooling. That path quickly led me to Next.js, where I found a framework that allowed me to build fast, scalable web applications at breakneck speeds.
