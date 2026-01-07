@@ -26,3 +26,23 @@
   transform: translate(-50%, -50%);
   will-change: transform;
 }
+
+.kris-nav-link {
+  color: #F8B4B9;
+  transition: color 0.3s ease;
+}
+
+.kris-nav-link:hover {
+  color: #FFD1D6;
+}
+
+.kris-button {
+  color: #F8B4B9;
+  border-color: #F8B4B9;
+  transition: color 0.3s ease, border-color 0.3s ease;
+}
+
+.kris-button:hover {
+  color: #FFD1D6;
+  border-color: #FFD1D6;
+}

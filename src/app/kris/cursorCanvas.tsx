@@ -4,17 +4,19 @@ const BASE_SIZE = 48;
 const PADDING = 4;
 const LERP = 0.15;
 const ROTATION_SPEED = 0.2; // deg per frame
-const ROTATION_LERP = 0.18; // Smooth rotation interpolation
+const ROTATION_LERP = 0.18;
 const DOT_SIZE = 6;
 const BORDER_WIDTH = 3;
 const BORDER_COLOR = "#ffffff"; // White for inversion effect
 const DOT_COLOR = "#ffffff"; // White for inversion effect
 const CORNER_GAP = 12; // Pixels from center of each side to leave transparent
-const SPRING_STRENGTH = 0.015; // How stiff the rubber band is
+const SPRING_STRENGTH = 0.075; // How stiff the rubber band is
 const SPRING_DAMPING = 0.55; // How quickly it loses energy
-const VELOCITY_INFLUENCE = 0.8; // How much mouse speed stretches it
+const VELOCITY_INFLUENCE = 0.7; // How much mouse speed stretches it
 const SNAP_LERP = 0.9; // How quickly it snaps to the hovered element center
-const CLICK_SCALE = 0.85; // Scale reduction on click
+const INITIAL_HOVER_LERP = 0.75; // Smooth lerp speed when first entering hover state
+const BOX_CLICK_SCALE = 0.85; // Scale reduction for box cursor on click
+const DOT_CLICK_SCALE = 0.55; // Scale reduction for dot cursor on click
 const SCALE_LERP = 0.06; // How quickly scale animates (smooth transition)
 
 const normalizeDeg = (deg: number) => ((deg % 360) + 360) % 360;
@@ -206,7 +208,6 @@ export default function CursorCanvas() {
     ) => {
       ctx.save();
 
-      // Always use center positioning
       const offsetX = width / 2;
       const offsetY = height / 2;
 
@@ -270,9 +271,6 @@ export default function CursorCanvas() {
       ctx.restore();
     };
 
-    // ----------------------------
-    // Animation loop
-    // ----------------------------
     const animate = () => {
       // Clear canvas
       ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -304,8 +302,10 @@ export default function CursorCanvas() {
         targetAnchor.current = { x: center.x, y: center.y };
 
         // Smoothly animate anchor to target position
-        // Use faster lerp during initial transition, then normal snap lerp
-        const lerpSpeed = isHoverTransition.current ? 0.25 : SNAP_LERP;
+        // Use smoother lerp during initial transition, then normal snap lerp
+        const lerpSpeed = isHoverTransition.current
+          ? INITIAL_HOVER_LERP
+          : SNAP_LERP;
 
         if (targetAnchor.current) {
           const dx = targetAnchor.current.x - mouse.current.x;
@@ -371,8 +371,8 @@ export default function CursorCanvas() {
       }
 
       // Animate scale based on active state
-      const targetBoxScale = isActive.current ? CLICK_SCALE : 1.0;
-      const targetDotScale = isActive.current ? CLICK_SCALE : 1.0;
+      const targetBoxScale = isActive.current ? BOX_CLICK_SCALE : 1.0;
+      const targetDotScale = isActive.current ? DOT_CLICK_SCALE : 1.0;
       boxScale.current += (targetBoxScale - boxScale.current) * SCALE_LERP;
       dotScale.current += (targetDotScale - dotScale.current) * SCALE_LERP;
 

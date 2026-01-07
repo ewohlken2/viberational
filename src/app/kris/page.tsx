@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import CursorCanvas from "./cursor-canvas";
+import CursorCanvas from "./cursorCanvas";
 import IntroBanner from "./introBanner";
 import HeaderLogo from "../logo";
 import "./kris.css";
@@ -20,8 +20,12 @@ const navLinks = [
 export default function KrisPage() {
   const [bannerKey, setBannerKey] = useState(0);
 
-  const handleButtonClick = () => {
+  const handleResetClick = () => {
     setBannerKey((prev) => prev + 1);
+  };
+
+  const handleScreensaverClick = () => {
+    // TODO: Implement screensaver functionality
   };
 
   return (
@@ -58,8 +62,8 @@ export default function KrisPage() {
             key={link.label}
             href={link.href}
             data-cursor
+            className="kris-nav-link"
             style={{
-              color: "#F8B4B9",
               textDecoration: "none",
               cursor: "none",
               padding: `${BUTTON_PADDING_Y} ${BUTTON_PADDING_X}`,
@@ -84,23 +88,40 @@ export default function KrisPage() {
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
+          gap: "20px",
         }}
       >
         <button
           data-cursor
-          onClick={handleButtonClick}
+          onClick={handleResetClick}
+          className="kris-button"
           style={{
             padding: `${BUTTON_PADDING_Y} ${BUTTON_PADDING_X}`,
             fontSize: "1.6rem",
             backgroundColor: "transparent",
-            color: "#F8B4B9",
-            border: "2px solid #F8B4B9",
+            border: "2px solid",
             borderRadius: "0.5rem",
             cursor: "none",
             textTransform: "uppercase",
           }}
         >
-          Click Me
+          Reset Intro Animation
+        </button>
+        <button
+          data-cursor
+          onClick={handleScreensaverClick}
+          className="kris-button"
+          style={{
+            padding: `${BUTTON_PADDING_Y} ${BUTTON_PADDING_X}`,
+            fontSize: "1.6rem",
+            backgroundColor: "transparent",
+            border: "2px solid",
+            borderRadius: "0.5rem",
+            cursor: "none",
+            textTransform: "uppercase",
+          }}
+        >
+          Start Screensaver
         </button>
       </div>
     </div>
