@@ -1,8 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import CursorCanvas from "../cursor-canvas";
-import IntroBanner from "../introBanner";
+import CursorCanvas from "./cursor-canvas";
+import IntroBanner from "./introBanner";
 import HeaderLogo from "../logo";
 import "./kris.css";
 

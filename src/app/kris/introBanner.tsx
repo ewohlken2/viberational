@@ -171,7 +171,7 @@ export default function IntroBanner({
             key={i}
             className="intro-letter"
             style={{
-              // While measuring, force no delay so nothing “starts in the background”
+              // While measuring, force no delay so nothing "starts in the background"
               animationDelay: isMeasuring ? "0ms" : `${i * letterDelay}ms`,
               animationDuration: `${letterDuration}ms`,
               animationPlayState: isMeasuring
