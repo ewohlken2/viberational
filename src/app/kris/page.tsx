@@ -1,9 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import CursorCanvas from "./cursorCanvas";
 import IntroBanner from "./introBanner";
 import HeaderLogo from "../logo";
+import Screensaver, { ScreensaverRef } from "./screensaver";
 import "./kris.css";
 
 // Button padding constants (reduced by 3px from original 1rem/2rem)
@@ -19,19 +20,21 @@ const navLinks = [
 
 export default function KrisPage() {
   const [bannerKey, setBannerKey] = useState(0);
+  const screensaverRef = useRef<ScreensaverRef>(null);
 
   const handleResetClick = () => {
     setBannerKey((prev) => prev + 1);
   };
 
   const handleScreensaverClick = () => {
-    // TODO: Implement screensaver functionality
+    screensaverRef.current?.activate();
   };
 
   return (
     <div style={{ cursor: "none" }}>
       <IntroBanner key={bannerKey} text="<ELVISWOHLKEN/>" />
       <CursorCanvas />
+      <Screensaver ref={screensaverRef} text="Elvis Wohlken" delay={3000} />
       <div
         className="kris-logo"
         style={{

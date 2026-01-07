@@ -3,12 +3,12 @@ import { useEffect, useRef } from "react";
 const BASE_SIZE = 48;
 const PADDING = 4;
 const LERP = 0.15;
-const ROTATION_SPEED = 0.2; // deg per frame
+const ROTATION_SPEED = 0.25; // deg per frame
 const ROTATION_LERP = 0.18;
 const DOT_SIZE = 6;
 const BORDER_WIDTH = 3;
-const BORDER_COLOR = "#ffffff"; // White for inversion effect
-const DOT_COLOR = "#ffffff"; // White for inversion effect
+const BORDER_COLOR = "#f8b4b9";
+const DOT_COLOR = "#f8b4b9";
 const CORNER_GAP = 12; // Pixels from center of each side to leave transparent
 const SPRING_STRENGTH = 0.075; // How stiff the rubber band is
 const SPRING_DAMPING = 0.55; // How quickly it loses energy
