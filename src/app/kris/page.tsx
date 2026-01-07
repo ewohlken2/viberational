@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import CursorCanvas from "../cursor-canvas";
 import IntroBanner from "../introBanner";
 import HeaderLogo from "../logo";
@@ -17,9 +18,15 @@ const navLinks = [
 ];
 
 export default function KrisPage() {
+  const [bannerKey, setBannerKey] = useState(0);
+
+  const handleButtonClick = () => {
+    setBannerKey((prev) => prev + 1);
+  };
+
   return (
     <div style={{ cursor: "none" }}>
-      <IntroBanner text="<ELVISWOHLKEN/>" />
+      <IntroBanner key={bannerKey} text="<ELVISWOHLKEN/>" />
       <CursorCanvas />
       <div
         className="kris-logo"
@@ -36,7 +43,7 @@ export default function KrisPage() {
         style={{
           position: "fixed",
           top: "20px",
-          left: 0,
+          right: 0,
           width: "100%",
           backgroundColor: "rgba(0, 0, 0, 0.8)",
           backdropFilter: "blur(10px)",
@@ -81,6 +88,7 @@ export default function KrisPage() {
       >
         <button
           data-cursor
+          onClick={handleButtonClick}
           style={{
             padding: `${BUTTON_PADDING_Y} ${BUTTON_PADDING_X}`,
             fontSize: "1.6rem",
