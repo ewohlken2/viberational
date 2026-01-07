@@ -6,18 +6,24 @@ import {
   useState,
   useImperativeHandle,
   forwardRef,
+  useCallback,
 } from "react";
+import useInactivity from "./useInactivity";
 
 // Constants
 const SPEED = 5; // Speed in pixels per frame
-const TRAIL_DELAY = 5; // Number of frames between each trailing copy (1 = every frame)
+const TRAIL_DELAY = 5; // Number of frames between each trailing copy
 const MAX_TRAIL_LENGTH = 10; // Maximum number of trailing copies
-const BORDER_WIDTH_MULTIPLIER = 0.02; // Border width as a multiplier of font size (0.05 = 5% of font size)
-const FONT_SIZE_DIVISOR = 7; // Font size = width / FONT_SIZE_DIVISOR (smaller = larger font)
+const BORDER_WIDTH_MULTIPLIER = 0.02; // Border width as a multiplier of font size
+const FONT_SIZE_DIVISOR = 7; // Font size = width / FONT_SIZE_DIVISOR
+const INACTIVITY_DELAY = 12000; // Time in milliseconds before activating screensaver
+const LETTER_SPACING_MULTIPLIER = 0.05; // Letter spacing as multiplier of font size
+const TRAIL_MIN_OPACITY = 0.3; // Minimum opacity for trail effect
+const TRAIL_OPACITY_RANGE = 0.7; // Opacity range for trail effect (max - min)
+const PINK_COLOR = { r: 248, g: 180, b: 185 }; // Pink color from topnav (#f8b4b9)
 
 interface ScreensaverProps {
   text: string;
-  delay?: number; // Delay in milliseconds before activating
 }
 
 export interface ScreensaverRef {
@@ -25,45 +31,209 @@ export interface ScreensaverRef {
   deactivate: () => void;
 }
 
+interface Position {
+  x: number;
+  y: number;
+}
+
+interface TextDimensions {
+  width: number;
+  height: number;
+}
+
 const Screensaver = forwardRef<ScreensaverRef, ScreensaverProps>(
-  ({ text, delay = 5000 }, ref) => {
+  ({ text }, ref) => {
     const [isActive, setIsActive] = useState(false);
-    const [isCountingDown, setIsCountingDown] = useState(false);
-    const timeoutRef = useRef<NodeJS.Timeout | null>(null);
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const animationFrameRef = useRef<number | null>(null);
-    const positionRef = useRef({ x: 0, y: 0 });
-    const velocityRef = useRef({ x: 0, y: 0 });
-    const textDimensionsRef = useRef({ width: 0, height: 0 });
-    const positionHistoryRef = useRef<Array<{ x: number; y: number }>>([]);
+    const positionRef = useRef<Position>({ x: 0, y: 0 });
+    const velocityRef = useRef<Position>({ x: 0, y: 0 });
+    const textDimensionsRef = useRef<TextDimensions>({ width: 0, height: 0 });
+    const positionHistoryRef = useRef<Position[]>([]);
     const frameCounterRef = useRef(0);
+    const isActiveRef = useRef(false);
+    const fontFamilyRef = useRef<string>("");
+
+    // Keep ref in sync with state
+    useEffect(() => {
+      isActiveRef.current = isActive;
+    }, [isActive]);
+
+    // Helper: Get computed font family from CSS variable
+    const getComputedFontFamily = useCallback(() => {
+      if (fontFamilyRef.current) return fontFamilyRef.current;
+
+      const testElement = document.createElement("div");
+      testElement.style.fontFamily = "var(--font-geist-sans), sans-serif";
+      testElement.style.position = "absolute";
+      testElement.style.visibility = "hidden";
+      testElement.style.width = "1px";
+      testElement.style.height = "1px";
+      document.body.appendChild(testElement);
+      testElement.offsetHeight; // Force reflow
+      const computed =
+        window.getComputedStyle(testElement).fontFamily || "sans-serif";
+      document.body.removeChild(testElement);
+      fontFamilyRef.current = computed;
+      return computed;
+    }, []);
+
+    // Helper: Clean up animation frame
+    const cleanupAnimation = useCallback(() => {
+      if (animationFrameRef.current) {
+        cancelAnimationFrame(animationFrameRef.current);
+        animationFrameRef.current = null;
+      }
+    }, []);
+
+    // Helper: Deactivate screensaver
+    const deactivate = useCallback(() => {
+      cleanupAnimation();
+      setIsActive(false);
+    }, [cleanupAnimation]);
+
+    // Callbacks for inactivity hook
+    const handleInactive = useCallback(() => {
+      // On inactivity: activate if not already active
+      if (!isActiveRef.current) {
+        setIsActive(true);
+      }
+    }, []);
+
+    const handleActivity = useCallback(() => {
+      // On activity: deactivate if currently active
+      if (isActiveRef.current) {
+        deactivate();
+      }
+    }, [deactivate]);
 
     // Expose methods to parent component
-    useImperativeHandle(ref, () => ({
-      activate: () => {
-        // Clear any existing timeout
-        if (timeoutRef.current) {
-          clearTimeout(timeoutRef.current);
-          timeoutRef.current = null;
-        }
+    useImperativeHandle(
+      ref,
+      () => ({
+        activate: () => {
+          setIsActive(true);
+        },
+        deactivate,
+      }),
+      [deactivate]
+    );
 
-        // Immediately activate the screensaver
-        setIsActive(true);
-        setIsCountingDown(false);
+    // Set up inactivity detection
+    useInactivity(INACTIVITY_DELAY, handleInactive, handleActivity);
+
+    // Calculate text dimensions
+    const calculateTextDimensions = useCallback(
+      (ctx: CanvasRenderingContext2D, fontSize: number): TextDimensions => {
+        const fontFamily = getComputedFontFamily();
+        ctx.font = `600 ${fontSize}px ${fontFamily}`;
+        const letterSpacing = fontSize * LETTER_SPACING_MULTIPLIER;
+        const chars = text.split("");
+        let totalWidth = 0;
+        chars.forEach((char) => {
+          totalWidth += ctx.measureText(char).width + letterSpacing;
+        });
+        totalWidth -= letterSpacing;
+        return { width: totalWidth, height: fontSize };
       },
-      deactivate: () => {
-        if (timeoutRef.current) {
-          clearTimeout(timeoutRef.current);
-          timeoutRef.current = null;
-        }
-        if (animationFrameRef.current) {
-          cancelAnimationFrame(animationFrameRef.current);
-          animationFrameRef.current = null;
-        }
-        setIsActive(false);
-        setIsCountingDown(false);
+      [text, getComputedFontFamily]
+    );
+
+    // Get canvas dimensions
+    const getCanvasDimensions = useCallback(() => {
+      const rect = canvasRef.current?.getBoundingClientRect();
+      if (!rect) return { width: 0, height: 0 };
+      return { width: rect.width, height: rect.height };
+    }, []);
+
+    // Calculate font size based on canvas dimensions
+    const calculateFontSize = useCallback((width: number, height: number) => {
+      return Math.min(width / FONT_SIZE_DIVISOR, height / FONT_SIZE_DIVISOR);
+    }, []);
+
+    // Handle collision detection and bouncing
+    const handleCollisions = useCallback((width: number, height: number) => {
+      const halfWidth = textDimensionsRef.current.width / 2;
+      const halfHeight = textDimensionsRef.current.height / 2;
+
+      if (
+        positionRef.current.x - halfWidth <= 0 ||
+        positionRef.current.x + halfWidth >= width
+      ) {
+        velocityRef.current.x = -velocityRef.current.x;
+        positionRef.current.x = Math.max(
+          halfWidth,
+          Math.min(width - halfWidth, positionRef.current.x)
+        );
+      }
+
+      if (
+        positionRef.current.y - halfHeight <= 0 ||
+        positionRef.current.y + halfHeight >= height
+      ) {
+        velocityRef.current.y = -velocityRef.current.y;
+        positionRef.current.y = Math.max(
+          halfHeight,
+          Math.min(height - halfHeight, positionRef.current.y)
+        );
+      }
+    }, []);
+
+    // Initialize position and velocity
+    const initializePosition = useCallback(() => {
+      const { width, height } = getCanvasDimensions();
+      if (!width || !height) return;
+
+      const canvas = canvasRef.current;
+      if (!canvas) return;
+
+      const ctx = canvas.getContext("2d");
+      if (!ctx) return;
+
+      const fontSize = calculateFontSize(width, height);
+      textDimensionsRef.current = calculateTextDimensions(ctx, fontSize);
+
+      positionRef.current = { x: width / 2, y: height / 2 };
+      positionHistoryRef.current = [];
+      frameCounterRef.current = 0;
+
+      const angle = Math.random() * Math.PI * 2;
+      velocityRef.current = {
+        x: Math.cos(angle) * SPEED,
+        y: Math.sin(angle) * SPEED,
+      };
+    }, [getCanvasDimensions, calculateFontSize, calculateTextDimensions]);
+
+    // Draw text function
+    const drawText = useCallback(
+      (
+        ctx: CanvasRenderingContext2D,
+        x: number,
+        y: number,
+        opacity: number = 1
+      ) => {
+        const { width, height } = getCanvasDimensions();
+        const fontSize = calculateFontSize(width, height);
+        const fontFamily = getComputedFontFamily();
+        ctx.font = `600 ${fontSize}px ${fontFamily}`;
+        ctx.textBaseline = "middle";
+
+        ctx.save();
+        ctx.globalAlpha = opacity;
+        ctx.strokeStyle = `rgba(${PINK_COLOR.r}, ${PINK_COLOR.g}, ${PINK_COLOR.b}, ${opacity})`;
+        ctx.lineWidth = Math.max(2, fontSize * BORDER_WIDTH_MULTIPLIER);
+
+        const letterSpacing = fontSize * LETTER_SPACING_MULTIPLIER;
+        const chars = text.split("");
+        let currentX = x - textDimensionsRef.current.width / 2;
+        chars.forEach((char) => {
+          ctx.strokeText(char, currentX, y);
+          currentX += ctx.measureText(char).width + letterSpacing;
+        });
+        ctx.restore();
       },
-    }));
+      [text, getComputedFontFamily, getCanvasDimensions, calculateFontSize]
+    );
 
     // Draw text on canvas and animate
     useEffect(() => {
@@ -75,106 +245,28 @@ const Screensaver = forwardRef<ScreensaverRef, ScreensaverProps>(
       const ctx = canvas.getContext("2d");
       if (!ctx) return;
 
-      // Get the computed font family from CSS variable (Geist Sans)
-      // Create a test element with the font variable to get the actual font family name
-      const testElement = document.createElement("div");
-      testElement.style.fontFamily = "var(--font-geist-sans), sans-serif";
-      testElement.style.position = "absolute";
-      testElement.style.visibility = "hidden";
-      testElement.style.width = "1px";
-      testElement.style.height = "1px";
-      document.body.appendChild(testElement);
-
-      // Force a reflow to ensure the font is computed
-      testElement.offsetHeight;
-
-      const computedFontFamily =
-        window.getComputedStyle(testElement).fontFamily || "sans-serif";
-      document.body.removeChild(testElement);
-
-      // Initialize position and velocity
-      const initializePosition = () => {
+      // Set canvas size with device pixel ratio for crisp rendering
+      const resizeCanvas = () => {
+        const dpr = window.devicePixelRatio || 1;
         const rect = canvas.getBoundingClientRect();
-        const logicalWidth = rect.width;
-        const logicalHeight = rect.height;
-
-        // Calculate text dimensions
-        const fontSize = Math.min(
-          logicalWidth / FONT_SIZE_DIVISOR,
-          logicalHeight / FONT_SIZE_DIVISOR
-        );
-        ctx.font = `600 ${fontSize}px ${computedFontFamily}`;
-        const letterSpacing = fontSize * 0.05;
-        const chars = text.split("");
-        let totalWidth = 0;
-        chars.forEach((char) => {
-          const metrics = ctx.measureText(char);
-          totalWidth += metrics.width + letterSpacing;
-        });
-        totalWidth -= letterSpacing;
-        const textHeight = fontSize;
-
-        textDimensionsRef.current = {
-          width: totalWidth,
-          height: textHeight,
-        };
-
-        // Start at center
-        positionRef.current = {
-          x: logicalWidth / 2,
-          y: logicalHeight / 2,
-        };
-
-        // Reset position history and frame counter
-        positionHistoryRef.current = [];
-        frameCounterRef.current = 0;
-
-        // Constant speed with random initial direction
-        const angle = Math.random() * Math.PI * 2;
-        velocityRef.current = {
-          x: Math.cos(angle) * SPEED,
-          y: Math.sin(angle) * SPEED,
-        };
+        canvas.width = rect.width * dpr;
+        canvas.height = rect.height * dpr;
+        ctx.setTransform(1, 0, 0, 1, 0, 0);
+        ctx.scale(dpr, dpr);
+        initializePosition();
       };
 
-      // Draw text function with static pink color and opacity support
-      const drawText = (x: number, y: number, opacity: number = 1) => {
-        const rect = canvas.getBoundingClientRect();
-        const fontSize = Math.min(
-          rect.width / FONT_SIZE_DIVISOR,
-          rect.height / FONT_SIZE_DIVISOR
-        );
-        ctx.font = `600 ${fontSize}px ${computedFontFamily}`;
-        ctx.textBaseline = "middle";
-
-        // Calculate letter spacing (0.05em)
-        const letterSpacing = fontSize * 0.05;
-
-        // Set static pink color as stroke style (fill remains transparent)
-        ctx.save();
-        ctx.globalAlpha = opacity;
-        // Pink color from topnav (#f8b4b9)
-        ctx.strokeStyle = `rgba(248, 180, 185, ${opacity})`;
-        ctx.lineWidth = Math.max(2, fontSize * BORDER_WIDTH_MULTIPLIER);
-
-        // Draw each character with spacing (stroke only, no fill)
-        const chars = text.split("");
-        let currentX = x - textDimensionsRef.current.width / 2;
-        chars.forEach((char) => {
-          ctx.strokeText(char, currentX, y);
-          const metrics = ctx.measureText(char);
-          currentX += metrics.width + letterSpacing;
-        });
-        ctx.restore();
-      };
+      resizeCanvas();
+      window.addEventListener("resize", resizeCanvas);
 
       // Animation loop
       const animate = () => {
-        const rect = canvas.getBoundingClientRect();
-        const logicalWidth = rect.width;
-        const logicalHeight = rect.height;
+        const { width, height } = getCanvasDimensions();
+        if (!width || !height) {
+          animationFrameRef.current = requestAnimationFrame(animate);
+          return;
+        }
 
-        // Increment frame counter
         frameCounterRef.current++;
 
         // Add current position to history based on TRAIL_DELAY
@@ -184,7 +276,7 @@ const Screensaver = forwardRef<ScreensaverRef, ScreensaverProps>(
             y: positionRef.current.y,
           });
 
-          // Keep only the last MAX_TRAIL_LENGTH positions for trailing effect
+          // Keep only the last MAX_TRAIL_LENGTH positions
           if (positionHistoryRef.current.length > MAX_TRAIL_LENGTH) {
             positionHistoryRef.current.shift();
           }
@@ -194,97 +286,48 @@ const Screensaver = forwardRef<ScreensaverRef, ScreensaverProps>(
         positionRef.current.x += velocityRef.current.x;
         positionRef.current.y += velocityRef.current.y;
 
-        // Check for collisions with edges and bounce
-        const halfWidth = textDimensionsRef.current.width / 2;
-        const halfHeight = textDimensionsRef.current.height / 2;
-
-        if (
-          positionRef.current.x - halfWidth <= 0 ||
-          positionRef.current.x + halfWidth >= logicalWidth
-        ) {
-          velocityRef.current.x = -velocityRef.current.x;
-          // Clamp position to prevent going out of bounds
-          positionRef.current.x = Math.max(
-            halfWidth,
-            Math.min(logicalWidth - halfWidth, positionRef.current.x)
-          );
-        }
-
-        if (
-          positionRef.current.y - halfHeight <= 0 ||
-          positionRef.current.y + halfHeight >= logicalHeight
-        ) {
-          velocityRef.current.y = -velocityRef.current.y;
-          // Clamp position to prevent going out of bounds
-          positionRef.current.y = Math.max(
-            halfHeight,
-            Math.min(logicalHeight - halfHeight, positionRef.current.y)
-          );
-        }
+        // Handle collisions
+        handleCollisions(width, height);
 
         // Clear canvas
         ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-        // Draw trailing copies first (oldest to newest)
+        // Draw trailing copies (oldest to newest)
         const historyLength = positionHistoryRef.current.length;
         positionHistoryRef.current.forEach((pos, index) => {
-          // Calculate opacity: older positions are more transparent
-          // Last position (most recent) has opacity 0.3, newest has opacity 1
-          const opacity = 0.3 + (index / historyLength) * 0.7;
-          drawText(pos.x, pos.y, opacity);
+          const opacity =
+            TRAIL_MIN_OPACITY + (index / historyLength) * TRAIL_OPACITY_RANGE;
+          drawText(ctx, pos.x, pos.y, opacity);
         });
 
-        // Draw main text at current position (full opacity)
-        drawText(positionRef.current.x, positionRef.current.y, 1);
+        // Draw main text at current position
+        drawText(ctx, positionRef.current.x, positionRef.current.y, 1);
 
         animationFrameRef.current = requestAnimationFrame(animate);
       };
 
-      // Set canvas size with device pixel ratio for crisp rendering
-      const resizeCanvas = () => {
-        const dpr = window.devicePixelRatio || 1;
-        const rect = canvas.getBoundingClientRect();
-        canvas.width = rect.width * dpr;
-        canvas.height = rect.height * dpr;
-        ctx.setTransform(1, 0, 0, 1, 0, 0); // Reset transform
-        ctx.scale(dpr, dpr);
-        initializePosition();
-      };
-
-      resizeCanvas();
-      window.addEventListener("resize", resizeCanvas);
-
-      // Start animation
       animate();
 
       return () => {
         window.removeEventListener("resize", resizeCanvas);
-        if (animationFrameRef.current) {
-          cancelAnimationFrame(animationFrameRef.current);
-          animationFrameRef.current = null;
-        }
+        cleanupAnimation();
       };
-    }, [isActive, text]);
+    }, [
+      isActive,
+      initializePosition,
+      getCanvasDimensions,
+      handleCollisions,
+      drawText,
+      cleanupAnimation,
+    ]);
 
-    // Handle click to deactivate
-    const handleClick = () => {
-      if (isActive) {
-        setIsActive(false);
-        setIsCountingDown(false);
-        if (timeoutRef.current) {
-          clearTimeout(timeoutRef.current);
-          timeoutRef.current = null;
-        }
-      }
-    };
-
-    if (!isActive && !isCountingDown) {
+    if (!isActive) {
       return null;
     }
 
     return (
       <div
-        onClick={handleClick}
+        onClick={deactivate}
         style={{
           position: "fixed",
           top: 0,
@@ -293,10 +336,7 @@ const Screensaver = forwardRef<ScreensaverRef, ScreensaverProps>(
           height: "100vh",
           backgroundColor: "#000000",
           zIndex: 10000,
-          cursor: isActive ? "pointer" : "default",
-          opacity: isActive ? 1 : 0,
-          transition: "opacity 0.3s ease-in-out",
-          pointerEvents: isActive ? "auto" : "none",
+          cursor: "pointer",
         }}
       >
         <canvas

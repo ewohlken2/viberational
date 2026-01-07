@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useRef } from "react";
-import CursorCanvas from "./cursorCanvas";
+import RotatingCursor from "./rotatingCursor";
 import IntroBanner from "./introBanner";
 import HeaderLogo from "../logo";
 import Screensaver, { ScreensaverRef } from "./screensaver";
@@ -10,6 +10,7 @@ import "./kris.css";
 // Button padding constants (reduced by 3px from original 1rem/2rem)
 const BUTTON_PADDING_Y = "0.75rem";
 const BUTTON_PADDING_X = BUTTON_PADDING_Y;
+const SCREENSAVER_BUTTON_DELAY = 250; // Delay in milliseconds before activating screensaver when button is clicked
 
 const navLinks = [
   { label: "About", href: "/#about" },
@@ -27,14 +28,16 @@ export default function KrisPage() {
   };
 
   const handleScreensaverClick = () => {
-    screensaverRef.current?.activate();
+    setTimeout(() => {
+      screensaverRef.current?.activate();
+    }, SCREENSAVER_BUTTON_DELAY);
   };
 
   return (
     <div style={{ cursor: "none" }}>
       <IntroBanner key={bannerKey} text="<ELVISWOHLKEN/>" />
-      <CursorCanvas />
-      <Screensaver ref={screensaverRef} text="Elvis Wohlken" delay={3000} />
+      <RotatingCursor />
+      <Screensaver ref={screensaverRef} text="Elvis Wohlken" />
       <div
         className="kris-logo"
         style={{
