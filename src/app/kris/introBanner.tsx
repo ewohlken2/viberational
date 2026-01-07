@@ -11,6 +11,7 @@ interface IntroBannerProps {
   letterDuration?: number;
   holdDelay?: number;
   fadeDuration?: number;
+  onComplete?: () => void;
 }
 
 export default function IntroBanner({
@@ -19,6 +20,7 @@ export default function IntroBanner({
   letterDuration = 150,
   holdDelay = 100,
   fadeDuration = 600,
+  onComplete,
 }: IntroBannerProps) {
   const [phase, setPhase] = useState<Phase>("typing");
   const [fontSizeReady, setFontSizeReady] = useState(false);
@@ -119,6 +121,7 @@ export default function IntroBanner({
 
         const doneTimer = window.setTimeout(() => {
           setPhase("done");
+          onComplete?.();
         }, fadeDuration);
 
         return () => window.clearTimeout(doneTimer);
@@ -135,6 +138,7 @@ export default function IntroBanner({
     letterDuration,
     holdDelay,
     fadeDuration,
+    onComplete,
   ]);
 
   if (phase === "done") return null;

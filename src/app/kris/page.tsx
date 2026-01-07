@@ -5,6 +5,7 @@ import RotatingCursor from "./rotatingCursor";
 import IntroBanner from "./introBanner";
 import HeaderLogo from "../logo";
 import Screensaver, { ScreensaverRef } from "./screensaver";
+import Countup, { CountupRef } from "./countup";
 import "./kris.css";
 
 // Button padding constants (reduced by 3px from original 1rem/2rem)
@@ -22,6 +23,7 @@ const navLinks = [
 export default function KrisPage() {
   const [bannerKey, setBannerKey] = useState(0);
   const screensaverRef = useRef<ScreensaverRef>(null);
+  const countupRef = useRef<CountupRef>(null);
 
   const handleResetClick = () => {
     setBannerKey((prev) => prev + 1);
@@ -33,9 +35,21 @@ export default function KrisPage() {
     }, SCREENSAVER_BUTTON_DELAY);
   };
 
+  const handleRestartCountup = () => {
+    countupRef.current?.restart();
+  };
+
+  const handleIntroComplete = () => {
+    countupRef.current?.restart();
+  };
+
   return (
     <div style={{ cursor: "none" }}>
-      <IntroBanner key={bannerKey} text="<ELVISWOHLKEN/>" />
+      <IntroBanner
+        key={bannerKey}
+        text="<ELVISWOHLKEN/>"
+        onComplete={handleIntroComplete}
+      />
       <RotatingCursor />
       <Screensaver ref={screensaverRef} text="Elvis Wohlken" />
       <div
@@ -92,43 +106,63 @@ export default function KrisPage() {
           top: 0,
           left: 0,
           display: "flex",
+          flexDirection: "column",
           alignItems: "center",
           justifyContent: "center",
           gap: "20px",
         }}
       >
-        <button
-          data-cursor
-          onClick={handleResetClick}
-          className="kris-button"
-          style={{
-            padding: `${BUTTON_PADDING_Y} ${BUTTON_PADDING_X}`,
-            fontSize: "1.6rem",
-            backgroundColor: "transparent",
-            border: "2px solid",
-            borderRadius: "0.5rem",
-            cursor: "none",
-            textTransform: "uppercase",
-          }}
-        >
-          Reset Intro Animation
-        </button>
-        <button
-          data-cursor
-          onClick={handleScreensaverClick}
-          className="kris-button"
-          style={{
-            padding: `${BUTTON_PADDING_Y} ${BUTTON_PADDING_X}`,
-            fontSize: "1.6rem",
-            backgroundColor: "transparent",
-            border: "2px solid",
-            borderRadius: "0.5rem",
-            cursor: "none",
-            textTransform: "uppercase",
-          }}
-        >
-          Start Screensaver
-        </button>
+        <Countup ref={countupRef} target={100} autoStart={false} />
+        <div style={{ display: "flex", gap: "20px" }}>
+          <button
+            data-cursor
+            onClick={handleResetClick}
+            className="kris-button"
+            style={{
+              padding: `${BUTTON_PADDING_Y} ${BUTTON_PADDING_X}`,
+              fontSize: "1.6rem",
+              backgroundColor: "transparent",
+              border: "2px solid",
+              borderRadius: "0.5rem",
+              cursor: "none",
+              textTransform: "uppercase",
+            }}
+          >
+            Reset Intro Animation
+          </button>
+          <button
+            data-cursor
+            onClick={handleRestartCountup}
+            className="kris-button"
+            style={{
+              padding: `${BUTTON_PADDING_Y} ${BUTTON_PADDING_X}`,
+              fontSize: "1.6rem",
+              backgroundColor: "transparent",
+              border: "2px solid",
+              borderRadius: "0.5rem",
+              cursor: "none",
+              textTransform: "uppercase",
+            }}
+          >
+            Restart Countup
+          </button>
+          <button
+            data-cursor
+            onClick={handleScreensaverClick}
+            className="kris-button"
+            style={{
+              padding: `${BUTTON_PADDING_Y} ${BUTTON_PADDING_X}`,
+              fontSize: "1.6rem",
+              backgroundColor: "transparent",
+              border: "2px solid",
+              borderRadius: "0.5rem",
+              cursor: "none",
+              textTransform: "uppercase",
+            }}
+          >
+            Start Screensaver
+          </button>
+        </div>
       </div>
     </div>
   );
