@@ -3,6 +3,20 @@
 import CursorCanvas from "../cursor-canvas";
 import "./kris.css";
 
+// Button padding constants (reduced by 3px from original 1rem/2rem)
+const BUTTON_PADDING_Y = "0.75rem";
+const BUTTON_PADDING_X = BUTTON_PADDING_Y;
+
+const navLinks = [
+  "Home",
+  "About",
+  "Services",
+  "Portfolio",
+  "Blog",
+  "Contact",
+  "Shop",
+];
+
 export default function KrisPage() {
   return (
     <div style={{ cursor: "none" }}>
@@ -10,67 +24,34 @@ export default function KrisPage() {
       <nav
         style={{
           position: "fixed",
-          top: 0,
+          top: "20px",
           left: 0,
           width: "100%",
-          padding: "1.5rem 2rem",
           backgroundColor: "rgba(0, 0, 0, 0.8)",
           backdropFilter: "blur(10px)",
           zIndex: 1000,
           display: "flex",
-          gap: "2rem",
+          justifyContent: "center",
           alignItems: "center",
         }}
       >
-        <a
-          href="#"
-          data-cursor
-          style={{ color: "#F8B4B9", textDecoration: "none", cursor: "none" }}
-        >
-          Home
-        </a>
-        <a
-          href="#"
-          data-cursor
-          style={{ color: "#F8B4B9", textDecoration: "none", cursor: "none" }}
-        >
-          About
-        </a>
-        <a
-          href="#"
-          data-cursor
-          style={{ color: "#F8B4B9", textDecoration: "none", cursor: "none" }}
-        >
-          Services
-        </a>
-        <a
-          href="#"
-          data-cursor
-          style={{ color: "#F8B4B9", textDecoration: "none", cursor: "none" }}
-        >
-          Portfolio
-        </a>
-        <a
-          href="#"
-          data-cursor
-          style={{ color: "#F8B4B9", textDecoration: "none", cursor: "none" }}
-        >
-          Blog
-        </a>
-        <a
-          href="#"
-          data-cursor
-          style={{ color: "#F8B4B9", textDecoration: "none", cursor: "none" }}
-        >
-          Contact
-        </a>
-        <a
-          href="#"
-          data-cursor
-          style={{ color: "#F8B4B9", textDecoration: "none", cursor: "none" }}
-        >
-          Shop
-        </a>
+        {navLinks.map((link, index) => (
+          <a
+            key={link}
+            href="#"
+            data-cursor
+            style={{
+              color: "#F8B4B9",
+              textDecoration: "none",
+              cursor: "none",
+              padding: `${BUTTON_PADDING_Y} ${BUTTON_PADDING_X}`,
+              marginLeft: index === 0 ? 0 : "30px",
+              fontSize: "2rem",
+            }}
+          >
+            {link}
+          </a>
+        ))}
       </nav>
       <div
         style={{
@@ -90,7 +71,7 @@ export default function KrisPage() {
         <button
           data-cursor
           style={{
-            padding: "1rem 2rem",
+            padding: `${BUTTON_PADDING_Y} ${BUTTON_PADDING_X}`,
             fontSize: "1.6rem",
             backgroundColor: "transparent",
             color: "#F8B4B9",

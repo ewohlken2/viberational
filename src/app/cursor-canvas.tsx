@@ -1,18 +1,21 @@
 import { useEffect, useRef } from "react";
 
-const BASE_SIZE = 30;
-const PADDING = 14;
+const BASE_SIZE = 48;
+const PADDING = 3;
 const LERP = 0.15;
 const ROTATION_SPEED = 0.3; // deg per frame
 const ROTATION_LERP = 0.18; // Smooth rotation interpolation
 const DOT_SIZE = 6;
-const BORDER_WIDTH = 2;
+const BORDER_WIDTH = 3;
 const BORDER_COLOR = "#f8b4b9";
 const DOT_COLOR = "#f8b4b9";
-const CORNER_GAP = 8; // Pixels from center of each side to leave transparent
-const JIGGLE_INTENSITY = 3; // Maximum jiggle distance in pixels
-const JIGGLE_LERP = 0.05; // How quickly jiggle follows mouse movement
-const SNAP_BACK_LERP = 0.05; // How quickly it snaps back to center
+const CORNER_GAP = 12; // Pixels from center of each side to leave transparent
+const SPRING_STRENGTH = 0.015; // How stiff the rubber band is
+const SPRING_DAMPING = 0.55; // How quickly it loses energy
+const VELOCITY_INFLUENCE = 0.8; // How much mouse speed stretches it
+const SNAP_LERP = 0.9; // How quickly it snaps to the hovered element center
+const CLICK_SCALE = 0.85; // Scale reduction on click
+const SCALE_LERP = 0.06; // How quickly scale animates (smooth transition)
 
 const normalizeDeg = (deg: number) => ((deg % 360) + 360) % 360;
 
@@ -38,6 +41,8 @@ export default function CursorCanvas() {
   const actualMouse = useRef({ x: 0, y: 0 }); // Actual mouse position for dot
   const prevMouse = useRef({ x: 0, y: 0 }); // Previous mouse position to detect movement
   const pos = useRef({ x: 0, y: 0 });
+  const isHoverTransition = useRef(false);
+
   const rotation = useRef(0);
   const targetRotation = useRef(0);
   const hovering = useRef(false);
@@ -45,8 +50,12 @@ export default function CursorCanvas() {
   const hoveredElement = useRef<HTMLElement | null>(null);
   const hoveredRect = useRef<DOMRect | null>(null);
   const cursorSize = useRef({ width: BASE_SIZE, height: BASE_SIZE });
-  const jiggleOffset = useRef({ x: 0, y: 0 }); // Jiggle offset when snapped
-  const targetJiggle = useRef({ x: 0, y: 0 }); // Target jiggle position
+  const springOffset = useRef({ x: 0, y: 0 }); // Spring displacement from anchor
+  const springVelocity = useRef({ x: 0, y: 0 }); // Spring velocity
+  const targetAnchor = useRef<{ x: number; y: number } | null>(null); // Target anchor position for smooth snapping
+  const boxScale = useRef(1.0); // Current scale of the box cursor
+  const dotScale = useRef(1.0); // Current scale of the dot cursor
+  const isActive = useRef(false); // Active state when mouse is pressed
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -79,7 +88,6 @@ export default function CursorCanvas() {
       // Calculate mouse movement delta
       const deltaX = e.clientX - prevMouse.current.x;
       const deltaY = e.clientY - prevMouse.current.y;
-      const movementDistance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
 
       // Always update actual mouse position
       actualMouse.current.x = e.clientX;
@@ -89,29 +97,12 @@ export default function CursorCanvas() {
         // When not hovering and not releasing, box center follows mouse
         mouse.current.x = e.clientX;
         mouse.current.y = e.clientY;
-        // Reset jiggle when not hovering
-        targetJiggle.current.x = 0;
-        targetJiggle.current.y = 0;
-      } else if (hoveredRect.current) {
-        // When hovering, use the center of the hovered element
-        const centerPos = getCenterPosition(hoveredRect.current);
-        mouse.current.x = centerPos.x;
-        mouse.current.y = centerPos.y;
+      }
 
-        // Calculate jiggle based on mouse movement direction
-        if (movementDistance > 0) {
-          // Normalize the direction vector
-          const normalizedX = deltaX / movementDistance;
-          const normalizedY = deltaY / movementDistance;
-
-          // Set target jiggle in the direction of mouse movement
-          targetJiggle.current.x = normalizedX * JIGGLE_INTENSITY;
-          targetJiggle.current.y = normalizedY * JIGGLE_INTENSITY;
-        } else {
-          // If mouse isn't moving, target jiggle should be zero (will snap back)
-          targetJiggle.current.x = 0;
-          targetJiggle.current.y = 0;
-        }
+      if (hovering.current) {
+        // Inject velocity into the spring (this is the rubber band stretch)
+        springVelocity.current.x += deltaX * VELOCITY_INFLUENCE;
+        springVelocity.current.y += deltaY * VELOCITY_INFLUENCE;
       }
 
       // Update previous mouse position
@@ -131,36 +122,65 @@ export default function CursorCanvas() {
     window.addEventListener("mousemove", onMove);
 
     // ----------------------------
+    // Click detection
+    // ----------------------------
+    const onMouseDown = () => {
+      isActive.current = true;
+    };
+    const onMouseUp = () => {
+      isActive.current = false;
+    };
+    window.addEventListener("mousedown", onMouseDown);
+    window.addEventListener("mouseup", onMouseUp);
+
+    // ----------------------------
     // Hover target detection
     // ----------------------------
     const onEnter = (e: Event) => {
       const el = e.currentTarget as HTMLElement;
       const rect = el.getBoundingClientRect();
+      const centerPos = getCenterPosition(rect);
+
+      // 🔥 IF we were already hovering another element
+      if (hovering.current) {
+        // Reduce spring energy instead of killing it
+        springOffset.current.x *= 0.2;
+        springOffset.current.y *= 0.2;
+        springVelocity.current.x *= 0.2;
+        springVelocity.current.y *= 0.2;
+      } else {
+        // First hover → no residual energy
+        springOffset.current.x = 0;
+        springOffset.current.y = 0;
+        springVelocity.current.x = 0;
+        springVelocity.current.y = 0;
+      }
+
+      // Cancel release immediately
+      releasing.current = false;
 
       hovering.current = true;
       hoveredElement.current = el;
       hoveredRect.current = rect;
 
-      // Use center of the hovered element
-      const centerPos = getCenterPosition(rect);
-      mouse.current.x = centerPos.x;
-      mouse.current.y = centerPos.y;
+      // Hard snap anchor to new element
       pos.current.x = centerPos.x;
       pos.current.y = centerPos.y;
 
-      // Reset jiggle when entering hover state
-      jiggleOffset.current.x = 0;
-      jiggleOffset.current.y = 0;
-      targetJiggle.current.x = 0;
-      targetJiggle.current.y = 0;
+      mouse.current.x = centerPos.x;
+      mouse.current.y = centerPos.y;
 
-      // Set target rotation to 0 (aligned with element)
       targetRotation.current = snapToRightAngle(rotation.current);
     };
-
     const onLeave = () => {
       hovering.current = false;
-      releasing.current = true; // start release animation
+      releasing.current = true;
+
+      springOffset.current.x = 0;
+      springOffset.current.y = 0;
+      springVelocity.current.x = 0;
+      springVelocity.current.y = 0;
+
       hoveredElement.current = null;
       hoveredRect.current = null;
     };
@@ -180,7 +200,8 @@ export default function CursorCanvas() {
       y: number,
       width: number,
       height: number,
-      rotation: number
+      rotation: number,
+      scale: number = 1.0
     ) => {
       ctx.save();
 
@@ -190,6 +211,8 @@ export default function CursorCanvas() {
 
       // Translate to position
       ctx.translate(x, y);
+      // Apply scale
+      ctx.scale(scale, scale);
       // Rotate
       ctx.rotate((rotation * Math.PI) / 180);
       // Translate back by offset to center the box
@@ -230,11 +253,18 @@ export default function CursorCanvas() {
       ctx.restore();
     };
 
-    const drawDot = (ctx: CanvasRenderingContext2D, x: number, y: number) => {
+    const drawDot = (
+      ctx: CanvasRenderingContext2D,
+      x: number,
+      y: number,
+      scale: number = 1.0
+    ) => {
       ctx.save();
+      ctx.translate(x, y);
+      ctx.scale(scale, scale);
       ctx.fillStyle = DOT_COLOR;
       ctx.beginPath();
-      ctx.arc(x, y, DOT_SIZE / 2, 0, Math.PI * 2);
+      ctx.arc(0, 0, DOT_SIZE / 2, 0, Math.PI * 2);
       ctx.fill();
       ctx.restore();
     };
@@ -265,43 +295,47 @@ export default function CursorCanvas() {
         (targetHeight - cursorSize.current.height) * LERP;
 
       // Handle position - three states: hovering, releasing, or free
-      if (hovering.current) {
-        // Hovering → follow element center
-        const centerX = mouse.current.x;
-        const centerY = mouse.current.y;
+      if (hovering.current && hoveredRect.current) {
+        // Hovering → spring physics
 
-        // Update jiggle offset to follow target jiggle (only moves when mouse moves)
-        jiggleOffset.current.x +=
-          (targetJiggle.current.x - jiggleOffset.current.x) * JIGGLE_LERP;
-        jiggleOffset.current.y +=
-          (targetJiggle.current.y - jiggleOffset.current.y) * JIGGLE_LERP;
+        // Update target anchor if rect changed (for dynamic elements)
+        const center = getCenterPosition(hoveredRect.current);
+        targetAnchor.current = { x: center.x, y: center.y };
 
-        // Snap back to center when target is zero (mouse not moving)
-        if (
-          Math.abs(targetJiggle.current.x) < 0.1 &&
-          Math.abs(targetJiggle.current.y) < 0.1
-        ) {
-          jiggleOffset.current.x +=
-            (0 - jiggleOffset.current.x) * SNAP_BACK_LERP;
-          jiggleOffset.current.y +=
-            (0 - jiggleOffset.current.y) * SNAP_BACK_LERP;
+        // Smoothly animate anchor to target position
+        if (targetAnchor.current) {
+          mouse.current.x +=
+            (targetAnchor.current.x - mouse.current.x) * SNAP_LERP;
+          mouse.current.y +=
+            (targetAnchor.current.y - mouse.current.y) * SNAP_LERP;
         }
 
-        // Position is center + jiggle offset
-        pos.current.x = centerX + jiggleOffset.current.x;
-        pos.current.y = centerY + jiggleOffset.current.y;
+        // Spring force pulling back to center
+        const forceX = -springOffset.current.x * SPRING_STRENGTH;
+        const forceY = -springOffset.current.y * SPRING_STRENGTH;
+
+        springVelocity.current.x += forceX;
+        springVelocity.current.y += forceY;
+
+        // Apply damping
+        springVelocity.current.x *= SPRING_DAMPING;
+        springVelocity.current.y *= SPRING_DAMPING;
+
+        // Integrate position
+        springOffset.current.x += springVelocity.current.x;
+        springOffset.current.y += springVelocity.current.y;
+
+        pos.current.x = mouse.current.x + springOffset.current.x;
+        pos.current.y = mouse.current.y + springOffset.current.y;
       } else if (releasing.current) {
-        // Releasing → animate back to cursor
+        // Freeze anchor while releasing
+        mouse.current.x = pos.current.x;
+        mouse.current.y = pos.current.y;
+
+        // Animate toward real cursor
         pos.current.x += (actualMouse.current.x - pos.current.x) * LERP;
         pos.current.y += (actualMouse.current.y - pos.current.y) * LERP;
 
-        // Reset jiggle when releasing
-        jiggleOffset.current.x = 0;
-        jiggleOffset.current.y = 0;
-        targetJiggle.current.x = 0;
-        targetJiggle.current.y = 0;
-
-        // Stop releasing when close enough
         const dx = actualMouse.current.x - pos.current.x;
         const dy = actualMouse.current.y - pos.current.y;
 
@@ -312,11 +346,6 @@ export default function CursorCanvas() {
         // Fully free → hard follow cursor
         pos.current.x = actualMouse.current.x;
         pos.current.y = actualMouse.current.y;
-        // Reset jiggle when not hovering
-        jiggleOffset.current.x = 0;
-        jiggleOffset.current.y = 0;
-        targetJiggle.current.x = 0;
-        targetJiggle.current.y = 0;
       }
 
       // Handle rotation
@@ -330,6 +359,12 @@ export default function CursorCanvas() {
           (targetRotation.current - rotation.current) * ROTATION_LERP;
       }
 
+      // Animate scale based on active state
+      const targetBoxScale = isActive.current ? CLICK_SCALE : 1.0;
+      const targetDotScale = isActive.current ? CLICK_SCALE : 1.0;
+      boxScale.current += (targetBoxScale - boxScale.current) * SCALE_LERP;
+      dotScale.current += (targetDotScale - dotScale.current) * SCALE_LERP;
+
       // Draw box cursor
       const vertical = isCloserToVerticalRotation(targetRotation.current);
 
@@ -341,19 +376,23 @@ export default function CursorCanvas() {
         ? cursorSize.current.width
         : cursorSize.current.height;
 
-      console.log("is vertical", vertical);
-
       drawBox(
         ctx,
         pos.current.x,
         pos.current.y,
         drawWidth,
         drawHeight,
-        rotation.current
+        rotation.current,
+        boxScale.current
       );
 
       // Draw dot cursor (always follows actual mouse)
-      drawDot(ctx, actualMouse.current.x, actualMouse.current.y);
+      drawDot(
+        ctx,
+        actualMouse.current.x,
+        actualMouse.current.y,
+        dotScale.current
+      );
 
       requestAnimationFrame(animate);
     };
@@ -362,6 +401,8 @@ export default function CursorCanvas() {
 
     return () => {
       window.removeEventListener("mousemove", onMove);
+      window.removeEventListener("mousedown", onMouseDown);
+      window.removeEventListener("mouseup", onMouseUp);
       window.removeEventListener("resize", resizeCanvas);
       targets.forEach((el) => {
         el.removeEventListener("mouseenter", onEnter);
