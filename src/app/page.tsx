@@ -2,7 +2,6 @@
 
 import "./home.css";
 
-
 import Image from "next/image";
 import HeroBanner from "./hero";
 import Tabs from "./tabs";
@@ -13,21 +12,25 @@ import Wrapper from "./wrapper";
 
 import { useInView } from "react-intersection-observer";
 
+interface TabContent {
+  title: string;
+  content: string;
+  date: string;
+}
 
-
-const TABS_CONTENT = [{
+const TABS_CONTENT: TabContent[] = [{
   title: 'Goldencomm',
   content: 'I started my career at a local digital marketing agency as a customer service intern but was quickly promoted to an entry-level developer position. While on the team I worked on developing dynamic, responsive front-end interfaces using JavaScript, HTML, and CSS for a wide range of client projects. Over time I contributed to more than 40 different sites, meeting with clients and project managers to demo new features and share progress updates. Alongside front-end development, I created custom WordPress and Magento themes, plugins, and extensions in PHP, integrating WordPress into over 20 existing codebases to expand functionality and streamline content management for small businesses. This role gave me a strong foundation in full-stack web development and client communication, skills that have been invaluable as I advanced my career.',
   // list: ['item 1', 'item 2', 'item 3'],
   date: '2013 - 2017',
 }, {
   title: 'Rhythm Agency',
-  content: 'In this role, I worked on a wide range of web applications for more than 25 different agency clients, spanning from enterprise-level e-commerce platforms to smaller, content-focused marketing sites. Projects involved working across multiple systems, including Magento, Shopify, Kentico, and WooCommerce, adapting to each platform’s unique requirements. On the front end, I developed user interfaces for over 20 different sites using Vue.js, and built two single-page applications (SPAs) for enterprise customers with Angular and TypeScript, implementing server-side rendering (SSR) to maximize performance and SEO. I also maintained the shared frontend tooling that supported each new project—managing Webpack, Gulp/Grunt setups, package manager configurations, and custom Node.js build scripts. Additionally, I handled cross-platform debugging and optimization, leveraging BrowserStack and VirtualBox to ensure compatibility and stability across a variety of devices and legacy browsers.',
+  content: 'In this role, I worked on a wide range of web applications for more than 25 different agency clients, spanning from enterprise-level e-commerce platforms to smaller, content-focused marketing sites. Projects involved working across multiple systems, including Magento, Shopify, Kentico, and WooCommerce, adapting to each platform's unique requirements. On the front end, I developed user interfaces for over 20 different sites using Vue.js, and built two single-page applications (SPAs) for enterprise customers with Angular and TypeScript, implementing server-side rendering (SSR) to maximize performance and SEO. I also maintained the shared frontend tooling that supported each new project—managing Webpack, Gulp/Grunt setups, package manager configurations, and custom Node.js build scripts. Additionally, I handled cross-platform debugging and optimization, leveraging BrowserStack and VirtualBox to ensure compatibility and stability across a variety of devices and legacy browsers.',
   // list: ['item 1', 'item 2', 'item 3'],
   date: '2017 - 2020',
 }, {
   title: 'Sourceability',
-  content: 'In this role, I focused on building flexible, high-performance React components for an enterprise-level B2B e-commerce platform, with a strong emphasis on usability, maintainability, and reliable testing. I took the lead on optimizing the front-end asset pipeline to ensure maximum performance across all major browsers — including legacy versions — using Lighthouse and browser profiling tools to identify and resolve bottlenecks. To improve overall stability and deployment confidence, I also developed automated end-to-end tests with Selenium and integrated them directly into the project’s build and deployment workflows, helping to streamline QA and maintain long-term reliability at scale.',
+  content: 'In this role, I focused on building flexible, high-performance React components for an enterprise-level B2B e-commerce platform, with a strong emphasis on usability, maintainability, and reliable testing. I took the lead on optimizing the front-end asset pipeline to ensure maximum performance across all major browsers — including legacy versions — using Lighthouse and browser profiling tools to identify and resolve bottlenecks. To improve overall stability and deployment confidence, I also developed automated end-to-end tests with Selenium and integrated them directly into the project's build and deployment workflows, helping to streamline QA and maintain long-term reliability at scale.',
   // list: ['item 1', 'item 2', 'item 3'],
   date: '2020 - 2021',
 },
@@ -39,17 +42,12 @@ const TABS_CONTENT = [{
 }]
 
 export default function Home() {
-
-
-
-
-  const homeRef = useRef(null);
-  const aboutRef = useRef(null);
+  const homeRef = useRef<HTMLDivElement>(null);
+  const aboutRef = useRef<HTMLDivElement>(null);
 
   const headerRefs = [homeRef, aboutRef];
 
   return (
-
     <Wrapper headerRefs={headerRefs}>
       <div id="home" ref={homeRef}>
         {/* main banner start */}
@@ -63,7 +61,6 @@ export default function Home() {
           <h2 className="h2">
             About
           </h2>
-
 
           <p>
             I&apos;m a software engineer and freelance web developer based in Los Angeles. My path into development started at a hometown web agency, where I taught myself to build Wordpress and Magento websites for local businesses. That mix of creativity, problem-solving, and instant feedback from seeing a site come to life hooked me right away.
@@ -80,28 +77,22 @@ export default function Home() {
 
       {/* Experience Section Start */}
       <div id="experience" className="section section-experience">
-
-
         <div className="section-content">
           <h2 className="h2">
             Experience
           </h2>
 
           <Tabs tabs={TABS_CONTENT} />
-
         </div>
       </div>
       {/* Experience Section End */}
 
-
       {/* Portfolio Section Start*/}
       {/* <div id="portfolio" className="section section-portfolio">
-
         <div className="section-content">
           <h2 className="h2">
             Portfolio
           </h2>
-
         </div>
       </div> */}
       {/* Portfolio Section End */}
@@ -117,7 +108,6 @@ export default function Home() {
               I am currently available for new opportunities. Whether you have a question or just want to say hi, I&apos;ll try my best to get back to you
             </p>
             <Link className="button button--dark" href="/contact">Contact me now</Link>
-
           </div>
 
           <ul className="links">
@@ -126,13 +116,8 @@ export default function Home() {
             <li className="link-wrap"><Link className="link" href="https://github.com/ewohlken2/next-site" target="_blank" rel="noopener noreferrer">source</Link></li>
           </ul>
         </div>
-
-
       </div>
       {/* Contact Section End */}
-
-
-
     </Wrapper>
   );
 }

@@ -1,0 +1,28 @@
+.custom-cursor {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 30px;
+  height: 30px;
+  border: 2px solid #f8b4b9;
+  pointer-events: none;
+  z-index: 9999;
+  transform-origin: center center;
+  will-change: transform, width, height;
+  transition: width 0.25s ease, height 0.25s ease, border-color 0.2s ease;
+  background: transparent;
+}
+
+.custom-cursor-dot {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 8px;
+  height: 8px;
+  background: #f8b4b9;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 10000;
+  transform: translate(-50%, -50%);
+  will-change: transform;
+}

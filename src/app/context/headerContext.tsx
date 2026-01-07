@@ -1,10 +1,7 @@
 'use client';
-import Head from 'next/head';
 import { createContext } from 'react';
 
-
-
-
-const HeaderContext = createContext([]);
+const HeaderContext = createContext<unknown[]>([]);
 
 export default HeaderContext;
+export { HeaderContext };
