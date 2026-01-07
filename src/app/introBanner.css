@@ -1,0 +1,104 @@
+.intro-banner {
+  position: fixed;
+  inset: 0;
+  background: #000;
+  z-index: 9999;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 4rem;
+  box-sizing: border-box;
+}
+
+.intro-text {
+  color: #fff;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  white-space: nowrap;
+  font-family: var(--font-geist-sans), sans-serif;
+  text-align: center;
+}
+
+.intro-letter {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(75px);
+  animation-name: letterIn;
+  animation-fill-mode: forwards;
+  animation-timing-function: steps(2, end);
+}
+
+.intro-letter {
+  opacity: 0;
+}
+
+.intro-letter.animate {
+  animation-name: intro-letter-in;
+  animation-fill-mode: forwards;
+}
+
+@keyframes letterIn {
+  0% {
+    opacity: 0;
+    transform: translateY(75px);
+  }
+  50% {
+    opacity: 0.3;
+    transform: translateY(50px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(-50px);
+  }
+}
+
+.intro-banner.fade-out {
+  animation: fadeOut var(--fade-ms, 600ms) ease-in-out forwards;
+}
+
+@keyframes fadeOut {
+  to {
+    opacity: 0;
+  }
+}
+
+.intro-debug {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background: rgba(0, 0, 0, 0.8);
+  border: 2px solid #fff;
+  border-radius: 8px;
+  padding: 12px;
+  font-family: monospace;
+  font-size: 12px;
+  color: #fff;
+  z-index: 10000;
+  max-width: 300px;
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
+.intro-debug-title {
+  font-weight: bold;
+  margin-bottom: 8px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid #666;
+  font-size: 14px;
+}
+
+.intro-debug-content {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.intro-debug-content div {
+  line-height: 1.4;
+}
+
+.intro-debug-content strong {
+  color: #4a9eff;
+  margin-right: 8px;
+}

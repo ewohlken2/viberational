@@ -1,6 +1,8 @@
 "use client";
 
 import CursorCanvas from "../cursor-canvas";
+import IntroBanner from "../introBanner";
+import HeaderLogo from "../logo";
 import "./kris.css";
 
 // Button padding constants (reduced by 3px from original 1rem/2rem)
@@ -8,19 +10,28 @@ const BUTTON_PADDING_Y = "0.75rem";
 const BUTTON_PADDING_X = BUTTON_PADDING_Y;
 
 const navLinks = [
-  "Home",
-  "About",
-  "Services",
-  "Portfolio",
-  "Blog",
-  "Contact",
-  "Shop",
+  { label: "About", href: "/#about" },
+  { label: "Experience", href: "/#experience" },
+  { label: "Portfolio", href: "/#portfolio" },
+  { label: "Contact", href: "/contact" },
 ];
 
 export default function KrisPage() {
   return (
     <div style={{ cursor: "none" }}>
+      <IntroBanner text="<ELVISWOHLKEN/>" />
       <CursorCanvas />
+      <div
+        className="kris-logo"
+        style={{
+          position: "fixed",
+          top: "20px",
+          left: "20px",
+          zIndex: 1001,
+        }}
+      >
+        <HeaderLogo />
+      </div>
       <nav
         style={{
           position: "fixed",
@@ -37,8 +48,8 @@ export default function KrisPage() {
       >
         {navLinks.map((link, index) => (
           <a
-            key={link}
-            href="#"
+            key={link.label}
+            href={link.href}
             data-cursor
             style={{
               color: "#F8B4B9",
@@ -49,7 +60,7 @@ export default function KrisPage() {
               fontSize: "2rem",
             }}
           >
-            {link}
+            {link.label}
           </a>
         ))}
       </nav>

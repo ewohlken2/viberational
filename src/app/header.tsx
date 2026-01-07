@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import { useContext, useEffect, useState } from "react";
 import DirectionalHoverLink from "./directional-hover";
@@ -6,7 +6,7 @@ import "./header.css";
 import Image from "next/image";
 import HeaderLogo from "./logo";
 
-import { HeaderContext } from './context/headerContext';
+import { HeaderContext } from "./context/headerContext";
 
 interface HeaderProps {
   topSection?: string;
@@ -17,22 +17,29 @@ export default function Header({ topSection }: HeaderProps) {
 
   useEffect(() => {
     const handleScroll = () => {
-      if (window.scrollY > 100) { // Adjust threshold as needed
+      if (window.scrollY > 100) {
+        // Adjust threshold as needed
         setScrolled(true);
       } else {
         setScrolled(false);
       }
     };
 
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener("scroll", handleScroll);
 
     return () => {
-      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener("scroll", handleScroll);
     };
   }, []);
 
   return (
-    <div className={scrolled ? 'header header-scrolled ' + topSection : 'header ' + topSection}>
+    <div
+      className={
+        scrolled
+          ? "header header-scrolled " + topSection
+          : "header " + topSection
+      }
+    >
       <div className="header-container">
         <HeaderLogo />
 
@@ -42,8 +49,8 @@ export default function Header({ topSection }: HeaderProps) {
         <DirectionalHoverLink className="header-link" href="/#experience">
           <div className="link-text">Experience</div>
         </DirectionalHoverLink>
-        <DirectionalHoverLink className="header-link" href="/#portfolio">
-          <div className="link-text">Portfolio</div>
+        <DirectionalHoverLink className="header-link" href="/kris">
+          <div className="link-text">Kris</div>
         </DirectionalHoverLink>
         <DirectionalHoverLink className="header-link" href="/contact">
           <div className="link-text">Contact</div>

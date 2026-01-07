@@ -3,12 +3,12 @@ import { useEffect, useRef } from "react";
 const BASE_SIZE = 48;
 const PADDING = 4;
 const LERP = 0.15;
-const ROTATION_SPEED = 0.3; // deg per frame
+const ROTATION_SPEED = 0.2; // deg per frame
 const ROTATION_LERP = 0.18; // Smooth rotation interpolation
 const DOT_SIZE = 6;
 const BORDER_WIDTH = 3;
-const BORDER_COLOR = "#f8b4b9";
-const DOT_COLOR = "#f8b4b9";
+const BORDER_COLOR = "#ffffff"; // White for inversion effect
+const DOT_COLOR = "#ffffff"; // White for inversion effect
 const CORNER_GAP = 12; // Pixels from center of each side to leave transparent
 const SPRING_STRENGTH = 0.015; // How stiff the rubber band is
 const SPRING_DAMPING = 0.55; // How quickly it loses energy
@@ -163,18 +163,18 @@ export default function CursorCanvas() {
       hoveredElement.current = el;
       hoveredRect.current = rect;
 
-      // Hard snap anchor to new element
-      pos.current.x = centerPos.x;
-      pos.current.y = centerPos.y;
+      // Set target anchor for smooth animation to new element center
+      targetAnchor.current = { x: centerPos.x, y: centerPos.y };
 
-      mouse.current.x = centerPos.x;
-      mouse.current.y = centerPos.y;
+      // Mark that we're transitioning into hover state
+      isHoverTransition.current = true;
 
       targetRotation.current = snapToRightAngle(rotation.current);
     };
     const onLeave = () => {
       hovering.current = false;
       releasing.current = true;
+      isHoverTransition.current = false;
 
       springOffset.current.x = 0;
       springOffset.current.y = 0;
@@ -183,6 +183,7 @@ export default function CursorCanvas() {
 
       hoveredElement.current = null;
       hoveredRect.current = null;
+      targetAnchor.current = null;
     };
 
     const targets = document.querySelectorAll<HTMLElement>("[data-cursor]");
@@ -303,11 +304,21 @@ export default function CursorCanvas() {
         targetAnchor.current = { x: center.x, y: center.y };
 
         // Smoothly animate anchor to target position
+        // Use faster lerp during initial transition, then normal snap lerp
+        const lerpSpeed = isHoverTransition.current ? 0.25 : SNAP_LERP;
+
         if (targetAnchor.current) {
-          mouse.current.x +=
-            (targetAnchor.current.x - mouse.current.x) * SNAP_LERP;
-          mouse.current.y +=
-            (targetAnchor.current.y - mouse.current.y) * SNAP_LERP;
+          const dx = targetAnchor.current.x - mouse.current.x;
+          const dy = targetAnchor.current.y - mouse.current.y;
+          const distance = Math.hypot(dx, dy);
+
+          mouse.current.x += dx * lerpSpeed;
+          mouse.current.y += dy * lerpSpeed;
+
+          // Once we're close enough, mark transition as complete
+          if (isHoverTransition.current && distance < 2) {
+            isHoverTransition.current = false;
+          }
         }
 
         // Spring force pulling back to center
@@ -420,6 +431,7 @@ export default function CursorCanvas() {
         left: 0,
         pointerEvents: "none",
         zIndex: 9999,
+        mixBlendMode: "difference",
       }}
     />
   );
