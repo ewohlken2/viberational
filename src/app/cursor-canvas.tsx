@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react";
 
 const BASE_SIZE = 48;
-const PADDING = 3;
+const PADDING = 4;
 const LERP = 0.15;
 const ROTATION_SPEED = 0.3; // deg per frame
 const ROTATION_LERP = 0.18; // Smooth rotation interpolation
