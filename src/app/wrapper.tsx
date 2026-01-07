@@ -1,23 +1,33 @@
-'use client';
+"use client";
 
 import "./home.css";
 
-import HeaderContext from './context/headerContext';
-import { useEffect, useLayoutEffect, useState, ReactNode, RefObject } from "react";
+import HeaderContext from "./context/headerContext";
+import {
+  useEffect,
+  useLayoutEffect,
+  useState,
+  ReactNode,
+  RefObject,
+} from "react";
 import Header from "./header";
 
 interface WrapperProps {
   children: ReactNode;
-  headerRefs?: RefObject<HTMLElement>[];
+  headerRefs?: RefObject<HTMLElement | null>[];
   intialSection?: string;
 }
 
-export default function Wrapper({ children, headerRefs, intialSection }: WrapperProps) {
+export default function Wrapper({
+  children,
+  headerRefs,
+  intialSection,
+}: WrapperProps) {
   const [topSection, setTopSection] = useState(intialSection);
 
   // set initial top section
   useLayoutEffect(() => {
-    console.log('running it now')
+    console.log("running it now");
     let topSection = intialSection;
     if (!headerRefs) return;
     headerRefs.forEach((targetRef) => {
@@ -26,7 +36,7 @@ export default function Wrapper({ children, headerRefs, intialSection }: Wrapper
           topSection = targetRef.current.id;
         }
       }
-    })
+    });
 
     setTopSection(topSection);
   }, [headerRefs, intialSection]);
@@ -40,13 +50,13 @@ export default function Wrapper({ children, headerRefs, intialSection }: Wrapper
       const observer = new IntersectionObserver(
         ([entry]) => {
           if (entry.isIntersecting) {
-            console.log('setting top section to ', targetRef?.current?.id);
+            console.log("setting top section to ", targetRef?.current?.id);
             setTopSection(targetRef?.current?.id);
           }
         },
         {
           root: null, // defaults to the viewport
-          rootMargin: '-50px 0px -100% 0px', // This creates a margin that makes the intersection occur when the top of the element hits the top of the viewport.
+          rootMargin: "-50px 0px -100% 0px", // This creates a margin that makes the intersection occur when the top of the element hits the top of the viewport.
           // A rootMargin of '0px 0px -100% 0px' means the bottom of the root (viewport)
           // is effectively moved up to the top, so intersection only happens when the
           // observed element enters this "top-only" intersection area.
@@ -66,7 +76,7 @@ export default function Wrapper({ children, headerRefs, intialSection }: Wrapper
 
     return () => {
       unsub.forEach((un) => un());
-    }
+    };
   }, [headerRefs]); // Empty dependency array ensures this runs once on mount
 
   return (

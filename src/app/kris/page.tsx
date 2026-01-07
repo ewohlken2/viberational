@@ -22,25 +22,53 @@ export default function KrisPage() {
           alignItems: "center",
         }}
       >
-        <a href="#" data-cursor style={{ color: "#F8B4B9", textDecoration: "none", cursor: "none" }}>
+        <a
+          href="#"
+          data-cursor
+          style={{ color: "#F8B4B9", textDecoration: "none", cursor: "none" }}
+        >
           Home
         </a>
-        <a href="#" data-cursor style={{ color: "#F8B4B9", textDecoration: "none", cursor: "none" }}>
+        <a
+          href="#"
+          data-cursor
+          style={{ color: "#F8B4B9", textDecoration: "none", cursor: "none" }}
+        >
           About
         </a>
-        <a href="#" data-cursor style={{ color: "#F8B4B9", textDecoration: "none", cursor: "none" }}>
+        <a
+          href="#"
+          data-cursor
+          style={{ color: "#F8B4B9", textDecoration: "none", cursor: "none" }}
+        >
           Services
         </a>
-        <a href="#" data-cursor style={{ color: "#F8B4B9", textDecoration: "none", cursor: "none" }}>
+        <a
+          href="#"
+          data-cursor
+          style={{ color: "#F8B4B9", textDecoration: "none", cursor: "none" }}
+        >
           Portfolio
         </a>
-        <a href="#" data-cursor style={{ color: "#F8B4B9", textDecoration: "none", cursor: "none" }}>
+        <a
+          href="#"
+          data-cursor
+          style={{ color: "#F8B4B9", textDecoration: "none", cursor: "none" }}
+        >
           Blog
         </a>
-        <a href="#" data-cursor style={{ color: "#F8B4B9", textDecoration: "none", cursor: "none" }}>
+        <a
+          href="#"
+          data-cursor
+          style={{ color: "#F8B4B9", textDecoration: "none", cursor: "none" }}
+        >
           Contact
         </a>
-        <a href="#" data-cursor style={{ color: "#F8B4B9", textDecoration: "none", cursor: "none" }}>
+        <a
+          href="#"
+          data-cursor
+          style={{ color: "#F8B4B9", textDecoration: "none", cursor: "none" }}
+        >
           Shop
         </a>
       </nav>

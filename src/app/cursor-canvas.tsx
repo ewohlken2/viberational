@@ -5,13 +5,14 @@ const PADDING = 14;
 const LERP = 0.15;
 const ROTATION_SPEED = 0.3; // deg per frame
 const ROTATION_LERP = 0.18; // Smooth rotation interpolation
-const DOT_SIZE = 7;
+const DOT_SIZE = 6;
 const BORDER_WIDTH = 2;
 const BORDER_COLOR = "#f8b4b9";
 const DOT_COLOR = "#f8b4b9";
-const JIGGLE_INTENSITY = 2; // Maximum jiggle distance in pixels
-const JIGGLE_LERP = 0.15; // How quickly jiggle follows mouse movement
-const SNAP_BACK_LERP = 0.12; // How quickly it snaps back to center
+const CORNER_GAP = 8; // Pixels from center of each side to leave transparent
+const JIGGLE_INTENSITY = 3; // Maximum jiggle distance in pixels
+const JIGGLE_LERP = 0.05; // How quickly jiggle follows mouse movement
+const SNAP_BACK_LERP = 0.05; // How quickly it snaps back to center
 
 const normalizeDeg = (deg: number) => ((deg % 360) + 360) % 360;
 
@@ -194,10 +195,37 @@ export default function CursorCanvas() {
       // Translate back by offset to center the box
       ctx.translate(-offsetX, -offsetY);
 
-      // Draw border rectangle
+      // Draw corner segments only (leaving middle sections transparent)
+      // CORNER_GAP determines how many pixels from each corner are visible
       ctx.strokeStyle = BORDER_COLOR;
       ctx.lineWidth = BORDER_WIDTH;
-      ctx.strokeRect(0, 0, width, height);
+      ctx.beginPath();
+
+      // Top-left corner: top edge and left edge
+      ctx.moveTo(0, 0);
+      ctx.lineTo(Math.min(CORNER_GAP, width), 0);
+      ctx.moveTo(0, 0);
+      ctx.lineTo(0, Math.min(CORNER_GAP, height));
+
+      // Top-right corner: top edge and right edge
+      ctx.moveTo(Math.max(0, width - CORNER_GAP), 0);
+      ctx.lineTo(width, 0);
+      ctx.moveTo(width, 0);
+      ctx.lineTo(width, Math.min(CORNER_GAP, height));
+
+      // Bottom-left corner: bottom edge and left edge
+      ctx.moveTo(0, Math.max(0, height - CORNER_GAP));
+      ctx.lineTo(0, height);
+      ctx.moveTo(0, height);
+      ctx.lineTo(Math.min(CORNER_GAP, width), height);
+
+      // Bottom-right corner: bottom edge and right edge
+      ctx.moveTo(Math.max(0, width - CORNER_GAP), height);
+      ctx.lineTo(width, height);
+      ctx.moveTo(width, Math.max(0, height - CORNER_GAP));
+      ctx.lineTo(width, height);
+
+      ctx.stroke();
 
       ctx.restore();
     };
