@@ -1,11 +1,13 @@
 "use client";
 
 import "./home.css";
+import "./blog/blog.css";
 
 import Image from "next/image";
 import HeroBanner from "./hero";
 import Tabs from "./tabs";
 import Link from "next/link";
+import BlogFeed from "./blog-feed";
 import { useContext, useEffect, useRef } from "react";
 import Wrapper from "./wrapper";
 
@@ -99,15 +101,14 @@ export default function Home() {
       </div>
       {/* Experience Section End */}
 
-      {/* Portfolio Section Start*/}
-      {/* <div id="portfolio" className="section section-portfolio">
+      {/* Blog Section Start */}
+      <div id="blog" className="section section-blog">
         <div className="section-content">
-          <h2 className="h2">
-            Portfolio
-          </h2>
+          <h2 className="h2">Blog</h2>
+          <BlogFeed />
         </div>
-      </div> */}
-      {/* Portfolio Section End */}
+      </div>
+      {/* Blog Section End */}
 
       {/* Contact Section Start */}
       <div id="contact" className="section section-contact">

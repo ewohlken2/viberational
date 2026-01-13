@@ -1,12 +1,10 @@
 "use client";
 
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import DirectionalHoverLink from "./directional-hover";
 import "./header.css";
-import Image from "next/image";
 import HeaderLogo from "./logo";
-
-import { HeaderContext } from "./context/headerContext";
+import { navLinks } from "./data/nav";
 
 interface HeaderProps {
   topSection?: string;
@@ -43,18 +41,15 @@ export default function Header({ topSection }: HeaderProps) {
       <div className="header-container">
         <HeaderLogo />
 
-        <DirectionalHoverLink className="header-link" href="/#about">
-          <div className="link-text">About</div>
-        </DirectionalHoverLink>
-        <DirectionalHoverLink className="header-link" href="/#experience">
-          <div className="link-text">Experience</div>
-        </DirectionalHoverLink>
-        <DirectionalHoverLink className="header-link" href="/kris">
-          <div className="link-text">Kris</div>
-        </DirectionalHoverLink>
-        <DirectionalHoverLink className="header-link" href="/contact">
-          <div className="link-text">Contact</div>
-        </DirectionalHoverLink>
+        {navLinks.map((link) => (
+          <DirectionalHoverLink
+            key={link.href}
+            className="header-link"
+            href={link.href}
+          >
+            <div className="link-text">{link.label}</div>
+          </DirectionalHoverLink>
+        ))}
       </div>
     </div>
   );

@@ -43,8 +43,8 @@
       transition-property: background;
     }
 
-    .kris-logo &:before,
-    .kris-logo &:after {
+    .portfolio-logo &:before,
+    .portfolio-logo &:after {
       background: black;
     }
 

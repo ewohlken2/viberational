@@ -28,7 +28,7 @@ const CONFIG = {
 
   // Hover behavior
   SNAP_LERP: 0.9,
-  INITIAL_HOVER_LERP: 0.75,
+  INITIAL_HOVER_LERP: 0.15, // Match size animation speed for smooth growth from entry point
   SPRING_RESET_ON_HOVER: 0.2,
 
   // Click animations

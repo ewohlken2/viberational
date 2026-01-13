@@ -17,6 +17,7 @@
 
   --yellow: #f8cd77;
   --pink: #f8b4b9;
+  --pink--light: #ffe4e6;
   --pink--dark: #f4858d;
   --zindex-header: 5;
 
@@ -144,9 +145,9 @@ p {
 }
 
 .button--light {
-  border: 2px solid var(--pink);
+  border: 2px solid var(--pink--light);
   background: transparent;
-  color: var(--pink);
+  color: var(--pink--light);
 
   &:hover&:not(:disabled) {
     background: var(--pink);
