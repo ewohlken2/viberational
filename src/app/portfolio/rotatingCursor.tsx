@@ -308,10 +308,15 @@ export default function RotatingCursor() {
     window.addEventListener("mouseup", onMouseUp);
 
     // ========================================================================
-    // Hover Event Handlers
+    // Hover Event Handlers (using event delegation for dynamic elements)
     // ========================================================================
-    const onEnter = (e: Event) => {
-      const el = e.currentTarget as HTMLElement;
+    const onEnter = (e: MouseEvent) => {
+      const target = e.target as HTMLElement;
+
+      // Find the closest element with data-cursor attribute
+      const el = target.closest<HTMLElement>("[data-cursor]");
+      if (!el) return;
+
       const rect = el.getBoundingClientRect();
       const centerPos = getCenterPosition(rect);
 
@@ -330,7 +335,13 @@ export default function RotatingCursor() {
       data.targetRotation = snapToRightAngle(data.rotation);
     };
 
-    const onLeave = () => {
+    const onLeave = (e: MouseEvent) => {
+      const target = e.target as HTMLElement;
+      const el = target.closest<HTMLElement>("[data-cursor]");
+
+      // Only trigger leave if we're actually leaving a cursor element
+      if (!el) return;
+
       data.state = "releasing";
       data.isHoverTransition = false;
       data.spring.reset();
@@ -339,11 +350,9 @@ export default function RotatingCursor() {
       data.targetAnchor = null;
     };
 
-    const targets = document.querySelectorAll<HTMLElement>("[data-cursor]");
-    targets.forEach((el) => {
-      el.addEventListener("mouseenter", onEnter);
-      el.addEventListener("mouseleave", onLeave);
-    });
+    // Use event delegation on document to catch dynamically added elements
+    document.addEventListener("mouseover", onEnter);
+    document.addEventListener("mouseout", onLeave);
 
     // ========================================================================
     // Animation Loop
@@ -498,10 +507,8 @@ export default function RotatingCursor() {
       window.removeEventListener("mousedown", onMouseDown);
       window.removeEventListener("mouseup", onMouseUp);
       window.removeEventListener("resize", resizeCanvas);
-      targets.forEach((el) => {
-        el.removeEventListener("mouseenter", onEnter);
-        el.removeEventListener("mouseleave", onLeave);
-      });
+      document.removeEventListener("mouseover", onEnter);
+      document.removeEventListener("mouseout", onLeave);
     };
   }, []);
 
@@ -513,7 +520,7 @@ export default function RotatingCursor() {
         top: 0,
         left: 0,
         pointerEvents: "none",
-        zIndex: 9999,
+        zIndex: 99999,
         mixBlendMode: "difference",
       }}
     />

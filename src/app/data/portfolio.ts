@@ -10,9 +10,9 @@ export interface PortfolioWebsite {
 export const portfolioWebsites: PortfolioWebsite[] = [
   {
     id: "portfolio-1",
-    title: "HR Compliance Team App",
+    title: "HR Compliance Team",
     description:
-      "A modern e-commerce platform built to enhance a security company's HR and scheduling capabilities while seamlessy integrating with industry standard HR tools such as paychex and swipeclock",
+      "A modern HR platform built to enhance a security company's mesaging, scheduling, and compliance capabilities while seamlessy integrating with industry standard HR tools such as paychex and swipeclock",
     image: "/hrcompliance.png",
     url: "https://app.hrcomplianceteam.com/",
     technologies: [
@@ -30,7 +30,7 @@ export const portfolioWebsites: PortfolioWebsite[] = [
     id: "portfolio-4",
     title: "Mesh Agent",
     description:
-      "Collaborative task management application with integrated agentic AI functionality",
+      "MeshAgent is a production-grade agent orchestration platform providing secure real-time collaboration environments, enterprise deployment infrastructure, and end-to-end observability for building, operating, and scaling agentic applications.",
     image: "/mesh-agent.png",
     url: "https://www.meshagent.com/",
     technologies: [
@@ -40,7 +40,6 @@ export const portfolioWebsites: PortfolioWebsite[] = [
       "PostgreSQL",
       "Docker",
       "Kubernetes",
-      "Github Actions",
       "Bitbucket",
       "WebSockets",
     ],
@@ -59,9 +58,17 @@ export const portfolioWebsites: PortfolioWebsite[] = [
       "PostgreSQL",
       "Docker",
       "Kubernetes",
-      "Github Actions",
       "Bitbucket",
     ],
+  },
+  {
+    id: "sourceability",
+    title: "Sourceability",
+    description:
+      "Large scale B2B ecommerce platform featuring a custom Bill of Materials tool and advanced price comparison engine.",
+    image: "/sourceability.png",
+    url: "https://www.sourceability.com/",
+    technologies: ["C#", "React", "Javascript", "AWS", "Jira", "Cypress"],
   },
 ];
 
