@@ -31,6 +31,32 @@
     }
 }
 
+@media (max-width: 768px) {
+    .tabs-container {
+        flex-direction: column;
+        gap: 2rem;
+    }
+
+    .tabs {
+        width: 100%;
+    }
+
+    .tab-title {
+        border-left: none;
+        border-radius: 999px;
+    }
+
+    .tab-title:hover,
+    .tab-title.active {
+        border-left: none;
+    }
+
+    .tab-content-container {
+        width: 100%;
+        border-radius: 1rem;
+    }
+}
+
 
 .tabs {
     width: 20rem;
