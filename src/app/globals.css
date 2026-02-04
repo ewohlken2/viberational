@@ -20,6 +20,20 @@
   --pink--light: #ffe4e6;
   --pink--dark: #f4858d;
   --zindex-header: 5;
+  --breakpoint-mobile: 768px;
+  --breakpoint-desktop: 769px;
+  --mobile-menu-padding: 2.4rem;
+  --mobile-menu-bg: var(--secondary-dark);
+  --mobile-menu-text: var(--pink);
+  --mobile-menu-button-bg: rgba(248, 180, 185, 0.18);
+  --mobile-menu-button-bg-hover: rgba(248, 180, 185, 0.3);
+  --mobile-menu-button-border: rgba(248, 180, 185, 0.4);
+  --mobile-menu-shadow: 0 12px 30px rgba(0, 0, 0, 0.3);
+  --mobile-menu-overlay: rgba(0, 0, 0, 0.45);
+  --mobile-menu-radius: 1.6rem;
+  --mobile-menu-gap: 1.2rem;
+  --mobile-menu-transition: 220ms cubic-bezier(0.2, 0.8, 0.2, 1);
+  --mobile-menu-top: 7.2rem;
 
   --transition: 230ms all cubic-bezier(0.2, 0.8, 0.2, 1);
 
