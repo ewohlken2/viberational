@@ -1,6 +1,8 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
+import Script from "next/script";
+import type { Metadata } from "next";
 import { getAllPosts, getPostBySlug } from "../../data/blog";
 import Header from "../../header";
 import "../blog.css";
@@ -16,7 +18,11 @@ export async function generateStaticParams() {
   }));
 }
 
-export async function generateMetadata({ params }: BlogPostPageProps) {
+const baseUrl = "https://elviswohlken.com";
+
+export async function generateMetadata({
+  params,
+}: BlogPostPageProps): Promise<Metadata> {
   const { slug } = await params;
   const post = getPostBySlug(slug);
 
@@ -26,9 +32,34 @@ export async function generateMetadata({ params }: BlogPostPageProps) {
     };
   }
 
+  const description = post.content
+    .replace(/```[\s\S]*?```/g, "")
+    .replace(/\s+/g, " ")
+    .trim()
+    .slice(0, 160);
+
+  const url = `${baseUrl}/blog/${post.slug}`;
+
   return {
-    title: `${post.title} | Elvis Wohlken`,
-    description: post.content.substring(0, 160).replace(/```[\s\S]*?```/g, ""),
+    title: post.title,
+    description,
+    alternates: {
+      canonical: url,
+    },
+    openGraph: {
+      type: "article",
+      url,
+      title: post.title,
+      description,
+      publishedTime: post.date,
+      images: post.image ? [{ url: post.image }] : undefined,
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: post.title,
+      description,
+      images: post.image ? [post.image] : undefined,
+    },
   };
 }
 
@@ -111,10 +142,28 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
   }
 
   const contentBlocks = parseContent(post.content);
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    headline: post.title,
+    datePublished: post.date,
+    dateModified: post.date,
+    author: {
+      "@type": "Person",
+      name: "Elvis Wohlken",
+    },
+    mainEntityOfPage: `${baseUrl}/blog/${post.slug}`,
+    image: post.image ? [`${baseUrl}${post.image}`] : undefined,
+  };
 
   return (
     <>
       <Header />
+      <Script
+        id="blog-jsonld"
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <main className="blog-post-page">
         <article className="blog-post">
           <header className="blog-post-header">
