@@ -5,7 +5,7 @@ import "./blog.css";
 
 export const metadata = {
   title: "Blog | Elvis Wohlken",
-  description: "Thoughts on web development, React, TypeScript, and more.",
+  description: "Thoughts on web development, AI, and more.",
 };
 
 export default function BlogPage() {
@@ -17,9 +17,7 @@ export default function BlogPage() {
       <main className="blog-page">
         <div className="blog-page-header">
           <h1 className="blog-page-title">Blog</h1>
-          <p className="blog-page-description">
-            Thoughts on web development, React, TypeScript, and more.
-          </p>
+          <p className="blog-page-description">{metadata.description}</p>
         </div>
         <div className="blog-page-grid">
           {posts.map((post) => (

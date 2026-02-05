@@ -7,6 +7,7 @@ const createJestConfig = nextJest({
 const customJestConfig = {
   testEnvironment: "jest-environment-jsdom",
   setupFilesAfterEnv: ["<rootDir>/jest.setup.tsx"],
+  cacheDirectory: "<rootDir>/.jest-cache",
 };
 
 export default createJestConfig(customJestConfig);
