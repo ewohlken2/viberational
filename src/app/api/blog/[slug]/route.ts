@@ -2,12 +2,13 @@ import { NextResponse } from "next/server";
 import { loadPostBySlug } from "../../../../lib/blog-loader";
 
 interface RouteParams {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 }
 
 export async function GET(_: Request, { params }: RouteParams) {
   try {
-    const post = loadPostBySlug(params.slug);
+    const { slug } = await params;
+    const post = loadPostBySlug(slug);
 
     if (!post) {
       return NextResponse.json({ error: "Not found" }, { status: 404 });
