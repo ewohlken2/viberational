@@ -1,0 +1,50 @@
+.typing-text {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.1ch;
+  white-space: pre-wrap;
+}
+
+.typing-text__content {
+  display: inline-block;
+}
+
+.typing-text__cursor {
+  display: inline-block;
+  width: 0.6ch;
+  color: var(--cursor-color);
+  animation: typing-text-blink var(--cursor-blink) infinite;
+}
+
+.typing-text__cursor.is-fading {
+  animation: typing-text-fade var(--cursor-fade) ease forwards;
+}
+
+.typing-text__cursor--gradient {
+  color: transparent;
+  background: var(--cursor-gradient);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+@keyframes typing-text-blink {
+  0% {
+    opacity: 1;
+  }
+  30% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes typing-text-fade {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
