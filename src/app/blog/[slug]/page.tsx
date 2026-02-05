@@ -6,6 +6,7 @@ import type { Metadata } from "next";
 import { getAllPosts, getPostBySlug } from "../../data/blog";
 import Header from "../../header";
 import "../blog.css";
+import Markdown from "../markdown";
 
 interface BlogPostPageProps {
   params: Promise<{ slug: string }>;
@@ -72,66 +73,6 @@ function formatDate(dateString: string): string {
   });
 }
 
-interface ContentBlock {
-  type: "text" | "code";
-  content: string;
-  language?: string;
-}
-
-function parseContent(content: string): ContentBlock[] {
-  const blocks: ContentBlock[] = [];
-  const codeBlockRegex = /```(\w*)\n?([\s\S]*?)```/g;
-
-  let lastIndex = 0;
-  let match;
-
-  while ((match = codeBlockRegex.exec(content)) !== null) {
-    // Add text before the code block
-    if (match.index > lastIndex) {
-      const textContent = content.substring(lastIndex, match.index).trim();
-      if (textContent) {
-        blocks.push({ type: "text", content: textContent });
-      }
-    }
-
-    // Add the code block
-    blocks.push({
-      type: "code",
-      language: match[1] || "plaintext",
-      content: match[2].trim(),
-    });
-
-    lastIndex = match.index + match[0].length;
-  }
-
-  // Add remaining text after the last code block
-  if (lastIndex < content.length) {
-    const textContent = content.substring(lastIndex).trim();
-    if (textContent) {
-      blocks.push({ type: "text", content: textContent });
-    }
-  }
-
-  return blocks;
-}
-
-function renderTextContent(text: string): React.ReactNode[] {
-  // Split by double newlines to create paragraphs
-  const paragraphs = text.split(/\n\n+/);
-
-  return paragraphs.map((paragraph, index) => {
-    // Handle bold text
-    const parts = paragraph.split(/(\*\*.*?\*\*)/g);
-    const rendered = parts.map((part, partIndex) => {
-      if (part.startsWith("**") && part.endsWith("**")) {
-        return <strong key={partIndex}>{part.slice(2, -2)}</strong>;
-      }
-      return part;
-    });
-
-    return <p key={index}>{rendered}</p>;
-  });
-}
 
 export default async function BlogPostPage({ params }: BlogPostPageProps) {
   const { slug } = await params;
@@ -141,7 +82,6 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
     notFound();
   }
 
-  const contentBlocks = parseContent(post.content);
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "BlogPosting",
@@ -187,27 +127,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
           )}
 
           <div className="blog-post-content">
-            {contentBlocks.map((block, index) => {
-              if (block.type === "code") {
-                return (
-                  <div key={index} className="code-block">
-                    {block.language && block.language !== "plaintext" && (
-                      <span className="code-block-language">
-                        {block.language}
-                      </span>
-                    )}
-                    <pre>
-                      <code>{block.content}</code>
-                    </pre>
-                  </div>
-                );
-              }
-              return (
-                <div key={index} className="text-block">
-                  {renderTextContent(block.content)}
-                </div>
-              );
-            })}
+            <Markdown content={post.content} />
           </div>
         </article>
       </main>
