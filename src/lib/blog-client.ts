@@ -1,8 +1,17 @@
 import type { BlogPost } from "./blog-types";
+import { loadAllPosts, loadPostBySlug } from "./blog-loader";
 
 interface ClientOptions {
   baseUrl?: string;
+  source?: "api" | "local";
 }
+
+const shouldUseLocalData = (options?: ClientOptions): boolean => {
+  if (options?.source) {
+    return options.source === "local";
+  }
+  return process.env.NEXT_PHASE === "phase-production-build";
+};
 
 function resolveBaseUrl(baseUrl?: string): string {
   if (baseUrl) {
@@ -32,6 +41,10 @@ function buildUrl(path: string, options?: ClientOptions): string {
 export async function getAllBlogPosts(
   options?: ClientOptions,
 ): Promise<BlogPost[]> {
+  if (shouldUseLocalData(options)) {
+    return loadAllPosts();
+  }
+
   const res = await fetch(buildUrl("/api/blog", options));
   if (!res.ok) {
     throw new Error("Failed to load posts");
@@ -43,6 +56,10 @@ export async function getBlogPost(
   slug: string,
   options?: ClientOptions,
 ): Promise<BlogPost | null> {
+  if (shouldUseLocalData(options)) {
+    return loadPostBySlug(slug);
+  }
+
   const res = await fetch(buildUrl(`/api/blog/${slug}`, options));
   if (res.status === 404) {
     return null;
