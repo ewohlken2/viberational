@@ -21,3 +21,6 @@
 - Ensure `slug` matches the expected route (`/blog/[slug]`).
 - Confirm the date is correct and not in the future unless requested.
 - Keep Markdown consistent with existing posts.
+
+## Package Manager
+- Prefer `pnpm` for installing dependencies and running scripts.
