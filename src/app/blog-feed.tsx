@@ -1,14 +1,16 @@
 import Link from "next/link";
 import BlogCard from "./blog-card";
-import { getRecentPosts } from "./data/blog";
+import type { BlogPost } from "../lib/blog-types";
 
-export default function BlogFeed() {
-  const recentPosts = getRecentPosts(3);
+interface BlogFeedProps {
+  posts: BlogPost[];
+}
 
+export default function BlogFeed({ posts }: BlogFeedProps) {
   return (
     <div className="blog-feed">
       <div className="blog-feed-grid">
-        {recentPosts.map((post) => (
+        {posts.map((post) => (
           <BlogCard key={post.slug} post={post} />
         ))}
       </div>

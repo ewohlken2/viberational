@@ -1,10 +1,10 @@
 import type { MetadataRoute } from "next";
-import { getAllPosts } from "./data/blog";
+import { getAllBlogPosts } from "../lib/blog-client";
 
 const baseUrl = "https://elviswohlken.com";
 
-export default function sitemap(): MetadataRoute.Sitemap {
-  const posts = getAllPosts();
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  const posts = await getAllBlogPosts();
   const now = new Date();
 
   const staticRoutes: MetadataRoute.Sitemap = [
