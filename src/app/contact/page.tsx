@@ -42,7 +42,7 @@ function ContactForm() {
           },
         },
         typography: {
-          fontFamily: "\"PP Neue Montreal\", \"Inter\", system-ui, sans-serif",
+          fontFamily: "var(--font-geist-sans), sans-serif",
           h1: {
             fontSize: "2.5rem",
             fontWeight: 600,
