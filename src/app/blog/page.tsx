@@ -2,10 +2,25 @@ import { getAllPosts } from "../data/blog";
 import BlogCard from "../blog-card";
 import Header from "../header";
 import "./blog.css";
+import type { Metadata } from "next";
 
-export const metadata = {
-  title: "Blog | Elvis Wohlken",
+export const metadata: Metadata = {
+  title: "Blog",
   description: "Thoughts on web development, React, TypeScript, and more.",
+  alternates: {
+    canonical: "/blog",
+  },
+  openGraph: {
+    type: "website",
+    url: "/blog",
+    title: "Blog",
+    description: "Thoughts on web development, React, TypeScript, and more.",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Blog",
+    description: "Thoughts on web development, React, TypeScript, and more.",
+  },
 };
 
 export default function BlogPage() {

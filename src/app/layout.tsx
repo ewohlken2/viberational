@@ -1,6 +1,7 @@
 import localFont from "next/font/local";
 import "./globals.css";
 import { ReactNode } from "react";
+import type { Metadata } from "next";
 
 const robotoMono = localFont({
   src: [
@@ -40,9 +41,31 @@ const geistSans = localFont({
   weight: "100 900",
 });
 
-export const metadata = {
-  title: "Elviswohlken.com",
-  description: "Lets build something together",
+const baseUrl = new URL("https://elviswohlken.com");
+
+export const metadata: Metadata = {
+  metadataBase: baseUrl,
+  title: {
+    default: "Elvis Wohlken",
+    template: "%s | Elvis Wohlken",
+  },
+  description: "Let's build something together.",
+  alternates: {
+    canonical: "/",
+  },
+  openGraph: {
+    type: "website",
+    url: "/",
+    siteName: "Elvis Wohlken",
+    title: "Elvis Wohlken",
+    description: "Let's build something together.",
+    locale: "en_US",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Elvis Wohlken",
+    description: "Let's build something together.",
+  },
 };
 
 export default function RootLayout({ children }: { children: ReactNode }) {
