@@ -5,6 +5,37 @@ import { generateMetadata as generateBlogMetadata } from "../blog/[slug]/page";
 const baseUrl = "https://elviswohlken.com";
 
 describe("SEO routes", () => {
+  beforeEach(() => {
+    global.fetch = jest.fn(async (input: RequestInfo | URL) => {
+      const url = input.toString();
+      if (url.includes("/api/blog/")) {
+        return {
+          ok: true,
+          status: 200,
+          json: async () => ({
+            slug: "moltbook-weird-posts-and-security",
+            title: "Moltbook, Weird Posts, and a Security Wake-Up Call",
+            date: "2026-02-03",
+            content: "Test content",
+          }),
+        } as Response;
+      }
+
+      return {
+        ok: true,
+        status: 200,
+        json: async () => [
+          {
+            slug: "moltbook-weird-posts-and-security",
+            title: "Moltbook, Weird Posts, and a Security Wake-Up Call",
+            date: "2026-02-03",
+            content: "Test content",
+          },
+        ],
+      } as Response;
+    }) as jest.Mock;
+  });
+
   test("sitemap includes blog routes", async () => {
     const entries = await sitemap();
     const urls = entries.map((entry) => entry.url);

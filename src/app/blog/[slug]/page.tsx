@@ -3,7 +3,7 @@ import Link from "next/link";
 import Image from "next/image";
 import Script from "next/script";
 import type { Metadata } from "next";
-import { getAllPosts, getPostBySlug } from "../../data/blog";
+import { getAllBlogPosts, getBlogPost } from "../../../lib/blog-client";
 import Header from "../../header";
 import "../blog.css";
 import Markdown from "../markdown";
@@ -13,7 +13,7 @@ interface BlogPostPageProps {
 }
 
 export async function generateStaticParams() {
-  const posts = getAllPosts();
+  const posts = await getAllBlogPosts();
   return posts.map((post) => ({
     slug: post.slug,
   }));
@@ -25,7 +25,7 @@ export async function generateMetadata({
   params,
 }: BlogPostPageProps): Promise<Metadata> {
   const { slug } = await params;
-  const post = getPostBySlug(slug);
+  const post = await getBlogPost(slug);
 
   if (!post) {
     return {
@@ -73,10 +73,9 @@ function formatDate(dateString: string): string {
   });
 }
 
-
 export default async function BlogPostPage({ params }: BlogPostPageProps) {
   const { slug } = await params;
-  const post = getPostBySlug(slug);
+  const post = await getBlogPost(slug);
 
   if (!post) {
     notFound();
