@@ -1,6 +1,6 @@
 "use client";
 
-import "./home.css";
+import "./about/about.css";
 
 import HeaderContext from "./context/headerContext";
 import {

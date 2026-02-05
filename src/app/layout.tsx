@@ -36,7 +36,7 @@ const robotoMono = localFont({
 });
 
 const geistSans = localFont({
-  src: "../../Geist-VariableFont_wght.ttf",
+  src: "./fonts/Geist-VariableFont_wght.ttf",
   variable: "--font-geist-sans",
   weight: "100 900",
 });

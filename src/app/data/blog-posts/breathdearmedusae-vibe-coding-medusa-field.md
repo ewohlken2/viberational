@@ -1,10 +1,8 @@
 ---
 slug: breathdearmedusae-vibe-coding-medusa-field
-title: "BreathDearMedusae: Vibe Coding Toward an Organic Medusa Field"
+title: "How I Recreated the Google Antigravity Landing Page Particle Effect"
 date: 2026-02-05
 ---
-
-## Origin
 
 I started this project inspired by the **antigravity.google** homepage. The motion felt alive and intentional, so I tried to vibe code my way into something similar. The early attempts did not really land: the flow was stiff, the motion felt synthetic, and I could not get the halo and particle field to breathe the way I wanted.
 
@@ -20,7 +18,9 @@ https://github.com/Hinarosha/BreathDearMedusae
 
 ## What Changed
 
-I forked it and started shaping it into my own version. The big breakthrough was adding **oscillating variables** to make the jitter feel organic, plus a full **settings dialog** to tweak the scene in realtime. That made it possible to dial in the movement without hardcoding endless values. It also let me experiment with cursor influence, rotation jitter, oscillation factors, and halo behavior until it felt right.
+After reading through the codebase, I learned about the medusae jellyfish effect in animation, and decided this was the best way to achieve the look I wanted.
+
+I forked it and started shaping it into my own version. The big breakthrough was adding **oscillating variables** to make the movement feel organic, plus a full **settings dialog** to tweak the scene in realtime. That made it possible to dial in the animation without hardcoding endless values. It also let me experiment with cursor influence, rotation jitter, oscillation factors, and halo behavior until it felt right.
 
 ## Current Build
 

@@ -6,7 +6,7 @@ import Image from "next/image";
 
 export default function HeaderLogo() {
   return (
-    <Link className="header-logo" href="/#home" data-cursor>
+    <Link className="header-logo" href="/" data-cursor>
       <div className="link-text">Home</div>
 
       <picture className="logo-letter">

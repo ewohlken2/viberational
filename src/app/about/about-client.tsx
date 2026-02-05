@@ -1,15 +1,15 @@
 "use client";
 
-import "./home.css";
-import "./blog/blog.css";
+import "./about.css";
+import "../blog/blog.css";
 
 import HeroBanner from "./hero";
 import Tabs from "./tabs";
 import Link from "next/link";
-import BlogFeed from "./blog-feed";
+import BlogFeed from "../blog-feed";
 import { useRef } from "react";
-import Wrapper from "./wrapper";
-import type { BlogPost } from "../lib/blog-types";
+import Wrapper from "../wrapper";
+import type { BlogPost } from "../../lib/blog-types";
 
 interface TabContent {
   title: string;
@@ -44,26 +44,26 @@ const TABS_CONTENT: TabContent[] = [
   },
 ];
 
-interface HomeClientProps {
+interface AboutClientProps {
   recentPosts: BlogPost[];
 }
 
-export default function HomeClient({ recentPosts }: HomeClientProps) {
-  const homeRef = useRef<HTMLDivElement>(null);
+export default function AboutClient({ recentPosts }: AboutClientProps) {
   const aboutRef = useRef<HTMLDivElement>(null);
+  const bioRef = useRef<HTMLDivElement>(null);
 
-  const headerRefs = [homeRef, aboutRef];
+  const headerRefs = [aboutRef, bioRef];
 
   return (
     <Wrapper headerRefs={headerRefs}>
-      <div id="home" ref={homeRef}>
+      <div id="about" ref={aboutRef}>
         {/* main banner start */}
         <HeroBanner />
         {/* main banner end */}
       </div>
 
       {/* About Section Start */}
-      <div ref={aboutRef} id="about" className="section section-about">
+      <div ref={bioRef} id="bio" className="section section-about">
         <div className="section-content">
           <h2 className="h2">About</h2>
 
