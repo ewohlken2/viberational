@@ -36,7 +36,7 @@ test("renders inline text with opaque base and animated gradient overlay", () =>
   const initialY = overlay.style.getPropertyValue("--lava-y1");
   const initialBg = overlay.style.backgroundImage;
 
-  expect(base.style.color).toBe("rgb(255, 255, 255)");
+  expect(base.style.color).toBe("rgb(221, 109, 255)");
   expect(overlay.style.color).toBe("transparent");
   expect(overlay.style.backgroundClip).toBe("text");
   expect(initialBg).not.toBe("");

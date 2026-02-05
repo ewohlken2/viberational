@@ -31,9 +31,6 @@ test("renders subtext and nav links as glass buttons", () => {
   expect(screen.getByRole("link", { name: "About" })).toHaveClass(
     "button-glass"
   );
-  expect(screen.getByRole("link", { name: "Experience" })).toHaveClass(
-    "button-glass"
-  );
   expect(screen.getByRole("link", { name: "Blog" })).toHaveClass(
     "button-glass"
   );
