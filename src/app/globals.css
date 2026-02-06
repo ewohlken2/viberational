@@ -91,6 +91,14 @@ body {
   font-size: 1.6em;
 }
 
+.site-footer {
+  padding: 1.6rem 2rem 2rem;
+  text-align: center;
+  color: var(--text);
+  font-size: 1.3rem;
+  letter-spacing: 0.02em;
+}
+
 .layout-logo {
   position: fixed;
   top: 20px;

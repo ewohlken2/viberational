@@ -16,15 +16,10 @@ export default function Template({ children }: TemplateProps) {
   return (
     <AnimatePresence mode="wait">
       <motion.div
-        key={pathname}
-        initial={shouldReduceMotion ? false : { opacity: 0, y: 6 }}
+        initial={{ opacity: 0, y: 6 }}
         animate={{ opacity: 1, y: 0 }}
         exit={shouldReduceMotion ? undefined : { opacity: 0, y: -4 }}
-        transition={
-          shouldReduceMotion
-            ? { duration: 0 }
-            : { duration: PAGE_TRANSITION_DURATION, ease: "easeOut" }
-        }
+        transition={{ duration: PAGE_TRANSITION_DURATION, ease: "easeOut" }}
       >
         {children}
       </motion.div>

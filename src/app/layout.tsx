@@ -85,6 +85,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         <AppCursor />
         <LayoutChrome />
         {children}
+        <footer className="site-footer">Copyright 2026</footer>
       </body>
     </html>
   );
