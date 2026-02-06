@@ -7,7 +7,7 @@ import IntroBanner from "./introBanner";
 import HeaderLogo from "../logo";
 import Screensaver, { ScreensaverRef } from "./screensaver";
 import { getAllWebsites, PortfolioWebsite } from "../data/portfolio";
-import { navLinks } from "../data/nav";
+import MainNavigation from "../components/MainNavigation";
 import "./portfolio.css";
 
 export default function PortfolioPage() {
@@ -57,20 +57,7 @@ export default function PortfolioPage() {
       <div className="portfolio-logo">
         <HeaderLogo />
       </div>
-      <nav className="portfolio-nav">
-        {navLinks
-          .filter((link) => link.label !== "Portfolio")
-          .map((link) => (
-            <a
-              key={link.label}
-              href={link.href}
-              data-cursor
-              className="portfolio-nav-link"
-            >
-              {link.label}
-            </a>
-          ))}
-      </nav>
+      <MainNavigation />
       <div className="portfolio-main-content">
         <h1 className="portfolio-title">Portfolio</h1>
         <div className="portfolio-grid">
