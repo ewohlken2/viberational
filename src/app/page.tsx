@@ -39,7 +39,7 @@ const MEDUSAE_CONFIG = {
     rotationJitter: 0.2,
     cursorFollowStrength: 1,
     oscillationFactor: 1,
-    colorBase: "#5f038a",
+    colorBase: "#16f59c",
     colorOne: "#fff186",
     colorTwo: "#0080ff",
     colorThree: "#ff60dd",

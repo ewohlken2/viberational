@@ -28,7 +28,7 @@ export default async function BlogPage() {
 
   return (
     <AuroraBackground palette="cool" intensity="low">
-      <main className="blog-page">
+      <main className="blog-page main-content">
         <div className="page-header">
           <h1 className="page-title">Blog</h1>
           <p className="page-description">{metadata.description}</p>

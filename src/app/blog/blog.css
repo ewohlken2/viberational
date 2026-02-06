@@ -1,6 +1,4 @@
-/* Blog Page */
-
-.blog-page {
+Blog Page .blog-page {
   min-height: 100vh;
   background: transparent;
 }
@@ -8,7 +6,7 @@
 .blog-page-grid {
   max-width: 1000px;
   margin: 0 auto;
-  padding: 3rem;
+  padding: 3rem 0;
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
   gap: 4rem;
