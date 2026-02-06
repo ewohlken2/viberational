@@ -2,7 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 :root {
-  --text: "#fff8f8" --bg: #000000;
+  --text: "#fff8f8";
+  --bg: #000000;
   --card-bg: #222430b8;
   --heading: #e7bdbd;
   --tag: #f2a7ff;
@@ -11,6 +12,8 @@
   --foreground: #171717;
   --primary-dark: #003049;
   --primary-light: #669bbc;
+  --button-bg: rgba(255, 255, 255, 0.75);
+  --button-bg-hover: #000;
   /* --secondary-dark: #780000; */
   --secondary-dark: #6d2323;
   /* --secondary-dark: #541a1a; */
@@ -215,8 +218,8 @@ p {
 }
 
 .button-glass {
-  background: rgba(255, 255, 255, 0.75);
   color: #000000;
+  background: var(--button-bg);
   border: 1px solid rgba(0, 0, 0, 0.25);
   box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
   backdrop-filter: blur(12px);
@@ -256,9 +259,10 @@ p {
   isolation: isolate;
   &::before {
     content: "";
+    pointer-events: none;
     position: absolute;
     width: calc(100% + 8px);
-    background: var(--secondary-light);
+    background: var(--button-bg-hover);
     padding-top: 130%;
     border-radius: 100rem 100rem 0 0;
     left: -4px;
@@ -269,7 +273,7 @@ p {
   &:hover {
     color: var(--text);
     &::before {
-      transform: translateY(-50%);
+      transform: translateY(-70%);
     }
   }
 }

@@ -44,6 +44,8 @@ export default function LayoutChrome() {
       <div
         data-testid="layout-chrome"
         style={{
+          position: "relative",
+          zIndex: 1002,
           opacity: isVisible ? 1 : 0,
           transition: shouldReduceMotion
             ? "none"

@@ -56,3 +56,15 @@ test("hides chrome on homepage and fades it in on other routes", () => {
     transition: "opacity 280ms ease-out 240ms",
   });
 });
+
+test("keeps chrome above page layers while opacity animates", () => {
+  mockUseReducedMotion.mockReturnValue(false);
+  mockUsePathname.mockReturnValue("/contact");
+
+  render(<LayoutChrome />);
+
+  expect(screen.getByTestId("layout-chrome")).toHaveStyle({
+    position: "relative",
+    zIndex: "1002",
+  });
+});

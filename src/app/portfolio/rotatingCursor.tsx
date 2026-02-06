@@ -67,6 +67,39 @@ const getCenterPosition = (rect: DOMRect) => ({
 const lerp = (current: number, target: number, factor: number) =>
   current + (target - current) * factor;
 
+const resolveCursorElement = (node: EventTarget | null) => {
+  if (!(node instanceof HTMLElement)) return null;
+  return node.closest<HTMLElement>("[data-cursor]");
+};
+
+export function shouldHandleCursorEnter({
+  target,
+  hoveredElement,
+}: {
+  target: EventTarget | null;
+  hoveredElement: HTMLElement | null;
+}) {
+  const enteredCursorEl = resolveCursorElement(target);
+  if (!enteredCursorEl) return false;
+  return enteredCursorEl !== hoveredElement;
+}
+
+export function shouldHandleCursorLeave({
+  target,
+  relatedTarget,
+  hoveredElement,
+}: {
+  target: EventTarget | null;
+  relatedTarget: EventTarget | null;
+  hoveredElement: HTMLElement | null;
+}) {
+  const leftCursorEl = resolveCursorElement(target);
+  if (!leftCursorEl || hoveredElement !== leftCursorEl) return false;
+
+  const nextCursorEl = resolveCursorElement(relatedTarget);
+  return nextCursorEl !== hoveredElement;
+}
+
 // ============================================================================
 // Drawing Functions
 // ============================================================================
@@ -311,10 +344,16 @@ export default function RotatingCursor() {
     // Hover Event Handlers (using event delegation for dynamic elements)
     // ========================================================================
     const onEnter = (e: MouseEvent) => {
-      const target = e.target as HTMLElement;
+      if (
+        !shouldHandleCursorEnter({
+          target: e.target,
+          hoveredElement: data.hoveredElement,
+        })
+      ) {
+        return;
+      }
 
-      // Find the closest element with data-cursor attribute
-      const el = target.closest<HTMLElement>("[data-cursor]");
+      const el = resolveCursorElement(e.target);
       if (!el) return;
 
       const rect = el.getBoundingClientRect();
@@ -336,11 +375,15 @@ export default function RotatingCursor() {
     };
 
     const onLeave = (e: MouseEvent) => {
-      const target = e.target as HTMLElement;
-      const el = target.closest<HTMLElement>("[data-cursor]");
-
-      // Only trigger leave if we're actually leaving a cursor element
-      if (!el) return;
+      if (
+        !shouldHandleCursorLeave({
+          target: e.target,
+          relatedTarget: e.relatedTarget,
+          hoveredElement: data.hoveredElement,
+        })
+      ) {
+        return;
+      }
 
       data.state = "releasing";
       data.isHoverTransition = false;

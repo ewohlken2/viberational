@@ -8,12 +8,10 @@ type MainNavigationProps = {
 };
 
 export default function MainNavigation({
-  excludeLabel = "Portfolio",
+  excludeLabel = "",
   className,
 }: MainNavigationProps) {
-  const navClassName = [styles.navigation, className]
-    .filter(Boolean)
-    .join(" ");
+  const navClassName = [styles.navigation, className].filter(Boolean).join(" ");
 
   return (
     <nav className={navClassName}>
