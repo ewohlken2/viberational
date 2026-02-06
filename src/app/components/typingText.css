@@ -11,8 +11,8 @@
 
 .typing-text__cursor {
   display: inline-block;
-  width: 0.12em;
-  height: 1em;
+  width: 0.06em;
+  height: 80px;
   border-radius: 999px;
   background: var(--cursor-color);
   animation: typing-text-blink var(--cursor-blink) infinite;

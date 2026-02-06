@@ -6,6 +6,8 @@ import "./page.css";
 import LavaLampText from "./components/LavaLampText";
 import Link from "next/link";
 import { navLinks } from "./data/nav";
+import TypingText from "./components/TypingText";
+import { useState } from "react";
 
 const MEDUSAE_CONFIG = {
   cursor: {
@@ -47,6 +49,7 @@ const MEDUSAE_CONFIG = {
 };
 
 export default function Page() {
+  const [isTypingFinished, setIsTypingFinished] = useState(false);
   return (
     <div className="landing-page">
       <div className="landing-medusae">
@@ -54,7 +57,16 @@ export default function Page() {
       </div>
       <div className="landing-content">
         <h1 className="landing-text">
-          <LavaLampText>Vibe</LavaLampText>Rational
+          <span
+            className="vibe-text"
+            style={{ opacity: isTypingFinished ? 1 : 0 }}
+          >
+            <LavaLampText>Vibe</LavaLampText>Rational
+          </span>
+
+          <TypingText onFinishTyping={() => setIsTypingFinished(true)}>
+            VibeRational
+          </TypingText>
         </h1>
         <p className="landing-subtext">Where hype becomes reality.</p>
         <div className="landing-actions">

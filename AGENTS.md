@@ -24,3 +24,6 @@
 
 ## Package Manager
 - Prefer `pnpm` for installing dependencies and running scripts.
+
+## Build Notes
+- During `next build`, blog data is loaded locally from `src/app/data/blog-posts` (to avoid localhost fetches). Runtime requests still use the `/api/blog` routes.

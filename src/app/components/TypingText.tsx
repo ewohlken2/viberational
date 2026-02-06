@@ -11,6 +11,7 @@ interface TypingTextProps {
   cursorFadeOutMs?: number;
   cursorColor?: string;
   cursorGradient?: string;
+  onFinishTyping?: () => void;
   className?: string;
   as?: "span" | "div";
 }
@@ -23,6 +24,7 @@ export default function TypingText({
   cursorFadeOutMs = 500,
   cursorColor = "#f3f6ff",
   cursorGradient = "linear-gradient(180deg, #53d6ff, #ff7afd)",
+  onFinishTyping,
   className,
   as = "div",
 }: TypingTextProps) {
@@ -32,13 +34,16 @@ export default function TypingText({
   const [started, setStarted] = useState(false);
   const [index, setIndex] = useState(0);
   const [cursorFading, setCursorFading] = useState(false);
+  const [cursorGone, setCursurGone] = useState(false);
   const intervalRef = useRef<number | null>(null);
   const hideTimerRef = useRef<number | null>(null);
+  const finishCalledRef = useRef(false);
 
   useEffect(() => {
     setStarted(false);
     setIndex(0);
     setCursorFading(false);
+    finishCalledRef.current = false;
 
     const startTimer = window.setTimeout(() => setStarted(true), startDelay);
     return () => window.clearTimeout(startTimer);
@@ -85,6 +90,16 @@ export default function TypingText({
   }, [cursorFadeOutMs, cursorFading, index, started, text.length]);
 
   useEffect(() => {
+    if (!started) return;
+    if (index < text.length) return;
+    if (finishCalledRef.current) return;
+
+    setCursurGone(true);
+    finishCalledRef.current = true;
+    onFinishTyping?.();
+  }, [index, onFinishTyping, started, text.length]);
+
+  useEffect(() => {
     return () => {
       if (hideTimerRef.current !== null) {
         window.clearTimeout(hideTimerRef.current);
@@ -96,7 +111,7 @@ export default function TypingText({
   const cursorClassName = [
     "typing-text__cursor",
     cursorGradient ? "typing-text__cursor--gradient" : "",
-    cursorFading ? "is-fading" : "",
+    cursorFading || cursorGone ? "is-fading" : "",
   ]
     .filter(Boolean)
     .join(" ");

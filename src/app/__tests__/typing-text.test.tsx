@@ -11,8 +11,14 @@ test("shows cursor immediately but no text", () => {
 });
 
 test("types text after delay and fades cursor", async () => {
+  const onFinishTyping = jest.fn();
   render(
-    <TypingText startDelay={100} typeSpeed={50} cursorFadeOutMs={200}>
+    <TypingText
+      startDelay={100}
+      typeSpeed={50}
+      cursorFadeOutMs={200}
+      onFinishTyping={onFinishTyping}
+    >
       Hi
     </TypingText>
   );
@@ -26,6 +32,7 @@ test("types text after delay and fades cursor", async () => {
   });
 
   expect(screen.getByText("Hi")).toBeInTheDocument();
+  expect(onFinishTyping).toHaveBeenCalledTimes(1);
 
   await act(async () => {
     // Allow the cursor fade-out effect to schedule its timer.

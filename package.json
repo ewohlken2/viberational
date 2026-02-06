@@ -13,7 +13,7 @@
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.1",
     "@mui/material": "^7.3.7",
-    "@vibe-rational/medusae": "^0.1.8",
+    "@vibe-rational/medusae": "^0.1.9",
     "gray-matter": "^4.0.3",
     "markdown-it": "^14.1.0",
     "next": "^16.1.6",

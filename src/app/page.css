@@ -4,7 +4,6 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #ffffff;
   overflow: hidden;
 }
 
@@ -26,6 +25,14 @@
   pointer-events: auto;
 }
 
+.vibe-text {
+  position: absolute;
+  left: 0;
+  top: 0;
+  opacity: 0;
+  transition: opacity 1500ms ease;
+}
+
 .landing-text {
   margin: 0;
   color: #fff;
@@ -34,10 +41,10 @@
   font-weight: 500;
   letter-spacing: -0.02em;
   text-align: center;
-  line-height: 1;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
   text-transform: none;
+  position: relative;
 }
 
 .landing-subtext {
