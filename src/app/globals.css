@@ -3,9 +3,9 @@
 @tailwind utilities;
 
 :root {
-  --bg: #fdf0d5;
-  --bg-darken: #fbe0a8;
-  --background: #fdf0d5;
+  --bg: #000000;
+  --bg-darken: #0a0a0a;
+  --background: #000000;
   --foreground: #171717;
   --primary-dark: #003049;
   --primary-light: #669bbc;
@@ -55,7 +55,7 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
+    --background: #000000;
     --foreground: #ededed;
   }
 }
