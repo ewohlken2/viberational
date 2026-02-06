@@ -118,6 +118,7 @@ export function shouldReleaseCursorOnNavigationClick({
 
   const anchor = resolveAnchorElement(target);
   if (!anchor) return false;
+  if (anchor.hasAttribute("data-cursor-persist")) return false;
   if (anchor.hasAttribute("download")) return false;
 
   const targetAttr = (anchor.getAttribute("target") || "").toLowerCase();

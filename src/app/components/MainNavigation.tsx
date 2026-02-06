@@ -22,6 +22,7 @@ export default function MainNavigation({
             key={link.label}
             href={link.href}
             data-cursor
+            data-cursor-persist
             className={styles.link}
           >
             {link.label}

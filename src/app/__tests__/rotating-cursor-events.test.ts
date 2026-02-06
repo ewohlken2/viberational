@@ -85,3 +85,19 @@ test("does not release cursor when clicking a link to the current route", () => 
     }),
   ).toBe(false);
 });
+
+test("does not release cursor when link opts into persistent navigation hover", () => {
+  const link = document.createElement("a");
+  link.href = "/about";
+  link.setAttribute("data-cursor-persist", "");
+  const child = document.createElement("span");
+  link.appendChild(child);
+  document.body.appendChild(link);
+
+  expect(
+    shouldReleaseCursorOnNavigationClick({
+      target: child,
+      currentPathname: "/",
+    }),
+  ).toBe(false);
+});
