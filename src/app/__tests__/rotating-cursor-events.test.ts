@@ -1,6 +1,7 @@
 import {
   shouldHandleCursorLeave,
   shouldHandleCursorEnter,
+  shouldReleaseCursorOnNavigationClick,
 } from "../portfolio/rotatingCursor";
 
 function createCursorDom() {
@@ -51,6 +52,36 @@ test("ignores enter when still inside the same hovered data-cursor wrapper", () 
     shouldHandleCursorEnter({
       target: childA,
       hoveredElement: wrapper,
+    }),
+  ).toBe(false);
+});
+
+test("releases cursor when clicking an internal link to a different route", () => {
+  const link = document.createElement("a");
+  link.href = "/about";
+  const child = document.createElement("span");
+  link.appendChild(child);
+  document.body.appendChild(link);
+
+  expect(
+    shouldReleaseCursorOnNavigationClick({
+      target: child,
+      currentPathname: "/",
+    }),
+  ).toBe(true);
+});
+
+test("does not release cursor when clicking a link to the current route", () => {
+  const link = document.createElement("a");
+  link.href = "/about";
+  const child = document.createElement("span");
+  link.appendChild(child);
+  document.body.appendChild(link);
+
+  expect(
+    shouldReleaseCursorOnNavigationClick({
+      target: child,
+      currentPathname: "/about",
     }),
   ).toBe(false);
 });

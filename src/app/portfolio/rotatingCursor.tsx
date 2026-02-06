@@ -1,4 +1,6 @@
 import { useEffect, useRef } from "react";
+import { usePathname } from "next/navigation";
+import { PAGE_TRANSITION_DURATION } from "../transition-config";
 
 // ============================================================================
 // Configuration Constants
@@ -72,6 +74,11 @@ const resolveCursorElement = (node: EventTarget | null) => {
   return node.closest<HTMLElement>("[data-cursor]");
 };
 
+const resolveAnchorElement = (node: EventTarget | null) => {
+  if (!(node instanceof HTMLElement)) return null;
+  return node.closest<HTMLAnchorElement>("a[href]");
+};
+
 export function shouldHandleCursorEnter({
   target,
   hoveredElement,
@@ -98,6 +105,46 @@ export function shouldHandleCursorLeave({
 
   const nextCursorEl = resolveCursorElement(relatedTarget);
   return nextCursorEl !== hoveredElement;
+}
+
+export function shouldReleaseCursorOnNavigationClick({
+  target,
+  currentPathname,
+}: {
+  target: EventTarget | null;
+  currentPathname: string;
+}) {
+  if (typeof window === "undefined") return false;
+
+  const anchor = resolveAnchorElement(target);
+  if (!anchor) return false;
+  if (anchor.hasAttribute("download")) return false;
+
+  const targetAttr = (anchor.getAttribute("target") || "").toLowerCase();
+  if (targetAttr && targetAttr !== "_self") return false;
+
+  const hrefAttr = anchor.getAttribute("href");
+  if (!hrefAttr || hrefAttr.startsWith("#")) return false;
+
+  let url: URL;
+  try {
+    url = new URL(anchor.href, window.location.href);
+  } catch {
+    return false;
+  }
+
+  if (url.protocol !== "http:" && url.protocol !== "https:") return false;
+
+  const isSameOrigin = url.origin === window.location.origin;
+  if (
+    isSameOrigin &&
+    url.pathname === currentPathname &&
+    url.search === window.location.search
+  ) {
+    return false;
+  }
+
+  return true;
 }
 
 // ============================================================================
@@ -251,12 +298,15 @@ interface CursorData {
 
   // Physics
   spring: SpringPhysics;
+  navigationGuardUntil: number;
 }
 
 // ============================================================================
 // Main Component
 // ============================================================================
 export default function RotatingCursor() {
+  const pathname = usePathname();
+  const pathnameRef = useRef(pathname);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const dataRef = useRef<CursorData>({
     mouse: { x: 0, y: 0 },
@@ -275,7 +325,12 @@ export default function RotatingCursor() {
     boxScale: 1.0,
     dotScale: 1.0,
     spring: new SpringPhysics(),
+    navigationGuardUntil: 0,
   });
+
+  useEffect(() => {
+    pathnameRef.current = pathname;
+  }, [pathname]);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -295,6 +350,20 @@ export default function RotatingCursor() {
 
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
+    let animationFrameId: number | null = null;
+
+    const releaseHoverState = () => {
+      data.state = "free";
+      data.isHoverTransition = false;
+      data.spring.reset();
+      data.hoveredElement = null;
+      data.hoveredRect = null;
+      data.targetAnchor = null;
+      data.mouse.x = data.actualMouse.x;
+      data.mouse.y = data.actualMouse.y;
+      data.position.x = data.actualMouse.x;
+      data.position.y = data.actualMouse.y;
+    };
 
     // ========================================================================
     // Mouse Event Handlers
@@ -344,6 +413,10 @@ export default function RotatingCursor() {
     // Hover Event Handlers (using event delegation for dynamic elements)
     // ========================================================================
     const onEnter = (e: MouseEvent) => {
+      if (performance.now() < data.navigationGuardUntil) {
+        return;
+      }
+
       if (
         !shouldHandleCursorEnter({
           target: e.target,
@@ -393,9 +466,25 @@ export default function RotatingCursor() {
       data.targetAnchor = null;
     };
 
+    const onDocumentClickCapture = (e: MouseEvent) => {
+      if (
+        !shouldReleaseCursorOnNavigationClick({
+          target: e.target,
+          currentPathname: pathnameRef.current,
+        })
+      ) {
+        return;
+      }
+
+      releaseHoverState();
+      data.navigationGuardUntil =
+        performance.now() + PAGE_TRANSITION_DURATION * 1000;
+    };
+
     // Use event delegation on document to catch dynamically added elements
     document.addEventListener("mouseover", onEnter);
     document.addEventListener("mouseout", onLeave);
+    document.addEventListener("click", onDocumentClickCapture, true);
 
     // ========================================================================
     // Animation Loop
@@ -537,7 +626,7 @@ export default function RotatingCursor() {
       updateRotation();
       updateScale();
       draw();
-      requestAnimationFrame(animate);
+      animationFrameId = requestAnimationFrame(animate);
     };
 
     animate();
@@ -546,12 +635,17 @@ export default function RotatingCursor() {
     // Cleanup
     // ========================================================================
     return () => {
+      if (animationFrameId !== null) {
+        cancelAnimationFrame(animationFrameId);
+      }
+      window.removeEventListener("mousemove", initMousePos);
       window.removeEventListener("mousemove", onMove);
       window.removeEventListener("mousedown", onMouseDown);
       window.removeEventListener("mouseup", onMouseUp);
       window.removeEventListener("resize", resizeCanvas);
       document.removeEventListener("mouseover", onEnter);
       document.removeEventListener("mouseout", onLeave);
+      document.removeEventListener("click", onDocumentClickCapture, true);
     };
   }, []);
 

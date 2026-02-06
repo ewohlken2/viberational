@@ -84,20 +84,6 @@ test("keeps chrome above page layers while opacity animates", () => {
   });
 });
 
-test("renders shared screensaver with VibeRational branding", () => {
-  mockUseReducedMotion.mockReturnValue(false);
-  mockUsePathname.mockReturnValue("/about");
-
-  render(<LayoutChrome />);
-
-  expect(mockScreensaver).toHaveBeenCalledWith(
-    expect.objectContaining({ text: "VibeRational" }),
-  );
-  expect(screen.getByTestId("screensaver-probe")).toHaveTextContent(
-    "VibeRational",
-  );
-});
-
 test("does not render screensaver on homepage route", () => {
   mockUseReducedMotion.mockReturnValue(false);
   mockUsePathname.mockReturnValue("/");

@@ -106,7 +106,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
         <main className="blog-post-page">
           <article className="blog-post">
             <header className="blog-post-header">
-              <Link href="/blog" className="blog-post-back">
+              <Link data-cursor href="/blog" className="blog-post-back">
                 &larr; Back to blog
               </Link>
               <h1 className="blog-post-title">{post.title}</h1>

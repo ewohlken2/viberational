@@ -1,5 +1,5 @@
 .header-logo {
-  color: #fff;
+  color: var(--text);
   margin-right: auto;
   display: flex;
   align-items: center;
@@ -11,7 +11,7 @@
     display: none;
   }
   .R {
-    font-weight: 600;
+    font-weight: 500;
     /* font-family: var(--font-roboto-mono); */
   }
 }

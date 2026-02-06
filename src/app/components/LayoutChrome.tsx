@@ -42,7 +42,7 @@ export default function LayoutChrome() {
 
   return (
     <>
-      {!isHomePage && <Screensaver text="VibeRational" />}
+      {/* {!isHomePage && <Screensaver text="VibeRational" />} */}
       <div
         data-testid="layout-chrome"
         style={{
