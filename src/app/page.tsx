@@ -8,6 +8,7 @@ import Link from "next/link";
 import { navLinks } from "./data/nav";
 import TypingText from "./components/TypingText";
 import { useState } from "react";
+import { motion } from "framer-motion";
 
 const MEDUSAE_CONFIG = {
   cursor: {
@@ -38,10 +39,10 @@ const MEDUSAE_CONFIG = {
     rotationJitter: 0.2,
     cursorFollowStrength: 1,
     oscillationFactor: 1,
-    colorBase: "#ffffff",
-    colorOne: "#75a8ff",
-    colorTwo: "#ff7166",
-    colorThree: "#cfffca",
+    colorBase: "#5f038a",
+    colorOne: "#fff186",
+    colorTwo: "#0080ff",
+    colorThree: "#ff60dd",
   },
   background: {
     color: "#000000",
@@ -61,27 +62,47 @@ export default function Page() {
             className="vibe-text"
             style={{ opacity: isTypingFinished ? 1 : 0 }}
           >
-            <LavaLampText>Vibe</LavaLampText>Rational
+            <LavaLampText>
+              <span className="bold">Vibe</span>
+            </LavaLampText>
+            Rational
           </span>
 
           <TypingText onFinishTyping={() => setIsTypingFinished(true)}>
-            VibeRational
+            <span className="bold">Vibe</span>Rational
           </TypingText>
         </h1>
-        <p className="landing-subtext">Where hype becomes reality.</p>
-        <div className="landing-actions">
+        <motion.p
+          className="landing-subtext"
+          initial={{ opacity: 0, y: 8 }}
+          animate={
+            isTypingFinished ? { opacity: 1, y: 0 } : { opacity: 0, y: 8 }
+          }
+          transition={{ duration: 0.5, ease: "easeOut", delay: 0.1 }}
+        >
+          Where hype becomes reality.
+        </motion.p>
+        <motion.div
+          className="buttons"
+          initial={{ opacity: 0, y: 8 }}
+          animate={
+            isTypingFinished ? { opacity: 1, y: 0 } : { opacity: 0, y: 8 }
+          }
+          transition={{ duration: 0.5, ease: "easeOut", delay: 0.3 }}
+        >
           {navLinks
             .filter((link) => link.label != "Experience")
             .map((link) => (
               <Link
                 key={link.href}
                 href={link.href}
-                className="landing-button button-glass"
+                data-cursor
+                className="button button-glass"
               >
                 {link.label}
               </Link>
             ))}
-        </div>
+        </motion.div>
       </div>
     </div>
   );

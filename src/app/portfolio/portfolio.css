@@ -38,36 +38,6 @@
     z-index: 1001;
 }
 
-.portfolio-nav {
-    position: fixed;
-    top: 20px;
-    right: 0;
-    width: 100%;
-    background-color: rgba(0, 0, 0, 0.8);
-    backdrop-filter: blur(10px);
-    z-index: 1000;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.portfolio-nav-link {
-    color: #f8b4b9;
-    text-decoration: none;
-    cursor: none;
-    padding: 0.75rem;
-    font-size: 2rem;
-    transition: color 0.3s ease;
-}
-
-.portfolio-nav-link:not(:first-child) {
-    margin-left: 30px;
-}
-
-.portfolio-nav-link:hover {
-    color: #ffd1d6;
-}
-
 .portfolio-main-content {
     background-color: #000000;
     width: 100vw;

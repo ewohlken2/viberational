@@ -2,27 +2,7 @@
 
 .blog-page {
   min-height: 100vh;
-  background: var(--bg);
-}
-
-.blog-page-header {
-  max-width: 960px;
-  margin: 0 auto;
-  padding: 4rem 2rem 2rem;
-  text-align: center;
-}
-
-.blog-page-title {
-  font-size: 4rem;
-  color: var(--secondary-light);
-  text-transform: uppercase;
-  margin-bottom: 1rem;
-}
-
-.blog-page-description {
-  color: var(--secondary-dark);
-  font-size: 1.6rem;
-  margin-bottom: 0;
+  background: transparent;
 }
 
 .blog-page-grid {
@@ -38,7 +18,7 @@
 
 .blog-card {
   display: block;
-  background: var(--bg-darken);
+  background: var(--card-bg);
   border-radius: 0.5rem;
   overflow: hidden;
   text-decoration: none;
@@ -47,8 +27,8 @@
 }
 
 .blog-card:hover {
-  border-color: var(--secondary-dark);
-  transform: translateY(-4px);
+  /* border-color: var(--secondary-dark); */
+  /* transform: translateY(-4px); */
 }
 
 .blog-card-image {
@@ -64,7 +44,7 @@
 .blog-card-title {
   font-size: 1.8rem;
   font-weight: 600;
-  color: var(--secondary-dark);
+  color: var(--heading);
   margin-bottom: 0.5rem;
   line-height: 1.3;
 }
@@ -72,14 +52,14 @@
 .blog-card-date {
   display: block;
   font-size: 1.2rem;
-  color: var(--primary-dark);
+  color: var(--tag);
   margin-bottom: 1rem;
   opacity: 0.8;
 }
 
 .blog-card-excerpt {
   font-size: 1.4rem;
-  color: var(--secondary-dark);
+  color: var(--text);
   line-height: 1.6;
   margin-bottom: 0;
   opacity: 0.9;
@@ -118,7 +98,7 @@
 
 .blog-post-page {
   min-height: 100vh;
-  background: var(--bg);
+  background: transparent;
   padding-top: 76px;
   padding-bottom: 50px;
 }
@@ -148,7 +128,7 @@
 
 .blog-post-title {
   font-size: 3.5rem;
-  color: var(--secondary-dark);
+  color: var(--heading);
   text-transform: none;
   line-height: 1.2;
   margin-bottom: 1rem;
@@ -157,7 +137,7 @@
 .blog-post-date {
   display: block;
   font-size: 1.4rem;
-  color: var(--primary-dark);
+  color: var(--tag);
   opacity: 0.8;
 }
 
@@ -171,7 +151,7 @@
 }
 
 .blog-post-content {
-  color: var(--secondary-dark);
+  color: var(--text);
 }
 
 .blog-post-content p {
@@ -187,13 +167,15 @@
 .blog-post-content h2 {
   font-size: 2.2rem;
   margin: 2.5rem 0 1rem;
-  color: var(--secondary-light);
+  color: var(--heading);
+  font-family: var(--font-chillax);
 }
 
 .blog-post-content h3 {
   font-size: 1.9rem;
   margin: 2rem 0 0.75rem;
-  color: var(--secondary-light);
+  color: var(--heading);
+  font-family: var(--font-chillax);
 }
 
 .blog-post-content ul,

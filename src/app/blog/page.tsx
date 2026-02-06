@@ -1,8 +1,8 @@
 import BlogCard from "../blog-card";
-import Header from "../header";
 import "./blog.css";
 import type { Metadata } from "next";
 import { getAllBlogPosts } from "../../lib/blog-client";
+import AuroraBackground from "../components/AuroraBackground";
 
 export const metadata: Metadata = {
   title: "Blog | Elvis Wohlken",
@@ -27,12 +27,11 @@ export default async function BlogPage() {
   const posts = await getAllBlogPosts();
 
   return (
-    <>
-      <Header />
+    <AuroraBackground palette="cool" intensity="low">
       <main className="blog-page">
-        <div className="blog-page-header">
-          <h1 className="blog-page-title">Blog</h1>
-          <p className="blog-page-description">{metadata.description}</p>
+        <div className="page-header">
+          <h1 className="page-title">Blog</h1>
+          <p className="page-description">{metadata.description}</p>
         </div>
         <div className="blog-page-grid">
           {posts.map((post) => (
@@ -40,6 +39,6 @@ export default async function BlogPage() {
           ))}
         </div>
       </main>
-    </>
+    </AuroraBackground>
   );
 }

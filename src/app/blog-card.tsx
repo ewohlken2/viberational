@@ -32,7 +32,7 @@ function formatDate(dateString: string): string {
 
 export default function BlogCard({ post }: BlogCardProps) {
   return (
-    <Link href={`/blog/${post.slug}`} className="blog-card">
+    <Link data-cursor href={`/blog/${post.slug}`} className="blog-card">
       {post.image && (
         <div className="blog-card-image">
           <Image

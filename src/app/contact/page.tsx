@@ -13,7 +13,7 @@ import {
   Typography,
   createTheme,
 } from "@mui/material";
-import Wrapper from "../wrapper";
+import AuroraBackground from "../components/AuroraBackground";
 
 function ContactForm() {
   const [name, setName] = useState("");
@@ -105,7 +105,7 @@ function ContactForm() {
           },
         },
       }),
-    []
+    [],
   );
 
   const isValid = () => {
@@ -148,34 +148,12 @@ function ContactForm() {
   };
 
   return (
-    <Wrapper intialSection={"about"}>
-      <ThemeProvider theme={theme}>
+    <ThemeProvider theme={theme}>
+      <AuroraBackground>
         <Box
           sx={{
             minHeight: "100vh",
             py: { xs: 8, md: 12 },
-            position: "relative",
-            overflow: "hidden",
-            background: "radial-gradient(60% 50% at 50% 0%, rgba(83, 214, 255, 0.2) 0%, rgba(9, 11, 16, 0.9) 60%), linear-gradient(120deg, rgba(10, 14, 20, 0.95), rgba(6, 8, 12, 0.98))",
-            "&::before": {
-              content: '""',
-              position: "absolute",
-              inset: 0,
-              background:
-                "radial-gradient(600px 300px at 30% 20%, rgba(120, 100, 255, 0.2), transparent 60%), radial-gradient(500px 260px at 70% 30%, rgba(83, 214, 255, 0.18), transparent 65%)",
-              opacity: 0.9,
-              pointerEvents: "none",
-            },
-            "&::after": {
-              content: '""',
-              position: "absolute",
-              inset: 0,
-              background:
-                "linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px)",
-              backgroundSize: "3px 3px",
-              opacity: 0.25,
-              pointerEvents: "none",
-            },
           }}
         >
           <Container maxWidth="sm" sx={{ position: "relative", zIndex: 1 }}>
@@ -275,8 +253,8 @@ function ContactForm() {
             </Paper>
           </Container>
         </Box>
-      </ThemeProvider>
-    </Wrapper>
+      </AuroraBackground>
+    </ThemeProvider>
   );
 }
 

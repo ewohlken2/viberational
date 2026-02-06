@@ -1,4 +1,6 @@
+import Link from "next/link";
 import { navLinks } from "../data/nav";
+import styles from "./MainNavigation.module.css";
 
 type MainNavigationProps = {
   excludeLabel?: string;
@@ -9,7 +11,7 @@ export default function MainNavigation({
   excludeLabel = "Portfolio",
   className,
 }: MainNavigationProps) {
-  const navClassName = ["portfolio-nav", className]
+  const navClassName = [styles.navigation, className]
     .filter(Boolean)
     .join(" ");
 
@@ -18,14 +20,14 @@ export default function MainNavigation({
       {navLinks
         .filter((link) => link.label !== excludeLabel)
         .map((link) => (
-          <a
+          <Link
             key={link.label}
             href={link.href}
             data-cursor
-            className="portfolio-nav-link"
+            className={styles.link}
           >
             {link.label}
-          </a>
+          </Link>
         ))}
     </nav>
   );

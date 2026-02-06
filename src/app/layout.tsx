@@ -2,6 +2,8 @@ import localFont from "next/font/local";
 import "./globals.css";
 import { ReactNode } from "react";
 import type { Metadata } from "next";
+import AppCursor from "./components/AppCursor";
+import LayoutChrome from "./components/LayoutChrome";
 
 const robotoMono = localFont({
   src: [
@@ -41,6 +43,12 @@ const geistSans = localFont({
   weight: "100 900",
 });
 
+const chillax = localFont({
+  src: "./fonts/Chillax-Variable.ttf",
+  variable: "--font-chillax",
+  weight: "100 900",
+});
+
 const baseUrl = new URL("https://elviswohlken.com");
 
 export const metadata: Metadata = {
@@ -72,8 +80,10 @@ export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en">
       <body
-        className={`${robotoMono.variable} ${geistSans.variable} antialiased`}
+        className={`${robotoMono.variable} ${geistSans.variable} ${chillax.variable} antialiased`}
       >
+        <AppCursor />
+        <LayoutChrome />
         {children}
       </body>
     </html>

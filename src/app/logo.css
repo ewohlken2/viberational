@@ -1,69 +1,11 @@
 .header-logo {
-  color: var(--pink);
+  color: #fff;
   margin-right: auto;
   display: flex;
   align-items: center;
+  font-size: 4rem;
+  line-height: 1;
   .link-text {
     display: none;
-  }
-  .logo-letter {
-    width: 5rem;
-    height: 5rem;
-    position: relative;
-    margin-right: 0.5rem;
-    transition: var(--transition);
-    transition-property: transform;
-    &:last-child {
-      right: 5px;
-    }
-    &:nth-child(2) {
-      left: 5px;
-    }
-    &:before,
-    &:after {
-      opacity: 0;
-      content: "";
-      position: absolute;
-      top: 6px;
-      height: 6px;
-      left: auto;
-      right: auto;
-      width: 80%;
-      background: var(--secondary-dark);
-      z-index: 999;
-      transition: var(--transition);
-      transition-property: background;
-    }
-    .portfolio-logo &:before,
-    .portfolio-logo &:after {
-      background: black;
-    }
-    &:after {
-      top: auto;
-      bottom: 6px;
-    }
-    img {
-      filter: invert(78%) sepia(16%) saturate(820%) hue-rotate(308deg)
-        brightness(99%) contrast(96%);
-      .bio.header & {
-        filter: var(--logo-secondary-light);
-      }
-    }
-  }
-  .logo-letter:last-child {
-    transform: rotate(-90deg);
-  }
-  &:hover {
-    cursor: pointer;
-    .logo-letter {
-      transform: rotate(180deg);
-      &:before,
-      &:after {
-        opacity: 1;
-      }
-      &:last-child {
-        transform: rotate(180deg) translateX(10px);
-      }
-    }
   }
 }

@@ -5,19 +5,19 @@ import { useEffect, useRef } from "react";
 // ============================================================================
 const CONFIG = {
   // Sizing
-  BASE_SIZE: 48,
-  PADDING: 4,
-  DOT_SIZE: 6,
-  BORDER_WIDTH: 3,
-  CORNER_GAP: 12,
+  BASE_SIZE: 30,
+  PADDING: 3,
+  DOT_SIZE: 4,
+  BORDER_WIDTH: 2,
+  CORNER_GAP: 8,
 
   // Colors
-  BORDER_COLOR: "#f8b4b9",
-  DOT_COLOR: "#f8b4b9",
+  BORDER_COLOR: "#ffffff",
+  DOT_COLOR: "#ffffff",
 
   // Animation speeds
   LERP: 0.15,
-  ROTATION_SPEED: 0.25, // deg per frame
+  ROTATION_SPEED: 0.18, // deg per frame
   ROTATION_LERP: 0.18,
   SCALE_LERP: 0.06,
 
@@ -77,7 +77,7 @@ const drawBox = (
   width: number,
   height: number,
   rotation: number,
-  scale: number = 1.0
+  scale: number = 1.0,
 ) => {
   ctx.save();
 
@@ -128,7 +128,7 @@ const drawDot = (
   ctx: CanvasRenderingContext2D,
   x: number,
   y: number,
-  scale: number = 1.0
+  scale: number = 1.0,
 ) => {
   ctx.save();
   ctx.translate(x, y);
@@ -370,12 +370,12 @@ export default function RotatingCursor() {
       data.cursorSize.width = lerp(
         data.cursorSize.width,
         targetWidth,
-        CONFIG.LERP
+        CONFIG.LERP,
       );
       data.cursorSize.height = lerp(
         data.cursorSize.height,
         targetHeight,
-        CONFIG.LERP
+        CONFIG.LERP,
       );
     };
 
@@ -419,12 +419,12 @@ export default function RotatingCursor() {
         data.position.x = lerp(
           data.position.x,
           data.actualMouse.x,
-          CONFIG.LERP
+          CONFIG.LERP,
         );
         data.position.y = lerp(
           data.position.y,
           data.actualMouse.y,
-          CONFIG.LERP
+          CONFIG.LERP,
         );
 
         const dx = data.actualMouse.x - data.position.x;
@@ -448,7 +448,7 @@ export default function RotatingCursor() {
         data.rotation = lerp(
           data.rotation,
           data.targetRotation,
-          CONFIG.ROTATION_LERP
+          CONFIG.ROTATION_LERP,
         );
       }
     };
@@ -481,7 +481,7 @@ export default function RotatingCursor() {
         drawWidth,
         drawHeight,
         data.rotation,
-        data.boxScale
+        data.boxScale,
       );
 
       // Draw dot cursor (always follows actual mouse)

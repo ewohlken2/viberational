@@ -7,8 +7,6 @@ import HeroBanner from "./hero";
 import Tabs from "./tabs";
 import Link from "next/link";
 import BlogFeed from "../blog-feed";
-import { useRef } from "react";
-import Wrapper from "../wrapper";
 import type { BlogPost } from "../../lib/blog-types";
 
 interface TabContent {
@@ -49,21 +47,16 @@ interface AboutClientProps {
 }
 
 export default function AboutClient({ recentPosts }: AboutClientProps) {
-  const aboutRef = useRef<HTMLDivElement>(null);
-  const bioRef = useRef<HTMLDivElement>(null);
-
-  const headerRefs = [aboutRef, bioRef];
-
   return (
-    <Wrapper headerRefs={headerRefs}>
-      <div id="about" ref={aboutRef}>
+    <>
+      <div id="about">
         {/* main banner start */}
         <HeroBanner />
         {/* main banner end */}
       </div>
 
       {/* About Section Start */}
-      <div ref={bioRef} id="bio" className="section section-about">
+      <div id="bio" className="section section-about">
         <div className="section-content">
           <h2 className="h2">About</h2>
 
@@ -164,6 +157,6 @@ export default function AboutClient({ recentPosts }: AboutClientProps) {
         </div>
       </div>
       {/* Contact Section End */}
-    </Wrapper>
+    </>
   );
 }

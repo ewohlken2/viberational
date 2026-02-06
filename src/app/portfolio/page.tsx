@@ -2,12 +2,9 @@
 
 import { useState, useRef, useEffect } from "react";
 import Image from "next/image";
-import RotatingCursor from "./rotatingCursor";
 import IntroBanner from "./introBanner";
-import HeaderLogo from "../logo";
 import Screensaver, { ScreensaverRef } from "./screensaver";
 import { getAllWebsites, PortfolioWebsite } from "../data/portfolio";
-import MainNavigation from "../components/MainNavigation";
 import "./portfolio.css";
 
 export default function PortfolioPage() {
@@ -52,12 +49,7 @@ export default function PortfolioPage() {
       {showIntro && (
         <IntroBanner text="<ELVISWOHLKEN/>" onComplete={handleIntroComplete} />
       )}
-      <RotatingCursor />
       <Screensaver ref={screensaverRef} text="Elvis Wohlken" />
-      <div className="portfolio-logo">
-        <HeaderLogo />
-      </div>
-      <MainNavigation />
       <div className="portfolio-main-content">
         <h1 className="portfolio-title">Portfolio</h1>
         <div className="portfolio-grid">

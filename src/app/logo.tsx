@@ -8,27 +8,7 @@ export default function HeaderLogo() {
   return (
     <Link className="header-logo" href="/" data-cursor>
       <div className="link-text">Home</div>
-
-      <picture className="logo-letter">
-        <Image
-          className="image"
-          src="/epsilon1.svg"
-          alt="Logo Letter 1"
-          width={100}
-          height={100}
-          priority
-        />
-      </picture>
-      <picture className="logo-letter">
-        <Image
-          className="image"
-          src="/epsilon1.svg"
-          alt="Logo Letter 2"
-          width={100}
-          height={100}
-          priority
-        />
-      </picture>
+      𝜈𝑹
     </Link>
   );
 }

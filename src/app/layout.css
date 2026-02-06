@@ -1,0 +1,6 @@
+.layout-logo {
+  position: fixed;
+  top: 20px;
+  left: 24px;
+  z-index: 1001;
+}

@@ -36,9 +36,9 @@
 .landing-text {
   margin: 0;
   color: #fff;
-  font-family: var(--font-geist-sans), sans-serif;
+  font-family: var(--font-chillax), var(--font-geist-sans), sans-serif;
   font-size: clamp(3rem, 8vw, 8rem);
-  font-weight: 500;
+  font-weight: 400;
   letter-spacing: -0.02em;
   text-align: center;
   -webkit-font-smoothing: antialiased;
@@ -47,68 +47,19 @@
   position: relative;
 }
 
+.bold {
+  font-weight: 600;
+  letter-spacing: 0;
+}
+
 .landing-subtext {
   margin: 0;
   max-width: 44rem;
   color: #fff;
-  font-family: var(--font-geist-sans), sans-serif;
+  font-family: var(--font-chillax), sans-serif;
   font-size: clamp(1.1rem, 2.2vw, 2rem);
   font-weight: 400;
   line-height: 1.4;
-  padding-bottom: 10px;
-}
-
-.landing-actions {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 1rem;
-}
-
-.landing-button {
-  border-radius: 999px;
-  padding: 0.85rem 1.75rem;
-  font-family: var(--font-geist-sans), sans-serif;
-  font-size: 1rem;
-  font-weight: 600;
-  letter-spacing: 0.01em;
-  text-transform: none;
-  cursor: pointer;
-  transition:
-    transform 150ms ease,
-    background-color 200ms ease,
-    color 200ms ease,
-    border-color 200ms ease,
-    box-shadow 200ms ease;
-}
-
-.landing-button:focus-visible {
-  outline: 3px solid #000000;
-  outline-offset: 3px;
-}
-
-.button-outline {
-  background: transparent;
-  color: #000000;
-  border: 2px solid #000000;
-}
-
-.button-outline:hover {
-  background: #000000;
-  color: #ffffff;
-  transform: translateY(-1px);
-}
-
-.button-glass {
-  background: rgba(255, 255, 255, 0.55);
-  color: #000000;
-  border: 1px solid rgba(0, 0, 0, 0.25);
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-}
-
-.button-glass:hover {
-  background: rgba(255, 255, 255, 0.8);
-  transform: translateY(-1px);
+  margin-top: -15px;
+  padding-bottom: 20px;
 }

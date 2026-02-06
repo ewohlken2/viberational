@@ -4,9 +4,9 @@ import Image from "next/image";
 import Script from "next/script";
 import type { Metadata } from "next";
 import { getAllBlogPosts, getBlogPost } from "../../../lib/blog-client";
-import Header from "../../header";
 import "../blog.css";
 import Markdown from "../markdown";
+import AuroraBackground from "../../components/AuroraBackground";
 
 interface BlogPostPageProps {
   params: Promise<{ slug: string }>;
@@ -97,39 +97,40 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
 
   return (
     <>
-      <Header />
       <Script
         id="blog-jsonld"
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <main className="blog-post-page">
-        <article className="blog-post">
-          <header className="blog-post-header">
-            <Link href="/blog" className="blog-post-back">
-              &larr; Back to blog
-            </Link>
-            <h1 className="blog-post-title">{post.title}</h1>
-            <time className="blog-post-date">{formatDate(post.date)}</time>
-          </header>
+      <AuroraBackground palette="cool" intensity="low">
+        <main className="blog-post-page">
+          <article className="blog-post">
+            <header className="blog-post-header">
+              <Link href="/blog" className="blog-post-back">
+                &larr; Back to blog
+              </Link>
+              <h1 className="blog-post-title">{post.title}</h1>
+              <time className="blog-post-date">{formatDate(post.date)}</time>
+            </header>
 
-          {post.image && (
-            <div className="blog-post-image">
-              <Image
-                src={post.image}
-                alt={post.title}
-                fill
-                style={{ objectFit: "cover" }}
-                priority
-              />
+            {post.image && (
+              <div className="blog-post-image">
+                <Image
+                  src={post.image}
+                  alt={post.title}
+                  fill
+                  style={{ objectFit: "cover" }}
+                  priority
+                />
+              </div>
+            )}
+
+            <div className="blog-post-content">
+              <Markdown content={post.content} />
             </div>
-          )}
-
-          <div className="blog-post-content">
-            <Markdown content={post.content} />
-          </div>
-        </article>
-      </main>
+          </article>
+        </main>
+      </AuroraBackground>
     </>
   );
 }
