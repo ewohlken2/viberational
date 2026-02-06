@@ -24,4 +24,5 @@ test("renders a global copyright footer", () => {
   );
 
   expect(markup).toContain("Copyright 2026");
+  expect(markup).toContain('class="site-footer site-footer-overlay"');
 });

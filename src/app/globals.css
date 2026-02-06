@@ -6,9 +6,10 @@
   --bg: #000000;
   --card-bg: #222430b8;
   --card-bg-hover: #222430;
-  --pre-bg: #2e2929;
+  --pre-bg: #282529;
   --heading: #e7bdbd;
-  --tag: #f2a7ff;
+  --tag: #c5b8b8;
+  --link: #f2a7ff;
   --bg-darken: #0a0a0a;
   --background: #000000;
   --foreground: #171717;
@@ -89,6 +90,7 @@ body {
   font-family: var(--font-roboto-mono);
   background: var(--background);
   font-size: 1.6em;
+  position: relative;
 }
 
 .site-footer {
@@ -97,6 +99,16 @@ body {
   color: var(--text);
   font-size: 1.3rem;
   letter-spacing: 0.02em;
+  background: transparent;
+}
+
+.site-footer-overlay {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  pointer-events: none;
+  z-index: 1;
 }
 
 .layout-logo {

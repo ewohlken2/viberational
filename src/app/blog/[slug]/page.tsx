@@ -103,7 +103,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
       <AuroraBackground palette="cool" intensity="low">
-        <main className="blog-post-page">
+        <main className="main-content blog-content">
           <article className="blog-post">
             <header className="blog-post-header">
               <Link data-cursor href="/blog" className="blog-post-back">

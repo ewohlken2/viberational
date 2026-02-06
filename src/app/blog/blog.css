@@ -37,6 +37,10 @@
   height: 180px;
 }
 
+.blog-content {
+  padding-top: 100px;
+}
+
 .blog-card-content {
   padding: 1.5rem;
 }
@@ -118,7 +122,7 @@
 .blog-post-back {
   display: inline-block;
   font-size: 1.4rem;
-  color: var(--tag);
+  color: var(--link);
   margin-bottom: 2rem;
   text-decoration: none;
   transition: var(--transition);
