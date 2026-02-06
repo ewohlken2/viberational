@@ -1,5 +1,4 @@
 @import "highlight.js/styles/github-dark.css";
-
 .blog-page {
   min-height: 100vh;
   background: transparent;
@@ -23,7 +22,7 @@
   overflow: hidden;
   text-decoration: none;
   transition: var(--transition);
-  border: 2px solid transparent;
+  border: 2px solid #ffffff2b;
   transform: translateZ(0);
   will-change: transform;
 }
