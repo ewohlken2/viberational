@@ -22,7 +22,7 @@ export default function TypingText({
   cursorBlinkMs = 800,
   cursorFadeOutMs = 500,
   cursorColor = "#f3f6ff",
-  cursorGradient,
+  cursorGradient = "linear-gradient(180deg, #53d6ff, #ff7afd)",
   className,
   as = "div",
 }: TypingTextProps) {
@@ -32,7 +32,6 @@ export default function TypingText({
   const [started, setStarted] = useState(false);
   const [index, setIndex] = useState(0);
   const [cursorFading, setCursorFading] = useState(false);
-  const [cursorHidden, setCursorHidden] = useState(false);
   const intervalRef = useRef<number | null>(null);
   const hideTimerRef = useRef<number | null>(null);
 
@@ -40,7 +39,6 @@ export default function TypingText({
     setStarted(false);
     setIndex(0);
     setCursorFading(false);
-    setCursorHidden(false);
 
     const startTimer = window.setTimeout(() => setStarted(true), startDelay);
     return () => window.clearTimeout(startTimer);
@@ -73,7 +71,7 @@ export default function TypingText({
   useEffect(() => {
     if (!started) return;
     if (index < text.length) return;
-    if (cursorFading || cursorHidden) return;
+    if (cursorFading) return;
 
     setCursorFading(true);
     if (hideTimerRef.current !== null) {
@@ -81,11 +79,10 @@ export default function TypingText({
     }
 
     hideTimerRef.current = window.setTimeout(() => {
-      setCursorHidden(true);
       setCursorFading(false);
       hideTimerRef.current = null;
     }, cursorFadeOutMs);
-  }, [cursorFadeOutMs, cursorFading, cursorHidden, index, started, text.length]);
+  }, [cursorFadeOutMs, cursorFading, index, started, text.length]);
 
   useEffect(() => {
     return () => {
@@ -96,7 +93,6 @@ export default function TypingText({
   }, []);
 
   const visibleText = started ? text.slice(0, index) : "";
-  const showCursor = !cursorHidden;
   const cursorClassName = [
     "typing-text__cursor",
     cursorGradient ? "typing-text__cursor--gradient" : "",
@@ -113,20 +109,16 @@ export default function TypingText({
       aria-atomic="true"
     >
       <span className="typing-text__content">{visibleText}</span>
-      {showCursor && (
-        <span
-          className={cursorClassName}
-          data-testid="typing-text-cursor"
-          style={{
-            ["--cursor-blink" as any]: `${cursorBlinkMs}ms`,
-            ["--cursor-fade" as any]: `${cursorFadeOutMs}ms`,
-            ["--cursor-color" as any]: cursorColor,
-            ["--cursor-gradient" as any]: cursorGradient,
-          }}
-        >
-          █
-        </span>
-      )}
+      <span
+        className={cursorClassName}
+        data-testid="typing-text-cursor"
+        style={{
+          ["--cursor-blink" as any]: `${cursorBlinkMs}ms`,
+          ["--cursor-fade" as any]: `${cursorFadeOutMs}ms`,
+          ["--cursor-color" as any]: cursorColor,
+          ["--cursor-gradient" as any]: cursorGradient,
+        }}
+      />
     </Tag>
   );
 }

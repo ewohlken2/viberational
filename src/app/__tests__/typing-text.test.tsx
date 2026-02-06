@@ -10,7 +10,7 @@ test("shows cursor immediately but no text", () => {
   expect(screen.queryByText("Hello")).not.toBeInTheDocument();
 });
 
-test("types text after delay and removes cursor", async () => {
+test("types text after delay and fades cursor", async () => {
   render(
     <TypingText startDelay={100} typeSpeed={50} cursorFadeOutMs={200}>
       Hi
@@ -36,5 +36,5 @@ test("types text after delay and removes cursor", async () => {
     jest.advanceTimersByTime(300);
   });
 
-  expect(screen.queryByTestId("typing-text-cursor")).not.toBeInTheDocument();
+  expect(screen.getByTestId("typing-text-cursor")).toBeInTheDocument();
 });

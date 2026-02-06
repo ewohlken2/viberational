@@ -11,8 +11,10 @@
 
 .typing-text__cursor {
   display: inline-block;
-  width: 0.6ch;
-  color: var(--cursor-color);
+  width: 0.12em;
+  height: 1em;
+  border-radius: 999px;
+  background: var(--cursor-color);
   animation: typing-text-blink var(--cursor-blink) infinite;
 }
 
@@ -21,11 +23,7 @@
 }
 
 .typing-text__cursor--gradient {
-  color: transparent;
   background: var(--cursor-gradient);
-  background-clip: text;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
 }
 
 @keyframes typing-text-blink {
