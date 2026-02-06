@@ -11,11 +11,11 @@ import {
 import useInactivity from "./useInactivity";
 
 // Constants
-const SPEED = 4; // Speed in pixels per frame
+const SPEED = 2; // Speed in pixels per frame
 const TRAIL_DELAY = 5; // Number of frames between each trailing copy
 const MAX_TRAIL_LENGTH = 10; // Maximum number of trailing copies
 const BORDER_WIDTH_MULTIPLIER = 0.02; // Border width as a multiplier of font size
-const FONT_SIZE_DIVISOR = 7; // Font size = width / FONT_SIZE_DIVISOR
+const FONT_SIZE_DIVISOR = 9; // Font size = width / FONT_SIZE_DIVISOR
 const INACTIVITY_DELAY = 24000; // Time in milliseconds before activating screensaver
 const LETTER_SPACING_MULTIPLIER = 0.05; // Letter spacing as multiplier of font size
 const TRAIL_MIN_OPACITY = 0.3; // Minimum opacity for trail effect

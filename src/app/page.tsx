@@ -63,13 +63,13 @@ export default function Page() {
             style={{ opacity: isTypingFinished ? 1 : 0 }}
           >
             <LavaLampText>
-              <span className="bold">Vibe</span>
+              <span className="bold">vibe</span>
             </LavaLampText>
             Rational
           </span>
 
           <TypingText onFinishTyping={() => setIsTypingFinished(true)}>
-            <span className="bold">Vibe</span>Rational
+            <span className="bold">vibe</span>Rational
           </TypingText>
         </h1>
         <motion.p

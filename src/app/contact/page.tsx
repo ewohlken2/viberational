@@ -153,23 +153,17 @@ function ContactForm() {
         <Box
           sx={{
             minHeight: "100vh",
-            py: { xs: 8, md: 12 },
           }}
         >
+          <div className="page-header">
+            <h1 className="page-title">Contact Us</h1>
+            <p className="page-description">
+              Leave a message and I'll get back to you as soon as possible.
+            </p>
+          </div>
           <Container maxWidth="sm" sx={{ position: "relative", zIndex: 1 }}>
             <Paper elevation={0} sx={{ p: { xs: 3, md: 5 } }}>
               <Stack spacing={3} component="form" onSubmit={onSubmit}>
-                <Box>
-                  <Typography variant="h1" sx={{ mb: 1 }}>
-                    {!successMessage ? "Contact Me" : "Thank you!"}
-                  </Typography>
-                  <Typography variant="body1" color="text.secondary">
-                    {!successMessage
-                      ? "Tell me about your project or idea, and I will follow up soon."
-                      : "I'll get back to you as soon as possible."}
-                  </Typography>
-                </Box>
-
                 {!successMessage && (
                   <Stack spacing={2}>
                     <TextField

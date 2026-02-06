@@ -1,16 +1,14 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import IntroBanner from "./introBanner";
-import Screensaver, { ScreensaverRef } from "./screensaver";
-import { getAllWebsites, PortfolioWebsite } from "../data/portfolio";
+import { getAllWebsites } from "../data/portfolio";
 import "./portfolio.css";
 
 export default function PortfolioPage() {
   const [expandedCard, setExpandedCard] = useState<string | null>(null);
   const [showIntro, setShowIntro] = useState(true);
-  const screensaverRef = useRef<ScreensaverRef>(null);
   const portfolioWebsites = getAllWebsites();
 
   const handleIntroComplete = () => {
@@ -47,11 +45,13 @@ export default function PortfolioPage() {
   return (
     <div className="portfolio-container">
       {showIntro && (
-        <IntroBanner text="<ELVISWOHLKEN/>" onComplete={handleIntroComplete} />
+        <IntroBanner text="<VIBERATIONAL/>" onComplete={handleIntroComplete} />
       )}
-      <Screensaver ref={screensaverRef} text="Elvis Wohlken" />
-      <div className="portfolio-main-content">
-        <h1 className="portfolio-title">Portfolio</h1>
+      <div className="main-content">
+        <div className="page-header">
+          <h1 className="page-title">Portfolio</h1>
+          <p className="page-description">See what we're working on.</p>
+        </div>
         <div className="portfolio-grid">
           {portfolioWebsites.map((website) => (
             <div
@@ -91,7 +91,7 @@ export default function PortfolioPage() {
           <div className="portfolio-card-expanded">
             {(() => {
               const website = portfolioWebsites.find(
-                (w) => w.id === expandedCard
+                (w) => w.id === expandedCard,
               );
               if (!website) return null;
 

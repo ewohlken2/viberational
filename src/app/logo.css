@@ -5,7 +5,16 @@
   align-items: center;
   font-size: 4rem;
   line-height: 1;
+  font-family: Chillax;
+  font-weight: bold;
   .link-text {
     display: none;
   }
+  .R {
+    font-weight: 600;
+    /* font-family: var(--font-roboto-mono); */
+  }
+}
+
+.header-logo {
 }

@@ -3,6 +3,7 @@ import LayoutChrome from "../components/LayoutChrome";
 
 const mockUsePathname = jest.fn();
 const mockUseReducedMotion = jest.fn();
+const mockScreensaver = jest.fn();
 
 jest.mock("next/navigation", () => ({
   usePathname: () => mockUsePathname(),
@@ -11,6 +12,20 @@ jest.mock("next/navigation", () => ({
 jest.mock("framer-motion", () => ({
   useReducedMotion: () => mockUseReducedMotion(),
 }));
+
+jest.mock("../portfolio/screensaver", () => ({
+  __esModule: true,
+  default: (props: { text: string }) => {
+    mockScreensaver(props);
+    return <div data-testid="screensaver-probe">{props.text}</div>;
+  },
+}));
+
+beforeEach(() => {
+  mockUsePathname.mockReset();
+  mockUseReducedMotion.mockReset();
+  mockScreensaver.mockClear();
+});
 
 test("renders shared logo and main navigation", () => {
   mockUsePathname.mockReturnValue("/about");
@@ -67,4 +82,28 @@ test("keeps chrome above page layers while opacity animates", () => {
     position: "relative",
     zIndex: "1002",
   });
+});
+
+test("renders shared screensaver with VibeRational branding", () => {
+  mockUseReducedMotion.mockReturnValue(false);
+  mockUsePathname.mockReturnValue("/about");
+
+  render(<LayoutChrome />);
+
+  expect(mockScreensaver).toHaveBeenCalledWith(
+    expect.objectContaining({ text: "VibeRational" }),
+  );
+  expect(screen.getByTestId("screensaver-probe")).toHaveTextContent(
+    "VibeRational",
+  );
+});
+
+test("does not render screensaver on homepage route", () => {
+  mockUseReducedMotion.mockReturnValue(false);
+  mockUsePathname.mockReturnValue("/");
+
+  render(<LayoutChrome />);
+
+  expect(mockScreensaver).not.toHaveBeenCalled();
+  expect(screen.queryByTestId("screensaver-probe")).not.toBeInTheDocument();
 });

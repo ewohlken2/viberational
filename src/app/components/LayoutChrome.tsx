@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import { useReducedMotion } from "framer-motion";
 import HeaderLogo from "../logo";
 import MainNavigation from "./MainNavigation";
+import Screensaver from "../portfolio/screensaver";
 import { PAGE_TRANSITION_DURATION } from "../transition-config";
 import "../layout.css";
 
@@ -41,6 +42,7 @@ export default function LayoutChrome() {
 
   return (
     <>
+      {!isHomePage && <Screensaver text="VibeRational" />}
       <div
         data-testid="layout-chrome"
         style={{
