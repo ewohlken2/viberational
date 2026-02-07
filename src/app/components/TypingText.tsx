@@ -2,6 +2,7 @@
 
 import {
   Children,
+  type ComponentPropsWithoutRef,
   isValidElement,
   useEffect,
   useMemo,
@@ -59,7 +60,7 @@ export default function TypingText({
           };
         }
 
-        if (isValidElement(item) && item.type === "span") {
+        if (isValidElement<ComponentPropsWithoutRef<"span">>(item) && item.type === "span") {
           const spanText = extractText(item.props.children);
           const { children: _children, ...restProps } = item.props;
           return {

@@ -65,11 +65,9 @@ function ContactForm() {
                 transition: "border-color 200ms ease, box-shadow 200ms ease",
                 overflow: "hidden",
               },
-              input: {
-                padding: "16px 18px",
-              },
+              input: {},
               multiline: {
-                padding: 0,
+                // padding: "16px 18px",
               },
             },
           },
@@ -165,10 +163,11 @@ function ContactForm() {
             <Paper elevation={0} sx={{ p: { xs: 3, md: 5 } }}>
               <Stack spacing={3} component="form" onSubmit={onSubmit}>
                 {!successMessage && (
-                  <Stack spacing={2}>
+                  <Stack alignItems={"flex-start"} spacing={2}>
                     <TextField
                       label="Name"
                       required
+                      data-cursor
                       value={name}
                       onChange={(e) => setName(e.target.value)}
                       InputProps={{ disableUnderline: true }}
@@ -177,6 +176,7 @@ function ContactForm() {
                       label="Email"
                       type="email"
                       required
+                      data-cursor
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
                       InputProps={{ disableUnderline: true }}
@@ -185,12 +185,14 @@ function ContactForm() {
                       label="Subject"
                       type="text"
                       required
+                      data-cursor
                       value={subject}
                       onChange={(e) => setSubject(e.target.value)}
                       InputProps={{ disableUnderline: true }}
                     />
                     <TextField
                       label="Message"
+                      data-cursor
                       required
                       multiline
                       minRows={5}
@@ -198,23 +200,14 @@ function ContactForm() {
                       onChange={(e) => setMessage(e.target.value)}
                       InputProps={{ disableUnderline: true }}
                     />
-                    <Button
+                    <button
+                      className="button button-glass"
+                      data-cursor
                       type="submit"
-                      variant="contained"
                       disabled={!isValid() || loading}
-                      sx={{
-                        alignSelf: "flex-start",
-                        mt: 1,
-                        boxShadow:
-                          "0 12px 30px rgba(83, 214, 255, 0.3), inset 0 0 0 1px rgba(255,255,255,0.1)",
-                        "&:hover": {
-                          boxShadow:
-                            "0 16px 40px rgba(83, 214, 255, 0.45), inset 0 0 0 1px rgba(255,255,255,0.2)",
-                        },
-                      }}
                     >
                       {loading ? "Sending..." : "Send Message"}
-                    </Button>
+                    </button>
                   </Stack>
                 )}
 

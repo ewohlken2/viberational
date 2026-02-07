@@ -70,12 +70,14 @@ export default function AboutPage() {
                 <Link
                   href="/portfolio"
                   className="about2-link about2-link-solid"
+                  data-cursor
                 >
                   View Portfolio
                 </Link>
                 <Link
                   href="/contact"
                   className="about2-link about2-link-outline"
+                  data-cursor
                 >
                   Start A Project
                 </Link>
