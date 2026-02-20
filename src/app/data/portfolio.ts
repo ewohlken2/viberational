@@ -15,7 +15,7 @@ export const portfolioWebsites: PortfolioWebsite[] = [
     description:
       "Cool configurable particle effect inspired by the antigravity landing page. A vibe coded collab with the help of GPT 5.2 and Gemini",
     image: "/medusae.png",
-    url: "https://github.com/Hinarosha/BreathDearMedusae",
+    url: "https://breath-dear-medusae.vercel.app/",
     repo: "https://github.com/ewohlken2/BreathDearMedusae",
     technologies: [
       "Three.js",
