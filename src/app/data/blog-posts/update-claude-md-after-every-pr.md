@@ -6,11 +6,11 @@ date: 2026-01-12
 
 If you are using Claude Code or any AI assistant with your codebase, there is a simple habit that will dramatically improve your experience over time: update your claude.md file after every PR merge.
 
-**What is claude.md?**
+## What is claude.md?
 
 The claude.md file (sometimes called CLAUDE.md) lives in your project root and contains project-specific instructions for AI assistants. It is like a README, but specifically for Claude. It tells the AI about your codebase's conventions, architecture decisions, and preferences.
 
-**Why update it after every PR?**
+## Why update it after every PR?
 
 Each PR represents new knowledge about your project. Maybe you:
 
@@ -21,7 +21,7 @@ Each PR represents new knowledge about your project. Maybe you:
 
 Without documenting these, you will find yourself re-explaining the same things to Claude repeatedly. Your repo should learn as it grows.
 
-**What to add**
+## What to add
 
 After merging a PR, ask yourself: "What did I learn or decide that Claude should know for next time?"
 
@@ -45,7 +45,7 @@ After merging a PR, ask yourself: "What did I learn or decide that Claude should
 - Tests need `NODE_ENV=test` or the mock server won't start
 ```
 
-**Make it a habit**
+## Make it a habit
 
 Add "Update claude.md" to your PR checklist or create a GitHub Action that reminds you. The five minutes you spend documenting will save hours of repeated explanations.
 
@@ -56,7 +56,7 @@ Add "Update claude.md" to your PR checklist or create a GitHub Action that remin
 - [ ] Updated claude.md with any new patterns or decisions
 ```
 
-**The compound effect**
+## The compound effect
 
 After a few months, your claude.md becomes an invaluable knowledge base. New team members can read it to understand project conventions. And Claude becomes increasingly effective because it has context that accumulates rather than resets with each conversation.
 

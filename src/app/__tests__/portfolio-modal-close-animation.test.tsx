@@ -1,6 +1,7 @@
 import { act, render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import type { ReactNode } from "react";
+import { getAllWebsites } from "../data/portfolio";
 import PortfolioPage from "../portfolio/page";
 
 jest.mock("next/image", () => ({
@@ -34,9 +35,12 @@ describe("Portfolio modal close animation", () => {
     const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
 
     const { container } = render(<PortfolioPage />);
+    const [firstWebsite] = getAllWebsites();
+
+    expect(firstWebsite).toBeDefined();
 
     const firstCard = screen
-      .getByText("HR Compliance Team")
+      .getByText(firstWebsite!.title)
       .closest(".portfolio-card") as HTMLElement | null;
 
     expect(firstCard).not.toBeNull();
@@ -59,5 +63,35 @@ describe("Portfolio modal close animation", () => {
     expect(
       container.querySelector(".portfolio-card-expanded-overlay"),
     ).toBeNull();
+  });
+
+  test("shows a view source button when repo exists and opens it", async () => {
+    const user = userEvent.setup();
+    const openSpy = jest
+      .spyOn(window, "open")
+      .mockImplementation(() => null as unknown as Window);
+
+    const [firstWebsite] = getAllWebsites();
+
+    expect(firstWebsite).toBeDefined();
+    expect(firstWebsite.repo).toBeDefined();
+
+    render(<PortfolioPage />);
+
+    const firstCard = screen
+      .getByText(firstWebsite.title)
+      .closest(".portfolio-card") as HTMLElement | null;
+
+    expect(firstCard).not.toBeNull();
+
+    await user.click(firstCard as HTMLElement);
+
+    const viewSourceButton = screen.getByRole("button", {
+      name: /view source/i,
+    });
+    await user.click(viewSourceButton);
+
+    expect(openSpy).toHaveBeenCalledWith(firstWebsite.repo, "_blank");
+    openSpy.mockRestore();
   });
 });

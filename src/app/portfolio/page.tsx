@@ -40,7 +40,7 @@ export default function PortfolioPage() {
     }, CLOSE_ANIMATION_MS);
   };
 
-  const handleVisitSite = (url: string | undefined) => {
+  const handleOpenUrl = (url: string | undefined) => {
     if (url) {
       window.open(url, "_blank");
     }
@@ -189,9 +189,18 @@ export default function PortfolioPage() {
                           <button
                             data-cursor
                             className="portfolio-button portfolio-visit-button"
-                            onClick={() => handleVisitSite(website.url)}
+                            onClick={() => handleOpenUrl(website.url)}
                           >
                             Visit Website
+                          </button>
+                        )}
+                        {website.repo && (
+                          <button
+                            data-cursor
+                            className="portfolio-button portfolio-source-button"
+                            onClick={() => handleOpenUrl(website.repo)}
+                          >
+                            View Source
                           </button>
                         )}
                       </div>

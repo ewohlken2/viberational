@@ -52,6 +52,7 @@
 .portfolio-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  justify-items: center;
   gap: 40px;
   max-width: 1400px;
   margin: 0 auto;
@@ -59,6 +60,8 @@
 }
 
 .portfolio-card {
+  width: 100%;
+  max-width: 460px;
   background-color: rgba(255, 255, 255, 0.05);
   border-radius: 12px;
   overflow: hidden;
@@ -328,6 +331,11 @@
 .portfolio-visit-button {
   margin-top: 20px;
   animation: slideInRight 0.6s ease 0.5s both;
+  align-self: flex-start;
+}
+
+.portfolio-source-button {
+  animation: slideInRight 0.6s ease 0.6s both;
   align-self: flex-start;
 }
 

@@ -10,7 +10,7 @@ interface ContactFormData {
 
 export async function POST(request: NextRequest) {
   if (request.method !== "POST") {
-    return NextResponse.json({ status: 405, message: "Method Not Allowed" });
+    return NextResponse.json({ message: "Method Not Allowed" }, { status: 405 });
   }
 
   const data: ContactFormData = await request.json();
@@ -18,7 +18,10 @@ export async function POST(request: NextRequest) {
   const { name, email, subject, message } = data;
 
   if (!name || !email || !message || !subject) {
-    return NextResponse.json({ status: 400, message: "Missing required fields" });
+    return NextResponse.json(
+      { message: "Missing required fields" },
+      { status: 400 },
+    );
   }
 
   try {
@@ -50,6 +53,9 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ message: "Email sent successfully" });
   } catch (error) {
     console.error("Error sending email:", error);
-    return NextResponse.json({ status: 500, message: "Error sending email", error });
+    return NextResponse.json(
+      { message: "Error sending email" },
+      { status: 500 },
+    );
   }
 }

@@ -6,7 +6,7 @@ date: 2025-12-28
 
 TypeScript comes with several built-in utility types that can make your code more expressive and type-safe.
 
-**Partial<T>**
+## Partial<T>
 
 Makes all properties optional:
 
@@ -24,7 +24,7 @@ function updateUser(id: string, updates: Partial<User>) {
 updateUser("123", { name: "John" }); // Valid!
 ```
 
-**Pick<T, K>**
+## Pick<T, K>
 
 Creates a type with only selected properties:
 
@@ -33,7 +33,7 @@ type UserPreview = Pick<User, "name" | "email">;
 // { name: string; email: string; }
 ```
 
-**Omit<T, K>**
+## Omit<T, K>
 
 Creates a type without specified properties:
 
@@ -42,7 +42,7 @@ type UserWithoutAge = Omit<User, "age">;
 // { name: string; email: string; }
 ```
 
-**Record<K, V>**
+## Record<K, V>
 
 Creates an object type with specified key and value types:
 

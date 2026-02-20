@@ -6,7 +6,7 @@ date: 2026-01-02
 
 The Next.js App Router brings some great features for building modern web applications. Here are a few tips I've learned while working with it.
 
-**Server vs Client Components**
+## Server vs Client Components
 
 By default, components in the App Router are Server Components. Add "use client" at the top when you need interactivity:
 
@@ -25,7 +25,7 @@ export default function Counter() {
 }
 ```
 
-**Dynamic Routes**
+## Dynamic Routes
 
 Create dynamic routes using square brackets in folder names:
 
@@ -44,6 +44,6 @@ export default function BlogPost({ params }: { params: { slug: string } }) {
 }
 ```
 
-**Static Generation**
+## Static Generation
 
 Use generateStaticParams for static generation of dynamic routes - this pre-renders pages at build time for better performance.
